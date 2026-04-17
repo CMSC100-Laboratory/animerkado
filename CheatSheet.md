@@ -23,4 +23,5 @@ git push -u origin arki
 
 ```bash
 Create pull request
+Merge pull request
 ```
