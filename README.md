@@ -1,6 +1,5 @@
 ## Mark Justin Feliciano
-## Rafael Sam Olivo
-hello ako to si raf
+## Rafael Sam Olivo  
 ## Natasha Lois Montas  
 ## Avigail Monsalud  
-hello ako to si avi
+hello ako ulit to si avi
