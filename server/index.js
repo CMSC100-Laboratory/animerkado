@@ -1,15 +1,15 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import router from './router.js';
 
 const app = express();
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-mongoose.connect('mongodb://127.0.0.1:27017/placeholder')
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.error(err));
+router(app);
 
-app.get('/api/test', (req, res) => {
-  res.json({ message: 'API is working!' });
-});
+app.listen(5000)
+console.log('Server started at port 5000');
 
-app.listen(5000, () => console.log('Server running on port 5000'));
+await mongoose.connect('mongodb://127.0.0.1:27017/animerkado');
+console.log('Connected to the database...');
