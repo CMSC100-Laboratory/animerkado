@@ -4,10 +4,17 @@ import Sale from '../models/Sale.js';
 
 // GET /api/orders
 const getOrders = async (req, res) => {
-  try {
-    const orders = await OrderTransaction.find({});
+  try{
+    const { email } = req.query;
+
+    let filter = {};
+    if(email){
+      filter = {email: email};
+    }
+
+    const order = await OrderTransaction.find(filter)
     return res.send(orders);
-  } catch (error) {
+  }catch(error){
     return res.send([]);
   }
 }

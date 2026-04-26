@@ -39,7 +39,7 @@ needle.get(`${BASE}/products`, (err, res) =>
   console.log('All products:', res.body));
 
 
-//test case for descending
+// addt'l test case - sort by descending order
 needle.get(`${BASE}/products?sort=price&order=desc`, (err, res) =>
   console.log('Products by price DESC:', res.body));
 
@@ -50,6 +50,11 @@ needle.post(`${BASE}/orders`, {
   orderQuantity: 2,
   email: 'juan@test.com'
 }, (err, res) => console.log('Save order:', res.body));
+
+
+// addt'l test case - get a user's order based on email
+needle.get(`${BASE}/orders?email=juan@test.com`, (err, res) =>
+  console.log('Orders by juan\'s email:', res.body));
 
 // Get all orders
 needle.get(`${BASE}/orders`, (err, res) =>
