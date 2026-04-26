@@ -1,13 +1,38 @@
 import { Product } from '../models/Product.js';
 
-// GET /api/products
+const sort_by = new Set([
+  'productId', 'productName', 'productType', 'productQuantity', 'price'
+])
+
+// GET /api/products with and/or without sorting filters
 const getProducts = async (req, res) => {
-  try {
-    const products = await Product.find({});
+  try{
+    const { sort, order } = req.query;
+
+    let sortField = null;
+
+    if(sort_by.has(sort)){
+      sortField = sort;
+    }
+
+    let sortOrder = 1;
+    if(order === 'desc'){
+      sortOrder = -1;
+    }
+
+    let sortQuery = {};
+    if(sortField){
+      sortQuery = {[sortField]: sortOrder};
+    }
+
+    const products = await Product.find({}).sort(sortQuery);
     return res.send(products);
-  } catch (error) {
-    return res.send([]);
   }
+  
+  catch (error){
+    return res.send([]);
+  } 
+
 }
 
 // POST /api/products
