@@ -66,6 +66,11 @@ const loginUser = async (req, res) => {
   }
 }
 
+const verifyAdmin = (req, res, next) => {
+  if (req.user.userType !== "admin") {
+    return res.status(403).send({ message: "Admins only" });
+  }
+  next();
+};
 
-
-export { getUsers, saveUser, loginUser };
+export { getUsers, saveUser, loginUser, verifyAdmin};
