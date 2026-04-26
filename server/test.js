@@ -24,9 +24,24 @@ needle.post(`${BASE}/products`, {
   price: 55.00
 }, (err, res) => console.log('Save product:', res.body));
 
+needle.post(`${BASE}/products`, {
+  productId: 'P002',
+  productName: 'Carabao Milk',
+  productDescription: 'Fresh carabao milk from Los Banos',
+  productType: 2,
+  productQuantity: 70,
+  price: 100.00
+}, (err, res) => console.log('Save product:', res.body));
+
+
 // Get all products
 needle.get(`${BASE}/products`, (err, res) =>
   console.log('All products:', res.body));
+
+
+//test case for descending
+needle.get(`${BASE}/products?sort=price&order=desc`, (err, res) =>
+  console.log('Products by price DESC:', res.body));
 
 // Create an order
 needle.post(`${BASE}/orders`, {
