@@ -1,5 +1,6 @@
 import { OrderTransaction } from '../models/OrderTransaction.js';
 import { Product } from '../models/Product.js';
+import Sale from '../models/Sale.js';
 
 // GET /api/orders
 const getOrders = async (req, res) => {
@@ -42,6 +43,17 @@ const updateOrder = async (req, res) => {
         { productId: order.productId },
         { $inc: { productQuantity: -order.orderQuantity } }
       );
+      // after setting order as confirmed
+
+          await Sale.create({
+            orderId: order._id,
+            productId: item.productId,
+            productName: item.name,
+            quantity: item.quantity,
+            price: item.priceAtPurchase,
+            total: item.quantity * item.priceAtPurchase
+          });
+
     }
 
     const updated = await OrderTransaction.updateOne(
