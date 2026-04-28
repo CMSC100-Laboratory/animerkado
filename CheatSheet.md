@@ -26,4 +26,14 @@ Create pull request
 Merge pull request
 ```
 
-## rafael
+### Commit Messages Format
+```bash
+docs: (changes to the documentation)
+style: (formatting, coding style, etc; no production code change)
+test: (adding missing tests, refactoring tests; no production code change)
+ui: (user interface changes)
+fix: (bug fix for the user, missing semicolons)
+refactor: (refactoring production code, eg. renaming a variable)
+feat: (new feature for the user)
+chore: (updating some resource, eg. change value of a variable)
+```
