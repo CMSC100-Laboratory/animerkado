@@ -1,0 +1,242 @@
+.register-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f5f5e8;
+  font-family: 'Inter', sans-serif;
+}
+
+/* NAVIGATION BAR */
+.register-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(to bottom, #076653, #032B23);
+  padding: 0 40px;
+  height: 70px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.register-nav-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.register-nav-logo-img {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+}
+
+.register-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+/* PLAIN NAVIGATION LINKS */
+.register-nav-text {
+  color: #c8e6c9;
+  text-decoration: none;
+  font-size: 15px;
+  transition: color 0.2s;
+}
+
+.register-nav-text:hover {
+    color: #FFFDEE;
+}
+
+/* LOG IN */
+.register-nav-btn {
+  background-color: #F8FF87;
+  color: #000000;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 8px 22px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.register-nav-btn:hover {
+  opacity: 0.85;
+}
+
+/* MAIN CONTENT */
+.register-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px 40px;
+  gap: 28px;
+}
+
+/* REGISTRATION CARD */
+.register-card {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  background-color: rgba(196, 230, 195, 0.85);
+  border-radius: 20px;
+  padding: 36px 40px 32px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+}
+
+/* BACKGROUND */
+.register-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--card-bg-img);
+  background-size: 150%;
+  background-position: center 100%;
+  opacity: 0.25;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* CARD HEADER */
+.register-card-title {
+  position: relative;
+  font-size: 22px;
+  font-weight: 700;
+  color: #076653;
+  margin: 0 0 8px;
+}
+
+.register-card-subtitle {
+  position: relative;
+  font-size: 14px;
+  color: #333;
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+/* FORM ELEMENTS */
+.register-form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* FIRST + LAST NAME */
+.register-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.register-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.register-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a2a00;
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+
+.register-optional {
+  font-weight: 400;
+  color: #3a6b3a;
+  font-size: 12px;
+}
+
+/* INPUT FIELDS */
+.register-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 8px;
+  font-size: 14px;
+  background: rgba(255,255,255,0.7);
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.register-input:focus {
+  border-color: #2d6a4f;
+}
+
+/* CREATE ACCOUNT BUTTON */
+.register-submit-btn {
+  margin-top: 20px;
+  align-self: center;
+  background-color: #F8FF87;
+  color: #1a2a00;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 12px 56px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.register-submit-btn:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.register-terms {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 12px;
+  color: #444;
+}
+
+.register-terms-link {
+  color: #1a6b4a;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.register-terms-link:hover {
+  text-decoration: underline;
+}
+
+/* FOOTER */
+.register-footer {
+  margin-top: auto;
+  background: linear-gradient(to bottom, #076653, #032B23);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 40px;
+  height: 70px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.register-footer-copy {
+  font-size: 13px;
+  color: #a8d5b5;
+}
+
+.register-footer-links {
+  display: flex;
+  gap: 24px;
+}
+
+.register-footer-link {
+  font-size: 13px;
+  color: #a8d5b5;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.register-footer-link:hover {
+  color: #fff;
+}
