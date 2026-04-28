@@ -13,7 +13,7 @@ const getOrders = async (req, res) => {
     }
 
     const order = await OrderTransaction.find(filter)
-    return res.send(orders);
+    return res.send(order);
   }catch(error){
     return res.send([]);
   }
@@ -54,11 +54,11 @@ const updateOrder = async (req, res) => {
 
           await Sale.create({
             orderId: order._id,
-            productId: item.productId,
-            productName: item.name,
-            quantity: item.quantity,
-            price: item.priceAtPurchase,
-            total: item.quantity * item.priceAtPurchase
+            productId: order.productId,
+            productName: order.name,
+            quantity: order.quantity,
+            price: order.priceAtPurchase,
+            total: order.quantity * order.priceAtPurchase
           });
 
     }

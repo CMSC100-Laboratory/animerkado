@@ -3,7 +3,7 @@ import { getUsers, saveUser , loginUser} from '../controllers/userController.js'
 const userRoutes = (app) => {
   app.get('/api/users', getUsers);
   app.post('/api/users/register', saveUser);
-  app.post("/login", loginUser);
+  app.post("/api/users/login", loginUser);
 }
 
 export default userRoutes;

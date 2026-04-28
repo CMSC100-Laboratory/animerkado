@@ -8,4 +8,4 @@ const cartSchema = new mongoose.Schema({
     price: { type: Number, required: true}
 })
 
-export const Cart = mongoose.moldel('Cart', cartSchema);
+export const Cart = mongoose.model('Cart', cartSchema);
