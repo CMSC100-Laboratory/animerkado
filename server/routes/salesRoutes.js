@@ -1,7 +1,7 @@
-import { getSalesReport } from "../controllers/salesController";
+import { getSalesReport } from "../controllers/salesController.js";
 
 const salesRoutes = (app) =>{
-    app.get("/sales", getSalesReport);
+    app.get("/api/orders/sales", getSalesReport);
 }
 
 export default salesRoutes;

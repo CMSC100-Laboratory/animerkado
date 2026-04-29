@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import logo from '../assets/logo.png'
 import registerBg from '../assets/register_bg.jpeg'
 import './RegisterPage.css'
@@ -11,48 +11,61 @@ function RegisterPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [error, setError] = useState('')
+  const navigate = useNavigate()
 
-  // handle account creation
-  const handleRegister = () => {
-    console.log('Register attempt:', { firstName, lastName, middleName, email, password, confirmPassword })
+  const handleRegister = async () => {
+    setError('')
+
+    // frontend validation
+    if (!firstName || !lastName || !email || !password) {
+      setError('Please fill in all required fields.')
+      return
+    }
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.')
+      return
+    }
+
+    try {
+      const res = await fetch('/api/users/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ firstName, middleName, lastName, email, password })
+      })
+      const data = await res.json()
+
+      if (data.inserted) {
+        navigate('/login')
+      } else {
+        setError(data.error || 'Registration failed. Email may already be in use.')
+      }
+    } catch (err) {
+      setError('Something went wrong. Please try again.')
+    }
   }
 
   return (
     <div className="register-wrapper">
-
-      {/* NAVIGATION BAR */}
       <nav className="register-nav">
-        {/* logo on the left */}
         <Link to="/" className="register-nav-logo">
           <img src={logo} alt="Logo" className="register-nav-logo-img" />
         </Link>
-
-        {/* right side */}
         <div className="register-nav-right">
           <span className="register-nav-text">Already have an Account?</span>
           <Link to="/login" className="register-nav-btn">Login</Link>
         </div>
       </nav>
 
-      {/* BODY */}
       <main className="register-main">
-
-        {/* REGISTRATION CARD */}
-        <div
-          className="register-card"
-          style={{ '--card-bg-img': `url(${registerBg})` }}
-        >
-          {/* card header */}
+        <div className="register-card" style={{ '--card-bg-img': `url(${registerBg})` }}>
           <h2 className="register-card-title">Create your Account</h2>
           <p className="register-card-subtitle">
             Lorem ipsum dolor sit amet consectetur adipiscing elit.<br />
             Dolor sit amet consectetur adipiscing elit quisque.
           </p>
 
-          {/* registration form fields */}
           <div className="register-form">
-
-            {/* first name + last name */}
             <div className="register-row">
               <div className="register-field">
                 <label className="register-label" htmlFor="reg-first-name">First Name</label>
@@ -76,7 +89,6 @@ function RegisterPage() {
               </div>
             </div>
 
-            {/* middle name (optional) */}
             <label className="register-label" htmlFor="reg-middle-name">
               Middle Name <span className="register-optional">(optional)</span>
             </label>
@@ -88,7 +100,6 @@ function RegisterPage() {
               onChange={(e) => setMiddleName(e.target.value)}
             />
 
-            {/* email address */}
             <label className="register-label" htmlFor="reg-email">Email Address</label>
             <input
               id="reg-email"
@@ -99,7 +110,6 @@ function RegisterPage() {
               onChange={(e) => setEmail(e.target.value)}
             />
 
-            {/* password */}
             <label className="register-label" htmlFor="reg-password">Password</label>
             <input
               id="reg-password"
@@ -110,7 +120,6 @@ function RegisterPage() {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            {/* confirm password */}
             <label className="register-label" htmlFor="reg-confirm-password">Confirm Password</label>
             <input
               id="reg-confirm-password"
@@ -121,12 +130,13 @@ function RegisterPage() {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
 
-            {/* create account button */}
+            {/* error message */}
+            {error && <p style={{ color: 'red', fontSize: '0.85rem' }}>{error}</p>}
+
             <button className="register-submit-btn" onClick={handleRegister}>
               Create Account
             </button>
 
-            {/* terms of service */}
             <p className="register-terms">
               By creating your account, you agree to our{' '}
               <Link to="/terms" className="register-terms-link">Terms of Service.</Link>
@@ -135,7 +145,6 @@ function RegisterPage() {
         </div>
       </main>
 
-      {/* FOOTER */}
       <footer className="register-footer">
         <span className="register-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
         <div className="register-footer-links">
@@ -144,7 +153,6 @@ function RegisterPage() {
           <Link to="/contact" className="register-footer-link">Contact</Link>
         </div>
       </footer>
-
     </div>
   )
 }
