@@ -22,7 +22,7 @@ const saveUser = async (req, res) => {
     lastName:   req.body.lastName,
     userType:   'customer', // automatically assigned as customer
     email:      req.body.email,
-    password:   req.body.hashedPassword,
+    password:   hashedPassword,
   });
   try {
     await newUser.save();
@@ -38,13 +38,13 @@ const loginUser = async (req, res) => {
   try{
     const {email, password} = req.body;
 
-    const user = await User.findOne(email);
+    const user = await User.findOne({email});
     if (!user) {
       return res.status(404).send({ message: "User not found" });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
+    if (!passwordMatch) {
       return res.status(401).send({ message: "Invalid credentials" });
     }
 
