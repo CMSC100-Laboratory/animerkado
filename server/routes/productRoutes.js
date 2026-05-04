@@ -1,4 +1,4 @@
-import { verifyAdmin, verifyToken } from '../../middleware/middleware.js';
+import { verifyAdmin, verifyToken } from '../middleware/middleware.js';
 import { getProducts, saveProduct, updateProduct, deleteProduct } from '../controllers/productController.js';
 
 const productRoutes = (app) => {

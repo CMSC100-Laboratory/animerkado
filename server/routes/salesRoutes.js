@@ -1,4 +1,4 @@
-import { verifyAdmin,verifyToken } from "../../middleware/middleware.js";
+import { verifyAdmin,verifyToken } from "../middleware/middleware.js";
 import { getSalesReport } from "../controllers/salesController.js";
 
 const salesRoutes = (app) =>{

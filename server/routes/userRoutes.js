@@ -1,4 +1,4 @@
-import { verifyAdmin, verifyToken } from '../../middleware/middleware.js';
+import { verifyAdmin, verifyToken } from '../middleware/middleware.js';
 import { getUsers, saveUser , loginUser} from '../controllers/userController.js';
 
 const userRoutes = (app) => {
