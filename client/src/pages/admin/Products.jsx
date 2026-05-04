@@ -15,6 +15,10 @@ export default function Products() {
   const [products, setProducts] = useState([]);
   const [form, setForm] = useState(initialForm);
 
+  //SORT STATE 
+  const [sort, setSort] = useState("");
+  const [order, setOrder] = useState("");
+
   const getToken = () => localStorage.getItem("token");
 
   // ================= FETCH PRODUCTS =================
@@ -33,9 +37,7 @@ export default function Products() {
       });
 
       const data = await res.json();
-
       setProducts(data);
-
     } catch (err) {
       console.error("Error fetching products:", err);
     }
@@ -82,7 +84,6 @@ export default function Products() {
       } else {
         console.error("Insert failed:", data.error);
       }
-
     } catch (err) {
       console.error("Error adding product:", err);
     }
@@ -91,17 +92,14 @@ export default function Products() {
   // ================= UPDATE PRODUCT =================
   const updateProduct = async () => {
     try {
-      const res = await fetch(
-        `${api_url}/${form.productId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${getToken()}`,
-          },
-          body: JSON.stringify(form),
-        }
-      );
+      const res = await fetch(`${api_url}/${form.productId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+        body: JSON.stringify(form),
+      });
 
       const data = await res.json();
 
@@ -109,7 +107,6 @@ export default function Products() {
 
       setForm(initialForm);
       fetchProducts();
-
     } catch (err) {
       console.error("Error updating product:", err);
     }
@@ -130,7 +127,6 @@ export default function Products() {
       console.log("DELETE RESPONSE:", data);
 
       fetchProducts();
-
     } catch (err) {
       console.error("Error deleting product:", err);
     }
@@ -163,7 +159,31 @@ export default function Products() {
     <div style={{ padding: "20px" }}>
       <h2>Products</h2>
 
-      {/* FORM */}
+      {/* ================= SORT CONTROLS (RESTORED) ================= */}
+      <div style={{ marginBottom: "15px" }}>
+        <select onChange={(e) => setSort(e.target.value)}>
+          <option value="">Sort By</option>
+          <option value="productName">Name</option>
+          <option value="productType">Type</option>
+          <option value="price">Price</option>
+          <option value="productQuantity">Quantity</option>
+        </select>
+
+        <select onChange={(e) => setOrder(e.target.value)}>
+          <option value="">Order</option>
+          <option value="asc">Asc</option>
+          <option value="desc">Desc</option>
+        </select>
+
+        <button
+          type="button"
+          onClick={() => fetchProducts(sort, order)}
+        >
+          Apply Sort
+        </button>
+      </div>
+
+      {/* ================= FORM ================= */}
       <form onSubmit={handleSubmit}>
         <input
           name="productName"
@@ -205,7 +225,7 @@ export default function Products() {
         </button>
       </form>
 
-      {/* TABLE */}
+      {/* ================= TABLE ================= */}
       <table border="1" cellPadding="10">
         <thead>
           <tr>
