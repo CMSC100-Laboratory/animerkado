@@ -11,4 +11,4 @@ router.post("/api/users/login", loginUser);
 // Protected (admin only)
 router.get("/api/users", verifyToken, verifyAdmin, getUsers);
 
-export default userRoutes;
+export default router;
