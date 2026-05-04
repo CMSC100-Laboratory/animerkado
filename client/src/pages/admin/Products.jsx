@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 const api_url = "http://localhost:5000/api/products";
 
 const initialForm = {
+  productId: "",
   productName: "",
   productType: "",
   price: "",
@@ -13,8 +14,6 @@ const initialForm = {
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [form, setForm] = useState(initialForm);
-  const [sort, setSort] = useState("");
-  const [order, setOrder] = useState("");
 
   const getToken = () => localStorage.getItem("token");
 
@@ -34,7 +33,9 @@ export default function Products() {
       });
 
       const data = await res.json();
-      setProducts(data.products || data);
+
+      setProducts(data);
+
     } catch (err) {
       console.error("Error fetching products:", err);
     }
@@ -52,55 +53,84 @@ export default function Products() {
     });
   };
 
-  // ================= ADD =================
+  // ================= ADD PRODUCT =================
   const addProduct = async () => {
     try {
-      await fetch(api_url, {
+      const payload = {
+        productId: crypto.randomUUID(),
+        productName: form.productName,
+        productType: form.productType,
+        price: form.price,
+        productQuantity: form.productQuantity,
+        productDescription: form.productDescription,
+      };
+
+      const res = await fetch(api_url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${getToken()}`,
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
 
-      setForm(initialForm);
-      fetchProducts();
+      const data = await res.json();
+
+      if (data.inserted) {
+        setForm(initialForm);
+        fetchProducts();
+      } else {
+        console.error("Insert failed:", data.error);
+      }
+
     } catch (err) {
       console.error("Error adding product:", err);
     }
   };
 
-  // ================= UPDATE =================
+  // ================= UPDATE PRODUCT =================
   const updateProduct = async () => {
     try {
-      await fetch(`${api_url}/${form._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getToken()}`,
-        },
-        body: JSON.stringify(form),
-      });
+      const res = await fetch(
+        `${api_url}/${form.productId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getToken()}`,
+          },
+          body: JSON.stringify(form),
+        }
+      );
+
+      const data = await res.json();
+
+      console.log("UPDATE RESPONSE:", data);
 
       setForm(initialForm);
       fetchProducts();
+
     } catch (err) {
       console.error("Error updating product:", err);
     }
   };
 
-  // ================= DELETE =================
-  const deleteProduct = async (id) => {
+  // ================= DELETE PRODUCT =================
+  const deleteProduct = async (productId) => {
     try {
-      await fetch(`${api_url}/${id}`, {
+      const res = await fetch(`${api_url}/${productId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${getToken()}`,
         },
       });
 
+      const data = await res.json();
+
+      console.log("DELETE RESPONSE:", data);
+
       fetchProducts();
+
     } catch (err) {
       console.error("Error deleting product:", err);
     }
@@ -110,7 +140,7 @@ export default function Products() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (form._id) {
+    if (form.productId) {
       updateProduct();
     } else {
       addProduct();
@@ -119,44 +149,59 @@ export default function Products() {
 
   // ================= EDIT =================
   const handleEdit = (product) => {
-    setForm(product);
+    setForm({
+      productId: product.productId,
+      productName: product.productName,
+      productType: product.productType,
+      price: product.price,
+      productQuantity: product.productQuantity,
+      productDescription: product.productDescription,
+    });
   };
 
   return (
     <div style={{ padding: "20px" }}>
       <h2>Products</h2>
 
-      {/* SORT */}
-      <div>
-        <select onChange={(e) => setSort(e.target.value)}>
-          <option value="">Sort By</option>
-          <option value="productName">Name</option>
-          <option value="productType">Type</option>
-          <option value="price">Price</option>
-          <option value="productQuantity">Quantity</option>
-        </select>
-
-        <select onChange={(e) => setOrder(e.target.value)}>
-          <option value="">Order</option>
-          <option value="asc">Asc</option>
-          <option value="desc">Desc</option>
-        </select>
-
-        <button onClick={() => fetchProducts(sort, order)}>
-          Apply
-        </button>
-      </div>
-
       {/* FORM */}
       <form onSubmit={handleSubmit}>
-        <input name="productName" value={form.productName} onChange={handleChange} placeholder="Name" />
-        <input name="productType" value={form.productType} onChange={handleChange} placeholder="Type" />
-        <input name="price" value={form.price} onChange={handleChange} placeholder="Price" />
-        <input name="productQuantity" value={form.productQuantity} onChange={handleChange} placeholder="Quantity" />
-        <input name="productDescription" value={form.productDescription} onChange={handleChange} placeholder="Description" />
+        <input
+          name="productName"
+          value={form.productName}
+          onChange={handleChange}
+          placeholder="Name"
+        />
+
+        <input
+          name="productType"
+          value={form.productType}
+          onChange={handleChange}
+          placeholder="Type"
+        />
+
+        <input
+          name="price"
+          value={form.price}
+          onChange={handleChange}
+          placeholder="Price"
+        />
+
+        <input
+          name="productQuantity"
+          value={form.productQuantity}
+          onChange={handleChange}
+          placeholder="Quantity"
+        />
+
+        <input
+          name="productDescription"
+          value={form.productDescription}
+          onChange={handleChange}
+          placeholder="Description"
+        />
 
         <button type="submit">
-          {form._id ? "Update" : "Add"}
+          {form.productId ? "Update" : "Add"}
         </button>
       </form>
 
@@ -175,15 +220,23 @@ export default function Products() {
 
         <tbody>
           {products.map((p) => (
-            <tr key={p._id}>
+            <tr key={p.productId}>
               <td>{p.productName}</td>
               <td>{p.productType}</td>
               <td>{p.price}</td>
               <td>{p.productQuantity}</td>
               <td>{p.productDescription}</td>
               <td>
-                <button onClick={() => handleEdit(p)}>Edit</button>
-                <button onClick={() => deleteProduct(p._id)}>Delete</button>
+                <button type="button" onClick={() => handleEdit(p)}>
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => deleteProduct(p.productId)}
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
