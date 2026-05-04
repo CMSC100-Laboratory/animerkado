@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import logo from '../assets/logo.png'
 import loginBg from '../assets/login_bg.jpeg'
 import './LoginPage.css'
+import Products from './admin/Products'
+
 
 function LoginPage() {
   const [email, setEmail] = useState('')
@@ -20,13 +22,13 @@ function LoginPage() {
       })
       const data = await res.json()
 
-      if (data.loggedIn) {
+      if (data.token) {
         localStorage.setItem('email', data.email)
         localStorage.setItem('userType', data.userType)
         localStorage.setItem('token', data.token)
 
         if (data.userType === 'admin') {
-          navigate('/admin/dashboard')
+          navigate('/admin/products')//redirect to Products.jsx for testing
         } else {
           navigate('/shop')
         }
