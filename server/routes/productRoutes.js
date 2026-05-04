@@ -1,10 +1,11 @@
+import { verifyAdmin, verifyToken } from '../../middleware/middleware.js';
 import { getProducts, saveProduct, updateProduct, deleteProduct } from '../controllers/productController.js';
 
 const productRoutes = (app) => {
-  app.get('/api/products', getProducts);
-  app.post('/api/products', saveProduct);
-  app.put('/api/products/:productId', updateProduct);
-  app.delete('/api/products/:productId', deleteProduct);
+  app.get('/api/products',verifyToken, verifyAdmin, getProducts);
+  app.post('/api/products', verifyToken, verifyAdmin,  saveProduct);
+  app.put('/api/products/:productId', verifyToken, verifyAdmin,  updateProduct);
+  app.delete('/api/products/:productId', verifyToken, verifyAdmin,  deleteProduct);
 }
 
 export default productRoutes;

@@ -1,14 +1,13 @@
-import express from "express";
 import { verifyAdmin, verifyToken } from '../../middleware/middleware.js';
 import { getUsers, saveUser , loginUser} from '../controllers/userController.js';
 
-const router = express.Router();
+const userRoutes = (app) => {
+  //public
+  app.post('/api/users/register', saveUser);
+  app.post("/api/users/login", loginUser);
+  // Protected (admin only)
+  app.get('/api/users', verifyToken, verifyAdmin, getUsers);
+  
+}
 
-// Public
-router.post("/api/users/register", saveUser);
-router.post("/api/users/login", loginUser);
-
-// Protected (admin only)
-router.get("/api/users", verifyToken, verifyAdmin, getUsers);
-
-export default router;
+export default userRoutes;
