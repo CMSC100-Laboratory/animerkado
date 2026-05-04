@@ -57,7 +57,7 @@ const loginUser = async (req, res) => {
     return res.send({
       message: "Login successful",
       token,
-      user
+      userType: user.userType 
     });
 
 
