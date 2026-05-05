@@ -2,22 +2,23 @@ import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 // Public pages
-import LandingPage from './pages/LandingPage'
-import LoginPage from './pages/LoginPage'
-import RegisterPage from './pages/RegisterPage'
+import LandingPage from './pages/default/LandingPage'
+import LoginPage from './pages/default/LoginPage'
+import RegisterPage from './pages/customer/RegisterPage'
 import './App.css'
 
-// Customer pages (placeholders)
-const ShopPage = () => <div>To be implemented</div>
-const CartPage = () => <div>To be implemented</div>
-const OrderHistoryPage = () => <div>To be implemented</div>
-const ProfilePage = () => <div>To be implemented</div>
+// Customer pages
+import Shop from './pages/customer/Shop'
+import Cart from './pages/customer/Cart'
+import ProductDetail from './pages/customer/ProductDetail'
+import OrderConfirmation from './pages/customer/OrderConfirmation'
+import OrderHistory from './pages/customer/OrderHistory'
 
-// Admin pages (placeholders)
-const AdminDashboard = () => <div>To be implemented</div>
-const AdminUsers = () => <div>To be implemented</div>
-const AdminProducts = () => <div>To be implemented</div>
-const AdminOrders = () => <div>To be implemented</div>
+// Admin pages
+import Dashboard from './pages/admin/Dashboard'
+import UserManagement from './pages/admin/UserManagement'
+import ProductListings from './pages/admin/ProductListings'
+import OrderFulfillment from './pages/admin/OrderFulfillment'
 import SalesReport from './pages/admin/SalesReport'
 
 
@@ -41,16 +42,17 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
 
         {/* Customer routes */}
-        <Route path="/shop" element={<ProtectedRoute element={<ShopPage />} />} />
-        <Route path="/cart" element={<ProtectedRoute element={<CartPage />} />} />
-        <Route path="/orders" element={<ProtectedRoute element={<OrderHistoryPage />} />} />
-        <Route path="/profile" element={<ProtectedRoute element={<ProfilePage />} />} />
+        <Route path="/shop" element={<ProtectedRoute element={<Shop />} />} />
+        <Route path="/cart" element={<ProtectedRoute element={<Cart />} />} />
+        <Route path="/product/:id" element={<ProtectedRoute element={<ProductDetail />} />} />
+        <Route path="/order-confirmation" element={<ProtectedRoute element={<OrderConfirmation />} />} />
+        <Route path="/orders" element={<ProtectedRoute element={<OrderHistory />} />} />
 
         {/* Admin routes */}
-        <Route path="/admin/dashboard" element={<ProtectedRoute element={<AdminDashboard />} adminOnly />} />
-        <Route path="/admin/users" element={<ProtectedRoute element={<AdminUsers />} adminOnly />} />
-        <Route path="/admin/products" element={<ProtectedRoute element={<AdminProducts />} adminOnly />} />
-        <Route path="/admin/orders" element={<ProtectedRoute element={<AdminOrders />} adminOnly />} />
+        <Route path="/admin/dashboard" element={<ProtectedRoute element={<Dashboard />} adminOnly />} />
+        <Route path="/admin/users" element={<ProtectedRoute element={<UserManagement />} adminOnly />} />
+        <Route path="/admin/products" element={<ProtectedRoute element={<ProductListings />} adminOnly />} />
+        <Route path="/admin/orders" element={<ProtectedRoute element={<OrderFulfillment />} adminOnly />} />
         <Route path="/admin/sales" element={<ProtectedRoute element={<SalesReport />} adminOnly />} />
 
         {/* Fallback */}
