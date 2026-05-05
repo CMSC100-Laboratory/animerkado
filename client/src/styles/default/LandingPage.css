@@ -12,28 +12,53 @@
   justify-content: space-between;
   padding: 0 40px;
   height: 64px;
+  position: sticky;
   top: 0;
   z-index: 100;
-  position: sticky;
 }
 
-/* Left side navigation */
 .nav-logo {
   display: flex;
   align-items: center;
 }
- 
+
 .nav-logo-img {
   height: 60px;
   width: auto;
   object-fit: contain;
+  display: block;
+  max-width: 100%;
 }
 
-/* Right side navigation */
 .nav-right {
   display: flex;
   align-items: center;
   gap: 32px;
+}
+
+.nav-link {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #000;
+  text-decoration: none;
+}
+
+.nav-btn {
+  padding: 6px 18px;
+  font-family: 'Inter', sans-serif;
+  text-decoration: none;
+  border: 1px solid #000;
+  color: #000;
+}
+
+.nav-btn-login {
+  background-color: #fff;
+  color: #000;
+}
+
+.nav-btn-register {
+  background-color: #000;
+  color: #fff;
 }
 
 /* HERO SECTION */
@@ -48,30 +73,40 @@
   justify-content: center;
   overflow: hidden;
   text-align: center;
+  border-bottom: 1px solid #000;
 }
 
-/* Hero text content */
-.hero-title {
-  margin: 0;
+.hero-content {
   display: flex;
-  font-size: 100px;
-  line-height: 1.00;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
- 
+
+.hero-title {
+  font-size: 100px;
+  line-height: 1;
+}
+
 .hero-subtitle {
   font-size: 24px;
   font-weight: 600;
-  margin: 0;
 }
- 
-/* Shop Now */
+
 .hero-cta {
   display: inline-block;
   padding: 12px 40px;
   margin-top: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  text-decoration: none;
+  border: 1px solid #000;
+  background-color: #000;
+  color: #fff;
 }
 
-/* OBJECTIVES AND MISSION SECTION */
+/* OBJECTIVES & MISSION SECTION */
 .objectives-section {
   display: flex;
   gap: 20px;
@@ -79,11 +114,10 @@
   align-items: stretch;
 }
 
-/* Objective cards */
 .objectives-group {
   flex: 1;
   display: flex;
-  border-radius: 20px;
+  border: 1px solid #000;
   padding: 32px 20px;
 }
 
@@ -95,28 +129,28 @@
   text-align: center;
   padding: 0 16px;
 }
- 
+
+.objective-card+.objective-card {
+  border-left: 1px solid #ccc;
+}
+
 .objective-icon {
   width: 24px;
   height: 24px;
   margin-bottom: 10px;
+  display: block;
+  max-width: 100%;
 }
- 
-.objective-card h3 {
-  margin: 0 0 8px;
-}
- 
+
 .objective-card p {
-  margin: 0;
   font-size: 13px;
   line-height: 1.5;
 }
 
-/* Mission card */
 .mission-card {
   width: 220px;
   flex-shrink: 0;
-  border-radius: 20px;
+  border: 1px solid #000;
   padding: 28px 22px;
   text-align: center;
   display: flex;
@@ -124,13 +158,8 @@
   justify-content: center;
   gap: 12px;
 }
- 
-.mission-card h3 {
-  margin: 0;
-}
- 
+
 .mission-card p {
-  margin: 0;
   font-size: 13px;
   line-height: 1.5;
 }
@@ -143,8 +172,18 @@
   justify-content: space-between;
   padding: 24px 40px;
 }
- 
+
+.footer-copy {
+  font-size: 0.8rem;
+}
+
 .footer-links {
   display: flex;
   gap: 24px;
+}
+
+.footer-link {
+  font-size: 0.8rem;
+  color: #000;
+  text-decoration: none;
 }
