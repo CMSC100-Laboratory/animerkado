@@ -27,8 +27,17 @@ function LandingPage() {
       {/* HERO SECTION */}
       <section
         className="hero-section"
-        style={{ backgroundImage: `url(${landingBg})` }}
-      ></section>
+        // style={{ backgroundImage: `url(${landingBg})` }}
+      >
+        {/* Hero text content */}
+        <div className="hero-content">
+          <h1 className="hero-title">
+            HEADING<br />
+          </h1>
+          <p className="hero-subtitle">Subheading</p>
+          <Link to="/shop" className="hero-cta">Shop Now</Link>
+        </div>
+      </section>
 
       {/* OBJECTIVES & MISSION */}
       <section className="objectives-section">
