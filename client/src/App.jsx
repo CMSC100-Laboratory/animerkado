@@ -18,7 +18,7 @@ const AdminDashboard = () => <div>To be implemented</div>
 const AdminUsers = () => <div>To be implemented</div>
 const AdminProducts = () => <div>To be implemented</div>
 const AdminOrders = () => <div>To be implemented</div>
-const AdminSales = () => <div>To be implemented</div>
+import SalesReport from './pages/admin/SalesReport'
 
 
 // Route guard
@@ -51,7 +51,7 @@ function App() {
         <Route path="/admin/users" element={<ProtectedRoute element={<AdminUsers />} adminOnly />} />
         <Route path="/admin/products" element={<ProtectedRoute element={<AdminProducts />} adminOnly />} />
         <Route path="/admin/orders" element={<ProtectedRoute element={<AdminOrders />} adminOnly />} />
-        <Route path="/admin/sales" element={<ProtectedRoute element={<AdminSales />} adminOnly />} />
+        <Route path="/admin/sales" element={<ProtectedRoute element={<SalesReport />} adminOnly />} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" />} />
