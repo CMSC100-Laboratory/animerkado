@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import { User } from './models/User.js';
 
-await mongoose.connect('mongodb://127.0.0.1:27017/agrimarket-db');
+await mongoose.connect('mongodb://127.0.0.1:27017/animerkado');
 console.log('Connected to database...');
 
 const existing = await User.findOne({ email: 'admin@da.gov.ph' });
