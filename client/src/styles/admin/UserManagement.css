@@ -1,0 +1,150 @@
+/* PAGE */
+.users-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* NAVIGATION BAR */
+.users-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.users-nav-logo {
+    display: flex;
+    align-items: center;
+}
+
+.users-nav-logo-img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    max-width: 100%;
+}
+
+.users-logout-btn {
+    border: 1px solid #000000;
+    background-color: #fff;
+    color: #000;
+    padding: 4px 14px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+}
+
+/* MAIN CONTENT */
+.users-main {
+    flex: 1;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* HEADING */
+.users-heading {
+    font-size: 32px;
+    text-transform: uppercase;
+    line-height: 0.2;
+}
+
+/* SEARCH */
+.users-search-input {
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 0.875rem;
+    font-family: 'Inter', sans-serif;
+    border: 1px solid #000;
+    outline: none;
+    margin-top: 10px;
+}
+
+.users-search-input::placeholder {
+    color: #aaa;
+}
+
+/* PANEL */
+.users-panel {
+    border: 1px solid #000;
+    display: flex;
+    flex-direction: column;
+}
+
+.users-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid #000;
+}
+
+.users-panel-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* TABLE */
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.users-table-head-row {
+    border-bottom: 2px solid #000;
+}
+
+.users-table-head {
+    padding: 10px 16px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.users-table-row {
+    border-bottom: 1px solid #ccc;
+}
+
+.users-table-row:last-child {
+    border-bottom: none;
+}
+
+.users-table-cell {
+    padding: 12px 16px;
+    font-size: 0.875rem;
+    vertical-align: middle;
+}
+
+/* FOOTER */
+.users-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 40px;
+}
+
+.users-footer-copy {
+    font-size: 0.8rem;
+}
+
+.users-footer-links {
+    display: flex;
+    gap: 24px;
+}
+
+.users-footer-link {
+    font-size: 0.8rem;
+    color: #000;
+    text-decoration: none;
+}
