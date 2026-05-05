@@ -52,7 +52,8 @@
 .orders-heading {
     font-size: 32px;
     text-transform: uppercase;
-    line-height: 1;
+    line-height: 0.2;
+    margin-bottom: 10px;
 }
 
 /* PANEL */
