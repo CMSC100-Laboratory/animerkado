@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
-/* page layout */
+/* PAGE LAYOUT */
 #root {
   width: 100%;
   max-width: 100%;
@@ -14,7 +14,23 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-/* image default */
+/* TYPOGRAPHY */
+
+h1, h2 {
+  margin: 0;
+  font-weight: 900;
+}
+
+h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: 600;
+}
+ 
+p {
+  margin: 0;
+}
+
+/* IMAGE DEFAULT */
 image {
   display: block;
   max-width: 100%;
