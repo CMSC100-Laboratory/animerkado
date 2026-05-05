@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import logo from '../assets/logo.png'
-import loginBg from '../assets/login_bg.jpeg'
-import './styles/LoginPage.css'
+import logo from '../../assets/logo.png'
+import loginBg from '../../assets/login_bg.jpeg'
+import '../../styles/default/LoginPage.css'
 
 function LoginPage() {
   const [email, setEmail] = useState('')
