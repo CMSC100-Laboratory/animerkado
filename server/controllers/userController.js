@@ -54,12 +54,12 @@ const loginUser = async (req, res) => {
       { expiresIn: "1d" }
     );
 
-    return res.send({
-      message: "Login successful",
-      token,
-      user
-    });
-
+  return res.send({
+    loggedIn: true,
+    token,
+    email: user.email,
+    userType: user.userType
+  })
 
   }catch (error) {
     return res.status(500).send({ message: error.message });
