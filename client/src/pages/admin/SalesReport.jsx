@@ -12,7 +12,7 @@ import {
   Legend
 } from 'chart.js'
 import { authHeaders } from '../../utils/auth.js'
-import './styles/SalesReport.css'
+import '../../styles/admin/SalesReport.css'
 
 ChartJS.register(
   CategoryScale,

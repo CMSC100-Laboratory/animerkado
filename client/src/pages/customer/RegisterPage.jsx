@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import logo from '../assets/logo.png'
-import registerBg from '../assets/register_bg.jpeg'
-import './styles/RegisterPage.css'
+import logo from '../../assets/logo.png'
+import registerBg from '../../assets/register_bg.jpeg'
+import '../../styles/customer/RegisterPage.css'
 
 function RegisterPage() {
   const [firstName, setFirstName] = useState('')
