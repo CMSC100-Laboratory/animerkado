@@ -4,15 +4,6 @@ import logo from '../assets/logo.png'
 import landingBg from '../assets/landing_page_bg.jpeg'
 import './styles/LandingPage.css'
  
-// Placeholder: Fork Icon
-function ForkIcon() {
-  return (
-    <svg className="objective-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M6 2v6a3 3 0 0 0 3 3v11M6 2a1 1 0 0 0 0 8M18 2v6a3 3 0 0 1-3 3v11M18 2a1 1 0 0 1 0 8" />
-    </svg>
-  )
-}
- 
 function LandingPage() {
   return (
     <div className="landing-wrapper">
@@ -45,7 +36,6 @@ function LandingPage() {
         <div className="objectives-group">
           {['Objective 1', 'Objective 2', 'Objective 3'].map((label) => (
             <div className="objective-card" key={label}>
-              <ForkIcon />
               <h3>{label}</h3>
               <p>
                 Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor
