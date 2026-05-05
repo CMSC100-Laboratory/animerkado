@@ -11,6 +11,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js'
+import { authHeaders } from '../../utils/auth.js'
 import './styles/SalesReport.css'
 
 ChartJS.register(
@@ -23,11 +24,6 @@ ChartJS.register(
   Tooltip,
   Legend
 )
-
-const authHeaders = () => ({
-  'Content-Type': 'application/json',
-  'Authorization': `Bearer ${localStorage.getItem('token')}`
-})
 
 function SalesReport() {
   const [filter, setFilter] = useState('weekly')
