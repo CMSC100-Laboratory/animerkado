@@ -38,7 +38,7 @@ const getProducts = async (req, res) => {
 // POST /api/products
 const saveProduct = async (req, res) => {
   const newProduct = new Product({
-    productId:          req.body.productId,
+    productId:          `P${Date.now()}`, // auto-generated 
     productName:        req.body.productName,
     productDescription: req.body.productDescription,
     productType:        req.body.productType,

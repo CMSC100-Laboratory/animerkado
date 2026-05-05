@@ -22,7 +22,7 @@ const getOrders = async (req, res) => {
 // POST /api/orders
 const saveOrder = async (req, res) => {
   const newOrder = new OrderTransaction({
-    transactionId: req.body.transactionId,
+    transactionId: `T${Date.now()}`, // auto-generated
     productId:     req.body.productId,
     orderQuantity: req.body.orderQuantity,
     orderStatus:   0, // always starts as Pending
@@ -46,6 +46,10 @@ const updateOrder = async (req, res) => {
 
     // Decrease product quantity when order is confirmed
     if (req.body.orderStatus === 1) {
+
+      // fetch product to get name and price
+      const product = await Product.findOne({ productId: order.productId });
+
       await Product.updateOne(
         { productId: order.productId },
         { $inc: { productQuantity: -order.orderQuantity } }
@@ -53,12 +57,12 @@ const updateOrder = async (req, res) => {
       // after setting order as confirmed
 
           await Sale.create({
-            orderId: order._id,
+            orderId: order.transactionId,
             productId: order.productId,
-            productName: order.name,
-            quantity: order.quantity,
-            price: order.priceAtPurchase,
-            total: order.quantity * order.priceAtPurchase
+            productName: product.productName,
+            quantity: order.orderQuantity,
+            price: product.price,
+            total: order.orderQuantity * product.price
           });
 
     }

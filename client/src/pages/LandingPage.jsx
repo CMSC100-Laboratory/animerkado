@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../assets/logo.png'
 import landingBg from '../assets/landing_page_bg.jpeg'
-import './LandingPage.css'
+import './styles/LandingPage.css'
  
 // Placeholder: Fork Icon
 function ForkIcon() {
