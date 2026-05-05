@@ -15,6 +15,7 @@ A MERN stack e-commerce web application developed for the Department of Agricult
 final-project/
 ├── client/                          # React + Vite frontend
 │   └── src/
+│       ├── assets/
 │       ├── pages/
 │       │   ├── admin/
 │       │   │   ├── Dashboard.jsx
