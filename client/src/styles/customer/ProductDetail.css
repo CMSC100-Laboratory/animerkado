@@ -1,0 +1,296 @@
+/* page */
+.pd-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* navbar */
+.pd-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.pd-nav-logo {
+    display: flex;
+    align-items: center;
+}
+
+.pd-nav-logo-img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    max-width: 100%;
+}
+
+.pd-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.pd-nav-right a {
+    font-size: 0.875rem;
+    color: #000;
+    text-decoration: none;
+}
+
+.pd-nav-right a:hover {
+    text-decoration: underline;
+}
+
+/* loading */
+.pd-loading {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px;
+    font-size: 0.875rem;
+    color: #555;
+}
+
+/* main content */
+.pd-main {
+    flex: 1;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* heading */
+.pd-heading {
+    font-size: 32px;
+    text-transform: uppercase;
+    line-height: 0.2;
+    margin-bottom: 10px;
+}
+
+/* panel 2 column */
+.pd-panel {
+    border: 1px solid #000;
+    display: flex;
+    gap: 0;
+}
+
+/* left column */
+.pd-panel-left {
+    flex: 0 0 260px;
+    border-right: 1px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+}
+
+.pd-image-placeholder {
+    width: 100%;
+    aspect-ratio: 1;
+    border: 1px dashed #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+}
+
+/* right column */
+.pd-panel-right {
+    flex: 1;
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* panel header */
+.pd-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #000;
+}
+
+.pd-panel-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.pd-name {
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 0;
+    letter-spacing: 0.02em;
+}
+
+.pd-desc {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin: 0;
+    color: #555;
+}
+
+/* meta rw */
+.pd-meta {
+    display: flex;
+    gap: 32px;
+    border: 1px solid #ccc;
+    padding: 16px;
+}
+
+.pd-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pd-meta-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #555;
+}
+
+.pd-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* quantity row */
+.pd-qty-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.pd-qty-controls {
+    display: flex;
+    align-items: center;
+    border: 1px solid #000;
+}
+
+.pd-qty-controls button {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-right: 1px solid #000;
+    font-size: 18px;
+    cursor: pointer;
+    background: #fff;
+    font-family: 'Inter', sans-serif;
+}
+
+.pd-qty-controls button:last-child {
+    border-right: none;
+    border-left: 1px solid #000;
+}
+
+.pd-qty-controls span {
+    padding: 0 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.pd-total {
+    font-size: 0.875rem;
+}
+
+.pd-total strong {
+    font-size: 1rem;
+}
+
+.pd-success {
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 8px 14px;
+    border: 1px solid #000;
+    background-color: #000;
+    color: #fff;
+    display: inline-block;
+}
+
+/* action buttons */
+.pd-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.pd-btn-cart {
+    flex: 1;
+    padding: 10px 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    border: 1px solid #000;
+    background-color: #fff;
+    color: #000;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.pd-btn-cart:hover:not(:disabled) {
+    background-color: #000;
+    color: #fff;
+}
+
+.pd-btn-buy {
+    flex: 1;
+    padding: 10px 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    border: 1px solid #000;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.pd-btn-buy:hover:not(:disabled) {
+    background-color: #fff;
+    color: #000;
+}
+
+.pd-btn-cart:disabled,
+.pd-btn-buy:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+/* footer */
+.pd-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 40px;
+}
+
+.pd-footer-copy {
+    font-size: 0.8rem;
+}
+
+.pd-footer-links {
+    display: flex;
+    gap: 24px;
+}
+
+.pd-footer-links a {
+    font-size: 0.8rem;
+    color: #000;
+    text-decoration: none;
+}

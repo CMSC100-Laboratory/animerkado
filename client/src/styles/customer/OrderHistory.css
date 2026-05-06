@@ -1,0 +1,200 @@
+/* page */
+.oh-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* navbar */
+.oh-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.oh-nav-logo {
+    display: flex;
+    align-items: center;
+}
+
+.oh-nav-logo-img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    max-width: 100%;
+}
+
+.oh-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.oh-nav-right a {
+    font-size: 0.875rem;
+    color: #000;
+    text-decoration: none;
+}
+
+.oh-nav-right a:hover {
+    text-decoration: underline;
+}
+
+.oh-nav-logout {
+    border: 1px solid #000;
+    background-color: #fff;
+    color: #000;
+    padding: 4px 14px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+}
+
+/* main content */
+.oh-main {
+    flex: 1;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* heading */
+.oh-title {
+    font-size: 32px;
+    text-transform: uppercase;
+    line-height: 0.2;
+    margin-bottom: 10px;
+}
+
+/* empty */
+.oh-empty {
+    padding: 60px 0;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #555;
+}
+
+.oh-empty a {
+    color: #000;
+    font-weight: 700;
+}
+
+/* panel */
+.oh-table-wrap {
+    border: 1px solid #000;
+    display: flex;
+    flex-direction: column;
+}
+
+/* table */
+.oh-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.oh-table thead tr {
+    border-bottom: 2px solid #000;
+}
+
+.oh-table th {
+    padding: 10px 16px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.oh-table tbody tr {
+    border-bottom: 1px solid #ccc;
+}
+
+.oh-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.oh-table td {
+    padding: 12px 16px;
+    font-size: 0.875rem;
+    vertical-align: middle;
+}
+
+/* status badge */
+.oh-status {
+    display: inline-block;
+    padding: 2px 10px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid #000;
+    font-family: 'Inter', sans-serif;
+}
+
+/* pending */
+.oh-badge-pending {
+    background-color: #fff;
+    color: #000;
+    border-color: #000;
+}
+
+/* confirmed */
+.oh-badge-confirmed {
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+/* cancelled */
+.oh-badge-cancelled {
+    background-color: #eee;
+    color: #555;
+    border-color: #888;
+}
+
+/* cancel button */
+.oh-cancel-btn {
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    border: 1px solid #000;
+    background-color: #fff;
+    color: #000;
+    cursor: pointer;
+}
+
+.oh-cancel-btn:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+/* footer */
+.oh-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 40px;
+}
+
+.oh-footer-copy {
+    font-size: 0.8rem;
+}
+
+.oh-footer-links {
+    display: flex;
+    gap: 24px;
+}
+
+.oh-footer-links a {
+    font-size: 0.8rem;
+    color: #000;
+    text-decoration: none;
+}

@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 // Public pages
@@ -20,7 +19,6 @@ import UserManagement from './pages/admin/UserManagement'
 import ProductListings from './pages/admin/ProductListings'
 import OrderFulfillment from './pages/admin/OrderFulfillment'
 import SalesReport from './pages/admin/SalesReport'
-
 
 // Route guard
 const ProtectedRoute = ({ element, adminOnly = false }) => {
@@ -44,7 +42,7 @@ function App() {
         {/* Customer routes */}
         <Route path="/shop" element={<ProtectedRoute element={<Shop />} />} />
         <Route path="/cart" element={<ProtectedRoute element={<Cart />} />} />
-        <Route path="/product/:id" element={<ProtectedRoute element={<ProductDetail />} />} />
+        <Route path="/product/:productId" element={<ProtectedRoute element={<ProductDetail />} />} />
         <Route path="/order-confirmation" element={<ProtectedRoute element={<OrderConfirmation />} />} />
         <Route path="/orders" element={<ProtectedRoute element={<OrderHistory />} />} />
 
