@@ -6,6 +6,7 @@ import '../../styles/customer/ProductDetail.css'
 function ProductDetail() {
   const { productId } = useParams()
   const [product, setProduct] = useState(null)
+  const [related, setRelated] = useState([])
   const [quantity, setQuantity] = useState(1)
   const [loading, setLoading] = useState(true)
   const [message, setMessage] = useState('')
@@ -18,6 +19,7 @@ function ProductDetail() {
       .then(data => {
         const found = data.find(p => p.productId === productId)
         setProduct(found || null)
+        setRelated(data.filter(p => p.productId !== productId).slice(0, 6))
         setLoading(false)
       })
       .catch(() => setLoading(false))
@@ -70,64 +72,51 @@ function ProductDetail() {
           <img src={logo} alt="Logo" className="pd-nav-logo-img" />
         </Link>
         <div className="pd-nav-right">
-          <Link to="/shop">← Back to Shop</Link>
-          <Link to="/cart">Cart</Link>
+          <Link to="/shop" className="pd-nav-link">Shop</Link>
+          <Link to="/cart" className="pd-nav-link">Cart</Link>
+          <button className="pd-nav-logout" onClick={() => { localStorage.clear(); navigate('/login') }}>
+            Logout ✕
+          </button>
         </div>
       </nav>
 
       {/* MAIN CONTENT */}
       <main className="pd-main">
-        <h1 className="pd-heading">PRODUCT DETAIL</h1>
 
+        <p className="pd-breadcrumb">
+          <Link to="/shop">Shop</Link> / {product.productName}
+        </p>
+
+        {/* PRODUCT PANEL */}
         <div className="pd-panel">
 
-          {/* Left: image */}
+          {/* LEFT: image */}
           <div className="pd-panel-left">
-            <div className="pd-image-placeholder">
-              {product.productType === 1 ? '🌾' : '🐔'}
-            </div>
+            <div className="pd-image-placeholder">[]</div>
           </div>
 
-          {/* Right: info */}
+          {/* RIGHT: info */}
           <div className="pd-panel-right">
-
-            <div className="pd-panel-header">
-              <span className="pd-panel-title">
-                {product.productType === 1 ? 'CROP' : 'POULTRY'}
-              </span>
-            </div>
-
+            <p className="pd-type-label">{product.productType === 1 ? 'Crop' : 'Poultry'}</p>
             <h2 className="pd-name">{product.productName}</h2>
+            <p className="pd-price">₱{product.price.toFixed(2)}</p>
             <p className="pd-desc">{product.productDescription || 'No description available.'}</p>
 
-            {/* META */}
-            <div className="pd-meta">
-              <div className="pd-meta-item">
-                <span className="pd-meta-label">Price</span>
-                <span className="pd-price">₱{product.price.toFixed(2)}</span>
-              </div>
-              <div className="pd-meta-item">
-                <span className="pd-meta-label">Stock</span>
-                <span>{product.productQuantity > 0 ? `${product.productQuantity} available` : 'Out of stock'}</span>
-              </div>
-              <div className="pd-meta-item">
-                <span className="pd-meta-label">Type</span>
-                <span>{product.productType === 1 ? 'Crop' : 'Poultry'}</span>
-              </div>
+            <div className="pd-meta-row">
+              <span className="pd-meta-item">
+                Stock: {product.productQuantity > 0 ? `${product.productQuantity} available` : 'Out of stock'}
+              </span>
             </div>
 
             {/* QUANTITY */}
             <div className="pd-qty-row">
-              <span className="pd-meta-label">Quantity</span>
+              <span className="pd-qty-label">Qty</span>
               <div className="pd-qty-controls">
                 <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>−</button>
                 <span>{quantity}</span>
                 <button onClick={() => setQuantity(q => Math.min(product.productQuantity, q + 1))}>+</button>
               </div>
-            </div>
-
-            <div className="pd-total">
-              Total: <strong>₱{(product.price * quantity).toFixed(2)}</strong>
+              <span className="pd-total">Total: <strong>₱{(product.price * quantity).toFixed(2)}</strong></span>
             </div>
 
             {message && <span className="pd-success">{message}</span>}
@@ -145,9 +134,24 @@ function ProductDetail() {
                 onClick={handleBuyNow}
               >Buy Now</button>
             </div>
-
           </div>
         </div>
+
+        {/* YOU MIGHT ALSO LIKE */}
+        {related.length > 0 && (
+          <div className="pd-related">
+            <p className="pd-related-title">You might also like</p>
+            <div className="pd-related-grid">
+              {related.map(p => (
+                <Link to={`/product/${p.productId}`} className="pd-related-card" key={p.productId}>
+                  <div className="pd-related-img">[]</div>
+                  <p className="pd-related-name">{p.productName}</p>
+                  <p className="pd-related-price">₱{p.price.toFixed(2)}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </main>
 
       {/* FOOTER */}

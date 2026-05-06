@@ -7,6 +7,7 @@ function Shop() {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('all')
+  const [sort, setSort] = useState('')
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
   const email = localStorage.getItem('email')
@@ -34,11 +35,19 @@ function Shop() {
     navigate('/cart')
   }
 
-  const filtered = products.filter(p => {
-    const matchType = filter === 'all' || String(p.productType) === filter
-    const matchSearch = p.productName.toLowerCase().includes(search.toLowerCase())
-    return matchType && matchSearch
-  })
+  const filtered = products
+    .filter(p => {
+      const matchType = filter === 'all' || String(p.productType) === filter
+      const matchSearch = p.productName.toLowerCase().includes(search.toLowerCase())
+      return matchType && matchSearch
+    })
+    .sort((a, b) => {
+      if (sort === 'price-asc') return a.price - b.price
+      if (sort === 'price-desc') return b.price - a.price
+      if (sort === 'qty') return b.productQuantity - a.productQuantity
+      if (sort === 'name') return a.productName.localeCompare(b.productName)
+      return 0
+    })
 
   return (
     <div className="shop-wrapper">
@@ -49,19 +58,18 @@ function Shop() {
           <img src={logo} alt="Logo" className="shop-nav-logo-img" />
         </Link>
         <div className="shop-nav-right">
-          <Link to="/orders">My Orders</Link>
-          <Link to="/cart">Cart</Link>
+          <Link to="/shop" className="shop-nav-link active">Shop</Link>
+          <Link to="/cart" className="shop-nav-link">Cart</Link>
           <button className="shop-nav-logout" onClick={() => { localStorage.clear(); navigate('/login') }}>
-            Log Out
+            Logout ✕
           </button>
         </div>
       </nav>
 
       {/* MAIN CONTENT */}
       <main className="shop-main">
-        <h1 className="shop-heading">SHOP</h1>
 
-        {/* SEARCH + FILTER */}
+        {/* SEARCH + SORT + FILTER */}
         <div className="shop-controls">
           <input
             className="shop-search"
@@ -70,8 +78,24 @@ function Shop() {
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
-          <div className="shop-filter-btns">
-            {[['all', 'All'], ['1', 'Crops'], ['2', 'Poultry']].map(([val, label]) => (
+          <div className="shop-sort-row">
+            <span className="shop-sort-label">Sort by:</span>
+            {[
+              ['', 'Default'],
+              ['name', 'Name'],
+              ['price-asc', 'Price ↑'],
+              ['price-desc', 'Price ↓'],
+              ['qty', 'Quantity'],
+            ].map(([val, label]) => (
+              <button
+                key={val}
+                className={`shop-sort-btn${sort === val ? ' active' : ''}`}
+                onClick={() => setSort(val)}
+              >{label}</button>
+            ))}
+          </div>
+          <div className="shop-filter-row">
+            {[['all', 'All'], ['1', 'Crop'], ['2', 'Poultry']].map(([val, label]) => (
               <button
                 key={val}
                 className={`shop-filter-btn${filter === val ? ' active' : ''}`}
@@ -83,35 +107,27 @@ function Shop() {
 
         {/* PRODUCT GRID */}
         {loading ? (
-          <div className="shop-loading">Loading products...</div>
+          <div className="shop-empty">Loading products...</div>
         ) : filtered.length === 0 ? (
           <div className="shop-empty">No products found.</div>
         ) : (
           <div className="shop-grid">
             {filtered.map(product => (
               <div className="shop-card" key={product.productId}>
-                <div className="shop-card-badge">
-                  {product.productType === 1 ? 'Crop' : 'Poultry'}
+                <div className="shop-card-img">
+                  <span className="shop-card-img-icon">[]</span>
                 </div>
                 <div className="shop-card-body">
-                  <h3 className="shop-card-name">{product.productName}</h3>
-                  <p className="shop-card-desc">{product.productDescription || 'No description.'}</p>
-                  <div className="shop-card-stock">
-                    {product.productQuantity > 0
-                      ? `${product.productQuantity} in stock`
-                      : 'Out of stock'}
-                  </div>
+                  <p className="shop-card-name">{product.productName}</p>
+                  <p className="shop-card-price">₱{product.price.toFixed(2)}</p>
                 </div>
-                <div className="shop-card-footer">
-                  <span className="shop-card-price">₱{product.price.toFixed(2)}</span>
-                  <div className="shop-card-actions">
-                    <Link to={`/product/${product.productId}`} className="shop-btn-view">View</Link>
-                    <button
-                      className="shop-btn-cart"
-                      disabled={product.productQuantity === 0}
-                      onClick={() => handleAddToCart(product)}
-                    >Add to Cart</button>
-                  </div>
+                <div className="shop-card-actions">
+                  <Link to={`/product/${product.productId}`} className="shop-btn-view">View</Link>
+                  <button
+                    className="shop-btn-cart"
+                    disabled={product.productQuantity === 0}
+                    onClick={() => handleAddToCart(product)}
+                  >Add to Cart</button>
                 </div>
               </div>
             ))}

@@ -6,6 +6,7 @@ import '../../styles/customer/Cart.css'
 function Cart() {
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
+  const [promo, setPromo] = useState('')
   const navigate = useNavigate()
   const email = localStorage.getItem('email')
 
@@ -19,7 +20,7 @@ function Cart() {
   useEffect(() => {
     if (!email) { navigate('/login'); return }
     fetchCart()
-  }, [])
+  }, [email, navigate])
 
   const handleRemove = async (itemId) => {
     await fetch(`/api/cart/${itemId}`, { method: 'DELETE' })
@@ -27,7 +28,6 @@ function Cart() {
   }
 
   const handleCheckout = async () => {
-    // POST one order per cart item
     await Promise.all(
       items.map(item =>
         fetch('/api/orders', {
@@ -41,12 +41,11 @@ function Cart() {
         })
       )
     )
-    // clear cart after ordering
     await Promise.all(items.map(item => fetch(`/api/cart/${item._id}`, { method: 'DELETE' })))
     navigate('/order-confirmation')
   }
 
-  const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0)
+  const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0)
 
   return (
     <div className="cart-wrapper">
@@ -57,14 +56,16 @@ function Cart() {
           <img src={logo} alt="Logo" className="cart-nav-logo-img" />
         </Link>
         <div className="cart-nav-right">
-          <Link to="/shop">← Continue Shopping</Link>
-          <Link to="/orders">My Orders</Link>
+          <Link to="/shop" className="cart-nav-link">Shop</Link>
+          <Link to="/cart" className="cart-nav-link active">Cart</Link>
+          <button className="cart-nav-logout" onClick={() => { localStorage.clear(); navigate('/login') }}>
+            Logout ✕
+          </button>
         </div>
       </nav>
 
       {/* MAIN CONTENT */}
       <main className="cart-main">
-        <h1 className="cart-title">YOUR CART</h1>
 
         {loading ? (
           <div className="cart-empty">Loading...</div>
@@ -73,52 +74,82 @@ function Cart() {
             Your cart is empty. <Link to="/shop">Browse products</Link>
           </div>
         ) : (
-          <div className="cart-layout">
+          <>
+            <h1 className="cart-title">My Cart <span className="cart-count">({items.length} items)</span></h1>
 
-            {/* ITEMS */}
-            <div className="cart-items">
-              {items.map(item => (
-                <div className="cart-item" key={item._id}>
-                  <div className="cart-item-info">
-                    <h3 className="cart-item-name">{item.productName}</h3>
-                    <p className="cart-item-meta">
-                      Qty: {item.quantity} × ₱{item.price.toFixed(2)}
-                    </p>
-                  </div>
-                  <div className="cart-item-right">
-                    <span className="cart-item-subtotal">
+            <div className="cart-layout">
+
+              {/* ITEMS */}
+              <div className="cart-items-section">
+                <div className="cart-items-header">
+                  <span>Item and Price</span>
+                  <span>Quantity</span>
+                  <span>Total Price</span>
+                  <span></span>
+                </div>
+
+                {items.map(item => (
+                  <div className="cart-row" key={item._id}>
+                    <div className="cart-row-info">
+                      <div className="cart-row-img">[]</div>
+                      <div>
+                        <p className="cart-row-name">{item.productName}</p>
+                        <p className="cart-row-price">₱{item.price.toFixed(2)}</p>
+                      </div>
+                    </div>
+                    <div className="cart-row-qty">
+                      <span>{item.quantity}</span>
+                    </div>
+                    <div className="cart-row-total">
                       ₱{(item.price * item.quantity).toFixed(2)}
-                    </span>
-                    <button
-                      className="cart-item-remove"
-                      onClick={() => handleRemove(item._id)}
-                    >Remove</button>
+                    </div>
+                    <div className="cart-row-actions">
+                      <button className="cart-row-fav">♡</button>
+                      <button className="cart-row-remove" onClick={() => handleRemove(item._id)}>✕</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* ORDER SUMMARY */}
+              <div className="cart-summary">
+                <div className="cart-promo-row">
+                  <input
+                    className="cart-promo-input"
+                    placeholder="Promo Code"
+                    value={promo}
+                    onChange={e => setPromo(e.target.value)}
+                  />
+                  <span className="cart-promo-note">Coupon? Save your 5% discount.</span>
+                </div>
+
+                <div className="cart-summary-body">
+                  <div className="cart-summary-line">
+                    <span>Subtotal</span>
+                    <span>₱{subtotal.toFixed(2)}</span>
+                  </div>
+                  <div className="cart-summary-line">
+                    <span>Discount</span>
+                    <span>₱0.00</span>
+                  </div>
+                  <div className="cart-summary-line">
+                    <span>Cash on Delivery</span>
+                    <span>₱0.00</span>
+                  </div>
+                  <div className="cart-summary-divider" />
+                  <div className="cart-summary-total">
+                    <span>₱{subtotal.toFixed(2)}</span>
                   </div>
                 </div>
-              ))}
-            </div>
 
-            {/* ORDER SUMMARY */}
-            <div className="cart-summary">
-              <h2 className="cart-summary-title">Order Summary</h2>
-              <div className="cart-summary-row">
-                <span>Items ({items.length})</span>
-                <span>₱{total.toFixed(2)}</span>
+                <div className="cart-summary-footer">
+                  <button className="cart-cancel-btn" onClick={() => navigate('/shop')}>Cancel</button>
+                  <button className="cart-checkout-btn" onClick={handleCheckout}>Place Order</button>
+                </div>
               </div>
-              <div className="cart-summary-divider" />
-              <div className="cart-summary-total">
-                <span>Total</span>
-                <span>₱{total.toFixed(2)}</span>
-              </div>
-              <button className="cart-checkout-btn" onClick={handleCheckout}>
-                Place Order
-              </button>
-              <p className="cart-note">
-                Orders are subject to confirmation by our team.
-              </p>
-            </div>
 
-          </div>
+            </div>
+          </>
         )}
       </main>
 
