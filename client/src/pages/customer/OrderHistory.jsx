@@ -9,6 +9,7 @@ function OrderHistory() {
   const navigate = useNavigate()
   const email = localStorage.getItem('email')
 
+  // get /api/orders, fetch orders for current user
   const fetchOrders = () => {
     fetch(`/api/orders?email=${email}`)
       .then(r => r.json())
@@ -16,23 +17,26 @@ function OrderHistory() {
       .catch(() => setLoading(false))
   }
 
+  // check login & fetch orders
   useEffect(() => {
     if (!email) { navigate('/login'); return }
     fetchOrders()
   }, [email, navigate])
 
+  // delete /api/orders/:id (cancel order)
   const handleCancel = async (transactionId) => {
     await fetch(`/api/orders/${transactionId}`, { method: 'DELETE' })
     fetchOrders()
   }
 
+  // order status label
   const statusLabel = s => s === 0 ? 'Pending' : s === 1 ? 'Confirmed' : 'Cancelled'
   const statusClass = s => s === 0 ? 'oh-badge-pending' : s === 1 ? 'oh-badge-confirmed' : 'oh-badge-cancelled'
 
   return (
     <div className="oh-wrapper">
 
-      {/* NAVIGATION BAR */}
+      {/* navigation bar */}
       <nav className="oh-nav">
         <Link to="/" className="oh-nav-logo">
           <img src={logo} alt="Logo" className="oh-nav-logo-img" />
@@ -46,7 +50,7 @@ function OrderHistory() {
         </div>
       </nav>
 
-      {/* MAIN CONTENT */}
+      {/* main content */}
       <main className="oh-main">
         <h1 className="oh-title">MY ORDERS</h1>
 
@@ -97,7 +101,7 @@ function OrderHistory() {
         )}
       </main>
 
-      {/* FOOTER */}
+      {/* footer */}
       <footer className="oh-footer">
         <span className="oh-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
         <div className="oh-footer-links">

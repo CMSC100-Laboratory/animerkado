@@ -13,6 +13,7 @@ function ProductDetail() {
   const navigate = useNavigate()
   const email = localStorage.getItem('email')
 
+  // get /api/products, fetch product and related
   useEffect(() => {
     fetch('/api/products')
       .then(r => r.json())
@@ -25,6 +26,7 @@ function ProductDetail() {
       .catch(() => setLoading(false))
   }, [productId])
 
+  // post /api/cart (add to cart)
   const handleAddToCart = async () => {
     if (!email) { navigate('/login'); return }
     const res = await fetch('/api/cart', {
@@ -45,6 +47,7 @@ function ProductDetail() {
     }
   }
 
+  // post /api/orders (buy now)
   const handleBuyNow = async () => {
     if (!email) { navigate('/login'); return }
     const res = await fetch('/api/orders', {
@@ -60,13 +63,14 @@ function ProductDetail() {
     if (data.inserted) navigate('/order-confirmation')
   }
 
+  // loading & not found
   if (loading) return <div className="pd-loading">Loading...</div>
   if (!product) return <div className="pd-loading">Product not found.</div>
 
   return (
     <div className="pd-wrapper">
 
-      {/* NAVIGATION BAR */}
+      {/* navigation bar */}
       <nav className="pd-nav">
         <Link to="/" className="pd-nav-logo">
           <img src={logo} alt="Logo" className="pd-nav-logo-img" />
@@ -80,22 +84,22 @@ function ProductDetail() {
         </div>
       </nav>
 
-      {/* MAIN CONTENT */}
+      {/* main content */}
       <main className="pd-main">
 
         <p className="pd-breadcrumb">
           <Link to="/shop">Shop</Link> / {product.productName}
         </p>
 
-        {/* PRODUCT PANEL */}
+        {/* product panel */}
         <div className="pd-panel">
 
-          {/* LEFT: image */}
+          {/* left: image */}
           <div className="pd-panel-left">
             <div className="pd-image-placeholder">[]</div>
           </div>
 
-          {/* RIGHT: info */}
+          {/* right: info */}
           <div className="pd-panel-right">
             <p className="pd-type-label">{product.productType === 1 ? 'Crop' : 'Poultry'}</p>
             <h2 className="pd-name">{product.productName}</h2>
@@ -108,7 +112,7 @@ function ProductDetail() {
               </span>
             </div>
 
-            {/* QUANTITY */}
+            {/* quantity */}
             <div className="pd-qty-row">
               <span className="pd-qty-label">Qty</span>
               <div className="pd-qty-controls">
@@ -121,7 +125,7 @@ function ProductDetail() {
 
             {message && <span className="pd-success">{message}</span>}
 
-            {/* ACTIONS */}
+            {/* actions */}
             <div className="pd-actions">
               <button
                 className="pd-btn-cart"
@@ -137,7 +141,7 @@ function ProductDetail() {
           </div>
         </div>
 
-        {/* YOU MIGHT ALSO LIKE */}
+        {/* you might also like */}
         {related.length > 0 && (
           <div className="pd-related">
             <p className="pd-related-title">You might also like</p>
@@ -154,7 +158,7 @@ function ProductDetail() {
         )}
       </main>
 
-      {/* FOOTER */}
+      {/* footer */}
       <footer className="pd-footer">
         <span className="pd-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
         <div className="pd-footer-links">
