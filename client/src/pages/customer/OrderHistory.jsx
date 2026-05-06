@@ -19,7 +19,7 @@ function OrderHistory() {
   useEffect(() => {
     if (!email) { navigate('/login'); return }
     fetchOrders()
-  }, [])
+  }, [email, navigate])
 
   const handleCancel = async (transactionId) => {
     await fetch(`/api/orders/${transactionId}`, { method: 'DELETE' })
@@ -38,10 +38,10 @@ function OrderHistory() {
           <img src={logo} alt="Logo" className="oh-nav-logo-img" />
         </Link>
         <div className="oh-nav-right">
-          <Link to="/shop">Shop</Link>
-          <Link to="/cart">Cart</Link>
+          <Link to="/shop" className="oh-nav-link">Shop</Link>
+          <Link to="/cart" className="oh-nav-link">Cart</Link>
           <button className="oh-nav-logout" onClick={() => { localStorage.clear(); navigate('/login') }}>
-            Log Out
+            Logout ✕
           </button>
         </div>
       </nav>
