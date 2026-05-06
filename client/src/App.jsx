@@ -1,9 +1,4 @@
 import { useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import LandingPage from './pages/LandingPage'
-import LoginPage from './pages/LoginPage'
-import RegisterPage from './pages/RegisterPage'
-import Products from './pages/admin/Products'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 // Public pages
@@ -58,8 +53,7 @@ function App() {
         <Route path="/admin/products" element={<ProtectedRoute element={<ProductListings />} adminOnly />} />
         <Route path="/admin/orders" element={<ProtectedRoute element={<OrderFulfillment />} adminOnly />} />
         <Route path="/admin/sales" element={<ProtectedRoute element={<SalesReport />} adminOnly />} />
-        <Route path="/admin/products" element={<ProtectedRoute{<Products />} adminOnly />} />
-
+       
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

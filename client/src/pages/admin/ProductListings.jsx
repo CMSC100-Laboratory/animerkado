@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/logo.png'
 import '../../styles/admin/ProductListings.css'
+import ProductForm from './Products'
+
+const api_url = "http://localhost:5000/api/products"
 
 function ProductListings() {
   const [products, setProducts] = useState([])
@@ -9,7 +12,12 @@ function ProductListings() {
   const [search, setSearch] = useState('')
   const [typeFilter, setTypeFilter] = useState('all')
   const [sort, setSort] = useState('name-az')
+
+  //  Form control
+  const [selectedProduct, setSelectedProduct] = useState(null)
+
   const navigate = useNavigate()
+  const getToken = () => localStorage.getItem('token')
 
   useEffect(() => {
     fetchProducts()
@@ -19,11 +27,11 @@ function ProductListings() {
     applyFilters()
   }, [products, search, typeFilter, sort])
 
+  // ================= FETCH =================
   const fetchProducts = async () => {
     try {
-      const token = localStorage.getItem('token')
-      const res = await fetch('/api/products', {
-        headers: { Authorization: `Bearer ${token}` }
+      const res = await fetch(api_url, {
+        headers: { Authorization: `Bearer ${getToken()}` }
       })
       const data = await res.json()
       setProducts(data)
@@ -32,22 +40,77 @@ function ProductListings() {
     }
   }
 
+  // ================= FILTER + SORT =================
   const applyFilters = () => {
     let result = [...products]
 
     if (typeFilter === 'crops') result = result.filter(p => p.productType === 1)
     if (typeFilter === 'poultry') result = result.filter(p => p.productType === 2)
-    if (search) result = result.filter(p => p.productName?.toLowerCase().includes(search.toLowerCase()))
+
+    if (search) {
+      result = result.filter(p =>
+        p.productName?.toLowerCase().includes(search.toLowerCase())
+      )
+    }
 
     if (sort === 'name-az') result.sort((a, b) => a.productName?.localeCompare(b.productName))
     if (sort === 'name-za') result.sort((a, b) => b.productName?.localeCompare(a.productName))
     if (sort === 'price-asc') result.sort((a, b) => a.price - b.price)
     if (sort === 'price-desc') result.sort((a, b) => b.price - a.price)
-    if (sort === 'quantity') result.sort((a, b) => b.quantity - a.quantity)
+    if (sort === 'quantity') result.sort((a, b) => b.productQuantity - a.productQuantity)
 
     setFiltered(result)
   }
 
+  // ================= SUBMIT (ADD / UPDATE) =================
+  const handleSubmit = async (form) => {
+    try {
+      if (form.productId) {
+        // UPDATE
+        await fetch(`${api_url}/${form.productId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getToken()}`
+          },
+          body: JSON.stringify(form)
+        })
+      } else {
+        // ADD
+        await fetch(api_url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getToken()}`
+          },
+          body: JSON.stringify({
+            ...form,
+            productId: crypto.randomUUID()
+          })
+        })
+      }
+
+      setSelectedProduct(null)
+      fetchProducts()
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  // ================= DELETE =================
+  const deleteProduct = async (id) => {
+    try {
+      await fetch(`${api_url}/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${getToken()}` }
+      })
+      fetchProducts()
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  // ================= UI HELPERS =================
   const typeLabel = (type) => {
     if (type === 1) return 'Crops'
     if (type === 2) return 'Poultry'
@@ -131,13 +194,27 @@ function ProductListings() {
           ))}
         </div>
 
+        {/*FORM (conditionally shown) */}
+        {selectedProduct !== null && (
+          <ProductForm
+            initialData={selectedProduct}
+            onSubmit={handleSubmit}
+            onCancel={() => setSelectedProduct(null)}
+          />
+        )}
+
         {/* TABLE */}
         <div className="products-panel">
           <div className="products-panel-header">
             <span className="products-panel-title">
               ALL PRODUCTS ({filtered.length.toLocaleString()})
             </span>
-            <button className="products-add-btn">Add Product</button>
+            <button
+              className="products-add-btn"
+              onClick={() => setSelectedProduct({})}
+            >
+              Add Product
+            </button>
           </div>
 
           <table className="products-table">
@@ -148,16 +225,21 @@ function ProductListings() {
                 <th className="products-table-head">Quantity</th>
                 <th className="products-table-head">Price</th>
                 <th className="products-table-head">Total Income</th>
+                <th className="products-table-head">Actions</th>
               </tr>
             </thead>
             <tbody>
               {filtered.map((product) => (
-                <tr key={product._id} className="products-table-row">
+                <tr key={product.productId} className="products-table-row">
                   <td className="products-table-cell">{product.productName}</td>
                   <td className="products-table-cell">{typeLabel(product.productType)}</td>
-                  <td className="products-table-cell">{product.quantity}</td>
+                  <td className="products-table-cell">{product.productQuantity}</td>
                   <td className="products-table-cell">₱{product.price?.toFixed(2)}</td>
                   <td className="products-table-cell">₱{product.totalIncome?.toFixed(2)}</td>
+                  <td className="products-table-cell">
+                    <button onClick={() => setSelectedProduct(product)}>Edit</button>
+                    <button onClick={() => deleteProduct(product.productId)}>Delete</button>
+                  </td>
                 </tr>
               ))}
             </tbody>
