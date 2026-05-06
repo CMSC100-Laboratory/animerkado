@@ -40,7 +40,7 @@ const saveProduct = async (req, res) => {
   const newProduct = new Product({
     productId:          `P${Date.now()}`, // auto-generated 
     productName:        req.body.productName,
-    productImage:       req.body.imageUrl,
+    productImage: req.file ? `/uploads/${req.file.filename}` : req.body.imageUrl,
     productDescription: req.body.productDescription,
     productType:        req.body.productType,
     productQuantity:    req.body.productQuantity,
