@@ -287,7 +287,7 @@ function ProductListings() {
               <tr key={p.productId || p._id}>
                 <td>
                   <img
-                    src={p.imageUrl || 'https://via.placeholder.com/50'}
+                    src={p.imageUrl || 'https://placeholder.co/50'}
                     width="50"
                   />
                 </td>

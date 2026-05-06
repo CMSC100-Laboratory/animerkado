@@ -2,8 +2,11 @@ import express from 'express';
 import mongoose from 'mongoose';
 import router from './router.js';
 import cors from "cors";
+import path from "path"
 
 const app = express();
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+
 //middleware: give authorization
 app.use(cors({
   origin: "http://localhost:5173",
