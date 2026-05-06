@@ -11,6 +11,8 @@ const initialForm = {
 
 export default function ProductForm({ initialData, onSubmit, onCancel }) {
   const [form, setForm] = useState(initialForm);
+  const [imageMode, setImageMode] = useState("url"); 
+// "url" or "file"
 
   useEffect(() => {
     if (initialData) {

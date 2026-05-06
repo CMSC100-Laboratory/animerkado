@@ -2,22 +2,44 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/logo.png'
 import '../../styles/admin/ProductListings.css'
-import ProductForm from './Products'
-
-const api_url = "http://localhost:5000/api/products"
 
 function ProductListings() {
   const [products, setProducts] = useState([])
   const [filtered, setFiltered] = useState([])
+
   const [search, setSearch] = useState('')
   const [typeFilter, setTypeFilter] = useState('all')
   const [sort, setSort] = useState('name-az')
 
-  //  Form control
-  const [selectedProduct, setSelectedProduct] = useState(null)
+  const [form, setForm] = useState({
+    productId: '',
+    productName: '',
+    productType: '',
+    price: '',
+    productQuantity: '',
+    productDescription: '',
+    imageUrl: ''
+  })
+
+  const [imageMode, setImageMode] = useState('url') // "url" | "upload"
+  const [imageFile, setImageFile] = useState(null)
 
   const navigate = useNavigate()
+
   const getToken = () => localStorage.getItem('token')
+
+  // ================= FETCH =================
+  const fetchProducts = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/api/products', {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      })
+      const data = await res.json()
+      setProducts(data)
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   useEffect(() => {
     fetchProducts()
@@ -27,20 +49,7 @@ function ProductListings() {
     applyFilters()
   }, [products, search, typeFilter, sort])
 
-  // ================= FETCH =================
-  const fetchProducts = async () => {
-    try {
-      const res = await fetch(api_url, {
-        headers: { Authorization: `Bearer ${getToken()}` }
-      })
-      const data = await res.json()
-      setProducts(data)
-    } catch (err) {
-      console.error('Failed to fetch products:', err)
-    }
-  }
-
-  // ================= FILTER + SORT =================
+  // ================= FILTERS =================
   const applyFilters = () => {
     let result = [...products]
 
@@ -53,68 +62,110 @@ function ProductListings() {
       )
     }
 
-    if (sort === 'name-az') result.sort((a, b) => a.productName?.localeCompare(b.productName))
-    if (sort === 'name-za') result.sort((a, b) => b.productName?.localeCompare(a.productName))
-    if (sort === 'price-asc') result.sort((a, b) => a.price - b.price)
-    if (sort === 'price-desc') result.sort((a, b) => b.price - a.price)
-    if (sort === 'quantity') result.sort((a, b) => b.productQuantity - a.productQuantity)
+    if (sort === 'name-az')
+      result.sort((a, b) => a.productName?.localeCompare(b.productName))
+    if (sort === 'name-za')
+      result.sort((a, b) => b.productName?.localeCompare(a.productName))
+    if (sort === 'price-asc')
+      result.sort((a, b) => a.price - b.price)
+    if (sort === 'price-desc')
+      result.sort((a, b) => b.price - a.price)
+    if (sort === 'quantity')
+      result.sort((a, b) => b.productQuantity - a.productQuantity)
 
     setFiltered(result)
   }
 
-  // ================= SUBMIT (ADD / UPDATE) =================
-  const handleSubmit = async (form) => {
+  // ================= FORM =================
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value })
+  }
+
+  const handleFileChange = (e) => {
+    setImageFile(e.target.files[0])
+  }
+
+  // ================= ADD / UPDATE =================
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
     try {
-      if (form.productId) {
-        // UPDATE
-        await fetch(`${api_url}/${form.productId}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${getToken()}`
-          },
-          body: JSON.stringify(form)
-        })
+      const isEdit = !!form.productId
+
+      let url = isEdit
+        ? `http://localhost:5000/api/products/${form.productId}`
+        : 'http://localhost:5000/api/products'
+
+      let options = {
+        method: isEdit ? 'PUT' : 'POST',
+        headers: {
+          Authorization: `Bearer ${getToken()}`
+        }
+      }
+
+      // ================= IMAGE HANDLING =================
+      if (imageMode === 'upload' && imageFile) {
+        const formData = new FormData()
+
+        formData.append('productName', form.productName)
+        formData.append('productType', form.productType)
+        formData.append('price', form.price)
+        formData.append('productQuantity', form.productQuantity)
+        formData.append('productDescription', form.productDescription)
+        formData.append('image', imageFile)
+
+        options.body = formData
       } else {
-        // ADD
-        await fetch(api_url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${getToken()}`
-          },
-          body: JSON.stringify({
-            ...form,
-            productId: crypto.randomUUID()
-          })
+        options.headers['Content-Type'] = 'application/json'
+        options.body = JSON.stringify({
+          ...form,
+          imageUrl: form.imageUrl
         })
       }
 
-      setSelectedProduct(null)
+      const res = await fetch(url, options)
+      const data = await res.json()
+
+      console.log(data)
+
+      setForm({
+        productId: '',
+        productName: '',
+        productType: '',
+        price: '',
+        productQuantity: '',
+        productDescription: '',
+        imageUrl: ''
+      })
+
+      setImageFile(null)
       fetchProducts()
     } catch (err) {
       console.error(err)
     }
+  }
+
+  // ================= EDIT =================
+  const handleEdit = (p) => {
+    setForm({
+      productId: p.productId || p._id,
+      productName: p.productName,
+      productType: p.productType,
+      price: p.price,
+      productQuantity: p.productQuantity,
+      productDescription: p.productDescription,
+      imageUrl: p.imageUrl || ''
+    })
   }
 
   // ================= DELETE =================
-  const deleteProduct = async (id) => {
-    try {
-      await fetch(`${api_url}/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${getToken()}` }
-      })
-      fetchProducts()
-    } catch (err) {
-      console.error(err)
-    }
-  }
+  const handleDelete = async (id) => {
+    await fetch(`http://localhost:5000/api/products/${id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
 
-  // ================= UI HELPERS =================
-  const typeLabel = (type) => {
-    if (type === 1) return 'Crops'
-    if (type === 2) return 'Poultry'
-    return '—'
+    fetchProducts()
   }
 
   const handleLogout = () => {
@@ -122,18 +173,15 @@ function ProductListings() {
     navigate('/login')
   }
 
-  const sortOptions = [
-    { key: 'name-az', label: 'Name A-Z' },
-    { key: 'name-za', label: 'Name Z-A' },
-    { key: 'price-asc', label: 'Price ↑' },
-    { key: 'price-desc', label: 'Price ↓' },
-    { key: 'quantity', label: 'Quantity' },
-  ]
+  const typeLabel = (type) => {
+    if (type === 1) return 'Crops'
+    if (type === 2) return 'Poultry'
+    return '—'
+  }
 
   return (
     <div className="products-wrapper">
 
-      {/* NAVIGATION BAR */}
       <nav className="products-nav">
         <Link to="/admin/dashboard" className="products-nav-logo">
           <img src={logo} alt="Logo" className="products-nav-logo-img" />
@@ -143,120 +191,121 @@ function ProductListings() {
         </button>
       </nav>
 
-      {/* MAIN CONTENT */}
       <main className="products-main">
         <h1 className="products-heading">LISTED PRODUCTS</h1>
 
-        {/* SEARCH AND TYPE FILTER */}
-        <div className="products-search-row">
+        {/* FORM */}
+        <form onSubmit={handleSubmit}>
+
           <input
-            type="text"
-            className="products-search-input"
-            placeholder="Search products..."
-            value={search}
-            onChange={e => setSearch(e.target.value)}
+            name="productName"
+            value={form.productName}
+            onChange={handleChange}
+            placeholder="Name"
           />
-          <select
-            className="products-type-select"
-            value={typeFilter}
-            onChange={e => setTypeFilter(e.target.value)}
-          >
-            <option value="all">All types</option>
-            <option value="crops">Crops</option>
-            <option value="poultry">Poultry</option>
-          </select>
-        </div>
 
-        {/* SORTING */}
-        <div className="products-sort-row">
-          <span className="products-sort-label">Sort:</span>
-          {sortOptions.map(opt => (
-            <button
-              key={opt.key}
-              className={`products-sort-pill ${sort === opt.key ? 'products-sort-pill--active' : ''}`}
-              onClick={() => setSort(opt.key)}
-            >
-              {opt.label}
-            </button>
-          ))}
-        </div>
-
-        {/* FILTER TABS */}
-        <div className="products-filter-tabs">
-          {['all', 'crops', 'poultry'].map(tab => (
-            <button
-              key={tab}
-              className={`products-filter-tab ${typeFilter === tab ? 'products-filter-tab--active' : ''}`}
-              onClick={() => setTypeFilter(tab)}
-            >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>
-          ))}
-        </div>
-
-        {/*FORM (conditionally shown) */}
-        {selectedProduct !== null && (
-          <ProductForm
-            initialData={selectedProduct}
-            onSubmit={handleSubmit}
-            onCancel={() => setSelectedProduct(null)}
+          <input
+            name="productType"
+            value={form.productType}
+            onChange={handleChange}
+            placeholder="Type"
           />
-        )}
 
-        {/* TABLE */}
-        <div className="products-panel">
-          <div className="products-panel-header">
-            <span className="products-panel-title">
-              ALL PRODUCTS ({filtered.length.toLocaleString()})
-            </span>
-            <button
-              className="products-add-btn"
-              onClick={() => setSelectedProduct({})}
-            >
-              Add Product
-            </button>
+          <input
+            name="price"
+            value={form.price}
+            onChange={handleChange}
+            placeholder="Price"
+          />
+
+          <input
+            name="productQuantity"
+            value={form.productQuantity}
+            onChange={handleChange}
+            placeholder="Quantity"
+          />
+
+          <input
+            name="productDescription"
+            value={form.productDescription}
+            onChange={handleChange}
+            placeholder="Description"
+          />
+
+          {/* IMAGE MODE */}
+          <div>
+            <label>
+              <input
+                type="radio"
+                checked={imageMode === 'url'}
+                onChange={() => setImageMode('url')}
+              />
+              Image URL
+            </label>
+
+            <label>
+              <input
+                type="radio"
+                checked={imageMode === 'upload'}
+                onChange={() => setImageMode('upload')}
+              />
+              Upload File
+            </label>
           </div>
 
-          <table className="products-table">
-            <thead>
-              <tr className="products-table-head-row">
-                <th className="products-table-head">Product Name</th>
-                <th className="products-table-head">Type</th>
-                <th className="products-table-head">Quantity</th>
-                <th className="products-table-head">Price</th>
-                <th className="products-table-head">Total Income</th>
-                <th className="products-table-head">Actions</th>
+          {imageMode === 'url' ? (
+            <input
+              name="imageUrl"
+              value={form.imageUrl}
+              onChange={handleChange}
+              placeholder="Image URL"
+            />
+          ) : (
+            <input type="file" onChange={handleFileChange} />
+          )}
+
+          <button type="submit">
+            {form.productId ? 'Update' : 'Add'}
+          </button>
+        </form>
+
+        {/* TABLE */}
+        <table border="1" cellPadding="10">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Qty</th>
+              <th>Price</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {filtered.map((p) => (
+              <tr key={p.productId || p._id}>
+                <td>
+                  <img
+                    src={p.imageUrl || 'https://via.placeholder.com/50'}
+                    width="50"
+                  />
+                </td>
+                <td>{p.productName}</td>
+                <td>{typeLabel(p.productType)}</td>
+                <td>{p.productQuantity}</td>
+                <td>{p.price}</td>
+                <td>
+                  <button onClick={() => handleEdit(p)}>Edit</button>
+                  <button onClick={() => handleDelete(p.productId || p._id)}>
+                    Delete
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {filtered.map((product) => (
-                <tr key={product.productId} className="products-table-row">
-                  <td className="products-table-cell">{product.productName}</td>
-                  <td className="products-table-cell">{typeLabel(product.productType)}</td>
-                  <td className="products-table-cell">{product.productQuantity}</td>
-                  <td className="products-table-cell">₱{product.price?.toFixed(2)}</td>
-                  <td className="products-table-cell">₱{product.totalIncome?.toFixed(2)}</td>
-                  <td className="products-table-cell">
-                    <button onClick={() => setSelectedProduct(product)}>Edit</button>
-                    <button onClick={() => deleteProduct(product.productId)}>Delete</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </main>
-
-      {/* FOOTER */}
-      <footer className="products-footer">
-        <span className="products-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
-        <div className="products-footer-links">
-          <Link to="/privacy" className="products-footer-link">Privacy</Link>
-          <Link to="/terms" className="products-footer-link">Terms</Link>
-          <Link to="/contact" className="products-footer-link">Contact</Link>
-        </div>
-      </footer>
-
     </div>
   )
 }
