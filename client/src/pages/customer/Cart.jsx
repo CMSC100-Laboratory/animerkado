@@ -2,30 +2,35 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/logo.png'
 import '../../styles/customer/Cart.css'
- 
+
 function Cart() {
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
   const email = localStorage.getItem('email')
- 
+
+  // get /api/cart, fetch cart items for current user
   const fetchCart = () => {
     fetch(`/api/cart?email=${email}`)
       .then(r => r.json())
       .then(data => { setItems(data); setLoading(false) })
       .catch(() => setLoading(false))
   }
- 
+
+  // check login & fetch cart
   useEffect(() => {
     if (!email) { navigate('/login'); return }
     fetchCart()
   }, [email, navigate])
- 
+
+  // delete /api/cart/:id (remove item from cart)
   const handleRemove = async (itemId) => {
     await fetch(`/api/cart/${itemId}`, { method: 'DELETE' })
     fetchCart()
   }
- 
+
+  // post /api/orders (place orders for all cart items)
+  // delete /api/cart/:id (clear cart after checkout)
   const handleCheckout = async () => {
     await Promise.all(
       items.map(item =>
@@ -43,13 +48,14 @@ function Cart() {
     await Promise.all(items.map(item => fetch(`/api/cart/${item._id}`, { method: 'DELETE' })))
     navigate('/order-confirmation')
   }
- 
+
+  // calculate subtotal
   const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0)
- 
+
   return (
     <div className="cart-wrapper">
- 
-      {/* NAVIGATION BAR */}
+
+      {/* navigation bar */}
       <nav className="cart-nav">
         <Link to="/" className="cart-nav-logo">
           <img src={logo} alt="Logo" className="cart-nav-logo-img" />
@@ -62,10 +68,10 @@ function Cart() {
           </button>
         </div>
       </nav>
- 
-      {/* MAIN CONTENT */}
+
+      {/* main content */}
       <main className="cart-main">
- 
+
         {loading ? (
           <div className="cart-empty">Loading...</div>
         ) : items.length === 0 ? (
@@ -75,10 +81,10 @@ function Cart() {
         ) : (
           <>
             <h1 className="cart-title">My Cart <span className="cart-count">({items.length} items)</span></h1>
- 
+
             <div className="cart-layout">
- 
-              {/* ITEMS */}
+
+              {/* items */}
               <div className="cart-items-section">
                 <div className="cart-items-header">
                   <span>Item and Price</span>
@@ -86,7 +92,7 @@ function Cart() {
                   <span>Total Price</span>
                   <span></span>
                 </div>
- 
+
                 {items.map(item => (
                   <div className="cart-row" key={item._id}>
                     <div className="cart-row-info">
@@ -108,8 +114,8 @@ function Cart() {
                   </div>
                 ))}
               </div>
- 
-              {/* ORDER SUMMARY */}
+
+              {/* order summary */}
               <div className="cart-summary">
                 <div className="cart-summary-body">
                   <div className="cart-summary-line">
@@ -125,19 +131,19 @@ function Cart() {
                     <span>₱{subtotal.toFixed(2)}</span>
                   </div>
                 </div>
- 
+
                 <div className="cart-summary-footer">
                   <button className="cart-cancel-btn" onClick={() => navigate('/shop')}>Cancel</button>
                   <button className="cart-checkout-btn" onClick={handleCheckout}>Place Order</button>
                 </div>
               </div>
- 
+
             </div>
           </>
         )}
       </main>
- 
-      {/* FOOTER */}
+
+      {/* footer */}
       <footer className="cart-footer">
         <span className="cart-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
         <div className="cart-footer-links">
@@ -145,9 +151,9 @@ function Cart() {
           <Link to="/terms">Terms</Link>
         </div>
       </footer>
- 
+
     </div>
   )
 }
- 
+
 export default Cart

@@ -6,14 +6,14 @@ function OrderConfirmation() {
   return (
     <div className="oc-wrapper">
 
-      {/* NAVIGATION BAR */}
+      {/* navigation bar */}
       <nav className="oc-nav">
         <Link to="/" className="oc-nav-logo">
           <img src={logo} alt="Logo" className="oc-nav-logo-img" />
         </Link>
       </nav>
 
-      {/* MAIN */}
+      {/* main content */}
       <main className="oc-main">
         <div className="oc-card">
           <div className="oc-icon">/</div>
@@ -29,7 +29,7 @@ function OrderConfirmation() {
         </div>
       </main>
 
-      {/* FOOTER */}
+      {/* footer */}
       <footer className="oc-footer">
         <span className="oc-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
       </footer>

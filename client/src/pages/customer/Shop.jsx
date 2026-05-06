@@ -12,6 +12,7 @@ function Shop() {
   const navigate = useNavigate()
   const email = localStorage.getItem('email')
 
+  // get /api/products, fetch all products
   useEffect(() => {
     fetch('/api/products')
       .then(r => r.json())
@@ -19,6 +20,7 @@ function Shop() {
       .catch(() => setLoading(false))
   }, [])
 
+  // post /api/cart (add product to cart)
   const handleAddToCart = async (product) => {
     if (!email) { navigate('/login'); return }
     await fetch('/api/cart', {
@@ -35,6 +37,7 @@ function Shop() {
     navigate('/cart')
   }
 
+  // filter + sort products
   const filtered = products
     .filter(p => {
       const matchType = filter === 'all' || String(p.productType) === filter
@@ -52,7 +55,7 @@ function Shop() {
   return (
     <div className="shop-wrapper">
 
-      {/* NAVIGATION BAR */}
+      {/* navigation bar */}
       <nav className="shop-nav">
         <Link to="/" className="shop-nav-logo">
           <img src={logo} alt="Logo" className="shop-nav-logo-img" />
@@ -66,10 +69,10 @@ function Shop() {
         </div>
       </nav>
 
-      {/* MAIN CONTENT */}
+      {/* main content */}
       <main className="shop-main">
 
-        {/* SEARCH + SORT + FILTER */}
+        {/* search + sort + filter */}
         <div className="shop-controls">
           <input
             className="shop-search"
@@ -105,7 +108,7 @@ function Shop() {
           </div>
         </div>
 
-        {/* PRODUCT GRID */}
+        {/* product grid */}
         {loading ? (
           <div className="shop-empty">Loading products...</div>
         ) : filtered.length === 0 ? (
@@ -135,7 +138,7 @@ function Shop() {
         )}
       </main>
 
-      {/* FOOTER */}
+      {/* footer */}
       <footer className="shop-footer">
         <span className="shop-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
         <div className="shop-footer-links">
