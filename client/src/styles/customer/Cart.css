@@ -125,6 +125,16 @@
   letter-spacing: 0.05em;
   color: #555;
   background: #f9f9f9;
+  text-align: right;
+}
+
+.cart-items-header span:first-child {
+  text-align: left;
+}
+
+.cart-items-header span:nth-child(2),
+.cart-items-header span:nth-child(3) {
+  text-align: center;
 }
 
 .cart-row {
@@ -178,7 +188,7 @@
 .cart-row-total {
   font-size: 0.85rem;
   font-weight: 700;
-  text-align: right;
+  text-align: center;
 }
 
 .cart-row-actions {
