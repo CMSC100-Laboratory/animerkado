@@ -103,7 +103,6 @@ function Cart() {
                       ₱{(item.price * item.quantity).toFixed(2)}
                     </div>
                     <div className="cart-row-actions">
-                      <button className="cart-row-fav">♡</button>
                       <button className="cart-row-remove" onClick={() => handleRemove(item._id)}>✕</button>
                     </div>
                   </div>
