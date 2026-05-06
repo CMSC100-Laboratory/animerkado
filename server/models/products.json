@@ -1,0 +1,602 @@
+[
+  {
+    "productId": "P1000",
+    "productName": "Sinandomeng Rice",
+    "productDescription": "Premium white rice from Nueva Ecija",
+    "productType": 1,
+    "productQuantity": 194,
+    "price": 66
+  },
+  {
+    "productId": "P1001",
+    "productName": "Dinorado Rice",
+    "productDescription": "Aromatic rice variety from Quirino",
+    "productType": 1,
+    "productQuantity": 216,
+    "price": 70
+  },
+  {
+    "productId": "P1002",
+    "productName": "Red Onion",
+    "productDescription": "Freshly harvested red onions from Baguio",
+    "productType": 1,
+    "productQuantity": 172,
+    "price": 129
+  },
+  {
+    "productId": "P1003",
+    "productName": "White Onion",
+    "productDescription": "Fresh white onions from Nueva Ecija",
+    "productType": 1,
+    "productQuantity": 153,
+    "price": 99
+  },
+  {
+    "productId": "P1004",
+    "productName": "Garlic",
+    "productDescription": "Locally grown garlic from Ilocos Norte",
+    "productType": 1,
+    "productQuantity": 129,
+    "price": 189
+  },
+  {
+    "productId": "P1005",
+    "productName": "Sweet Potato",
+    "productDescription": "Organic camote from Benguet",
+    "productType": 1,
+    "productQuantity": 310,
+    "price": 47
+  },
+  {
+    "productId": "P1006",
+    "productName": "Purple Sweet Potato",
+    "productDescription": "Ube camote from Cordillera",
+    "productType": 1,
+    "productQuantity": 213,
+    "price": 67
+  },
+  {
+    "productId": "P1007",
+    "productName": "Pechay",
+    "productDescription": "Fresh pechay from highland farms",
+    "productType": 1,
+    "productQuantity": 400,
+    "price": 39
+  },
+  {
+    "productId": "P1008",
+    "productName": "Tomato",
+    "productDescription": "Ripe tomatoes from Bukidnon",
+    "productType": 1,
+    "productQuantity": 284,
+    "price": 71
+  },
+  {
+    "productId": "P1009",
+    "productName": "Bitter Melon",
+    "productDescription": "Fresh ampalaya from local farms",
+    "productType": 1,
+    "productQuantity": 182,
+    "price": 56
+  },
+  {
+    "productId": "P1010",
+    "productName": "Kangkong",
+    "productDescription": "Water spinach harvested fresh daily",
+    "productType": 1,
+    "productQuantity": 383,
+    "price": 20
+  },
+  {
+    "productId": "P1011",
+    "productName": "Sitaw",
+    "productDescription": "String beans from Benguet farms",
+    "productType": 1,
+    "productQuantity": 264,
+    "price": 40
+  },
+  {
+    "productId": "P1012",
+    "productName": "Okra",
+    "productDescription": "Fresh okra from Laguna farms",
+    "productType": 1,
+    "productQuantity": 236,
+    "price": 30
+  },
+  {
+    "productId": "P1013",
+    "productName": "Eggplant",
+    "productDescription": "Purple eggplant from Ilocos Sur",
+    "productType": 1,
+    "productQuantity": 310,
+    "price": 36
+  },
+  {
+    "productId": "P1014",
+    "productName": "Squash",
+    "productDescription": "Local kalabasa from Batangas",
+    "productType": 1,
+    "productQuantity": 213,
+    "price": 39
+  },
+  {
+    "productId": "P1015",
+    "productName": "Cabbage",
+    "productDescription": "Highland cabbage from Baguio",
+    "productType": 1,
+    "productQuantity": 244,
+    "price": 41
+  },
+  {
+    "productId": "P1016",
+    "productName": "Cauliflower",
+    "productDescription": "Fresh cauliflower from Benguet",
+    "productType": 1,
+    "productQuantity": 132,
+    "price": 89
+  },
+  {
+    "productId": "P1017",
+    "productName": "Broccoli",
+    "productDescription": "Organic broccoli from Mountain Province",
+    "productType": 1,
+    "productQuantity": 118,
+    "price": 104
+  },
+  {
+    "productId": "P1018",
+    "productName": "Carrot",
+    "productDescription": "Fresh carrots from Benguet",
+    "productType": 1,
+    "productQuantity": 281,
+    "price": 51
+  },
+  {
+    "productId": "P1019",
+    "productName": "Potato",
+    "productDescription": "Local patatas from Benguet",
+    "productType": 1,
+    "productQuantity": 245,
+    "price": 67
+  },
+  {
+    "productId": "P1020",
+    "productName": "Ginger",
+    "productDescription": "Freshly harvested luya from Quezon",
+    "productType": 1,
+    "productQuantity": 143,
+    "price": 85
+  },
+  {
+    "productId": "P1021",
+    "productName": "Turmeric",
+    "productDescription": "Organic dilaw from Davao",
+    "productType": 1,
+    "productQuantity": 152,
+    "price": 110
+  },
+  {
+    "productId": "P1022",
+    "productName": "Lemongrass",
+    "productDescription": "Fresh tanglad from local farms",
+    "productType": 1,
+    "productQuantity": 344,
+    "price": 15
+  },
+  {
+    "productId": "P1023",
+    "productName": "Pandan",
+    "productDescription": "Fresh pandan leaves from Laguna",
+    "productType": 1,
+    "productQuantity": 415,
+    "price": 21
+  },
+  {
+    "productId": "P1024",
+    "productName": "Malunggay",
+    "productDescription": "Moringa leaves from Ilocos farms",
+    "productType": 1,
+    "productQuantity": 353,
+    "price": 24
+  },
+  {
+    "productId": "P1025",
+    "productName": "Saluyot",
+    "productDescription": "Fresh jute leaves from Ilocos Norte",
+    "productType": 1,
+    "productQuantity": 340,
+    "price": 35
+  },
+  {
+    "productId": "P1026",
+    "productName": "Banana (Saba)",
+    "productDescription": "Fresh saba bananas from Davao",
+    "productType": 1,
+    "productQuantity": 262,
+    "price": 45
+  },
+  {
+    "productId": "P1027",
+    "productName": "Banana (Lakatan)",
+    "productDescription": "Sweet lakatan bananas from Mindanao",
+    "productType": 1,
+    "productQuantity": 237,
+    "price": 45
+  },
+  {
+    "productId": "P1028",
+    "productName": "Mango (Carabao)",
+    "productDescription": "Ripe carabao mangoes from Guimaras",
+    "productType": 1,
+    "productQuantity": 174,
+    "price": 80
+  },
+  {
+    "productId": "P1029",
+    "productName": "Papaya",
+    "productDescription": "Fresh papaya from Quezon Province",
+    "productType": 1,
+    "productQuantity": 244,
+    "price": 41
+  },
+  {
+    "productId": "P1030",
+    "productName": "Calamansi",
+    "productDescription": "Fresh calamansi from Batangas",
+    "productType": 1,
+    "productQuantity": 309,
+    "price": 54
+  },
+  {
+    "productId": "P1031",
+    "productName": "Coconut",
+    "productDescription": "Fresh buko from Quezon Province",
+    "productType": 1,
+    "productQuantity": 235,
+    "price": 37
+  },
+  {
+    "productId": "P1032",
+    "productName": "Corn",
+    "productDescription": "Sweet corn from Isabella",
+    "productType": 1,
+    "productQuantity": 430,
+    "price": 24
+  },
+  {
+    "productId": "P1033",
+    "productName": "Cassava",
+    "productDescription": "Fresh kamoteng kahoy from Mindanao",
+    "productType": 1,
+    "productQuantity": 298,
+    "price": 15
+  },
+  {
+    "productId": "P1034",
+    "productName": "Peanut",
+    "productDescription": "Roasted mani from Batac, Ilocos Norte",
+    "productType": 1,
+    "productQuantity": 195,
+    "price": 82
+  },
+  {
+    "productId": "P1035",
+    "productName": "Mongo Beans",
+    "productDescription": "Dried monggo from Nueva Ecija",
+    "productType": 1,
+    "productQuantity": 210,
+    "price": 57
+  },
+  {
+    "productId": "P1036",
+    "productName": "Red Kidney Beans",
+    "productDescription": "Dried red beans from Benguet",
+    "productType": 1,
+    "productQuantity": 145,
+    "price": 83
+  },
+  {
+    "productId": "P1037",
+    "productName": "Black Pepper",
+    "productDescription": "Dried paminta from Samar",
+    "productType": 1,
+    "productQuantity": 143,
+    "price": 123
+  },
+  {
+    "productId": "P1038",
+    "productName": "Chili (Siling Labuyo)",
+    "productDescription": "Fresh hot chili from Bicol",
+    "productType": 1,
+    "productQuantity": 190,
+    "price": 70
+  },
+  {
+    "productId": "P1039",
+    "productName": "Bell Pepper",
+    "productDescription": "Colorful bell peppers from Benguet",
+    "productType": 1,
+    "productQuantity": 198,
+    "price": 99
+  },
+  {
+    "productId": "P1040",
+    "productName": "Lettuce",
+    "productDescription": "Fresh lettuce from Benguet",
+    "productType": 1,
+    "productQuantity": 205,
+    "price": 52
+  },
+  {
+    "productId": "P1041",
+    "productName": "Spinach",
+    "productDescription": "Fresh spinach from Mountain Province",
+    "productType": 1,
+    "productQuantity": 228,
+    "price": 48
+  },
+  {
+    "productId": "P1042",
+    "productName": "Spring Onion",
+    "productDescription": "Fresh sibuyas dahon from local farms",
+    "productType": 1,
+    "productQuantity": 348,
+    "price": 23
+  },
+  {
+    "productId": "P1043",
+    "productName": "Celery",
+    "productDescription": "Fresh kintsay from Benguet",
+    "productType": 1,
+    "productQuantity": 274,
+    "price": 35
+  },
+  {
+    "productId": "P1044",
+    "productName": "Radish",
+    "productDescription": "Fresh labanos from Benguet",
+    "productType": 1,
+    "productQuantity": 246,
+    "price": 37
+  },
+  {
+    "productId": "P1045",
+    "productName": "Cucumber",
+    "productDescription": "Fresh pipino from Nueva Ecija",
+    "productType": 1,
+    "productQuantity": 257,
+    "price": 47
+  },
+  {
+    "productId": "P1046",
+    "productName": "Watermelon",
+    "productDescription": "Sweet watermelon from Pangasinan",
+    "productType": 1,
+    "productQuantity": 124,
+    "price": 38
+  },
+  {
+    "productId": "P1047",
+    "productName": "Jackfruit",
+    "productDescription": "Fresh langka from Mindanao",
+    "productType": 1,
+    "productQuantity": 183,
+    "price": 36
+  },
+  {
+    "productId": "P1048",
+    "productName": "Taro",
+    "productDescription": "Fresh gabi from Leyte",
+    "productType": 1,
+    "productQuantity": 204,
+    "price": 33
+  },
+  {
+    "productId": "P1049",
+    "productName": "Lotus Root",
+    "productDescription": "Fresh lotus root from Pampanga",
+    "productType": 1,
+    "productQuantity": 120,
+    "price": 57
+  },
+  {
+    "productId": "P2000",
+    "productName": "Native Chicken (Whole)",
+    "productDescription": "Free-range native chicken from Batangas",
+    "productType": 2,
+    "productQuantity": 128,
+    "price": 328
+  },
+  {
+    "productId": "P2001",
+    "productName": "Dressed Broiler Chicken",
+    "productDescription": "Freshly dressed broiler chicken",
+    "productType": 2,
+    "productQuantity": 141,
+    "price": 182
+  },
+  {
+    "productId": "P2002",
+    "productName": "Chicken Breast",
+    "productDescription": "Boneless chicken breast from local farms",
+    "productType": 2,
+    "productQuantity": 207,
+    "price": 202
+  },
+  {
+    "productId": "P2003",
+    "productName": "Chicken Thigh",
+    "productDescription": "Fresh chicken thigh cuts",
+    "productType": 2,
+    "productQuantity": 212,
+    "price": 164
+  },
+  {
+    "productId": "P2004",
+    "productName": "Chicken Wings",
+    "productDescription": "Fresh chicken wings from local farms",
+    "productType": 2,
+    "productQuantity": 252,
+    "price": 151
+  },
+  {
+    "productId": "P2005",
+    "productName": "Chicken Liver",
+    "productDescription": "Fresh chicken liver from Bulacan farms",
+    "productType": 2,
+    "productQuantity": 221,
+    "price": 77
+  },
+  {
+    "productId": "P2006",
+    "productName": "Chicken Gizzard",
+    "productDescription": "Fresh chicken gizzard",
+    "productType": 2,
+    "productQuantity": 199,
+    "price": 71
+  },
+  {
+    "productId": "P2007",
+    "productName": "Chicken Feet",
+    "productDescription": "Fresh adidas from local farms",
+    "productType": 2,
+    "productQuantity": 291,
+    "price": 69
+  },
+  {
+    "productId": "P2008",
+    "productName": "Chicken Eggs (Tray)",
+    "productDescription": "Farm fresh eggs, tray of 30",
+    "productType": 2,
+    "productQuantity": 167,
+    "price": 177
+  },
+  {
+    "productId": "P2009",
+    "productName": "Chicken Eggs (Piece)",
+    "productDescription": "Farm fresh eggs from free-range hens",
+    "productType": 2,
+    "productQuantity": 494,
+    "price": 5
+  },
+  {
+    "productId": "P2010",
+    "productName": "Duck (Whole)",
+    "productDescription": "Fresh Muscovy duck from Pateros",
+    "productType": 2,
+    "productQuantity": 96,
+    "price": 380
+  },
+  {
+    "productId": "P2011",
+    "productName": "Duck Eggs",
+    "productDescription": "Fresh itlog ng pato from Pateros",
+    "productType": 2,
+    "productQuantity": 408,
+    "price": 7
+  },
+  {
+    "productId": "P2012",
+    "productName": "Balut",
+    "productDescription": "18-day old balut from Pateros",
+    "productType": 2,
+    "productQuantity": 316,
+    "price": 29
+  },
+  {
+    "productId": "P2013",
+    "productName": "Penoy",
+    "productDescription": "Fresh penoy from Pateros",
+    "productType": 2,
+    "productQuantity": 330,
+    "price": 18
+  },
+  {
+    "productId": "P2014",
+    "productName": "Quail (Whole)",
+    "productDescription": "Fresh dressed quail from Batangas",
+    "productType": 2,
+    "productQuantity": 174,
+    "price": 87
+  },
+  {
+    "productId": "P2015",
+    "productName": "Quail Eggs (Piece)",
+    "productDescription": "Fresh pugo eggs from local farms",
+    "productType": 2,
+    "productQuantity": 618,
+    "price": 3
+  },
+  {
+    "productId": "P2016",
+    "productName": "Quail Eggs (Tray)",
+    "productDescription": "Fresh quail eggs, tray of 36",
+    "productType": 2,
+    "productQuantity": 218,
+    "price": 170
+  },
+  {
+    "productId": "P2017",
+    "productName": "Turkey (Whole)",
+    "productDescription": "Fresh dressed turkey from Laguna",
+    "productType": 2,
+    "productQuantity": 73,
+    "price": 845
+  },
+  {
+    "productId": "P2018",
+    "productName": "Goose Eggs",
+    "productDescription": "Fresh goose eggs from Pampanga",
+    "productType": 2,
+    "productQuantity": 162,
+    "price": 28
+  },
+  {
+    "productId": "P2019",
+    "productName": "Free-Range Chicken (Whole)",
+    "productDescription": "Organically raised free-range chicken",
+    "productType": 2,
+    "productQuantity": 104,
+    "price": 282
+  },
+  {
+    "productId": "P2020",
+    "productName": "Chicken Hotdog",
+    "productDescription": "All-natural chicken hotdog from local farms",
+    "productType": 2,
+    "productQuantity": 212,
+    "price": 115
+  },
+  {
+    "productId": "P2021",
+    "productName": "Chicken Longganisa",
+    "productDescription": "Homemade chicken longganisa from Batangas",
+    "productType": 2,
+    "productQuantity": 208,
+    "price": 132
+  },
+  {
+    "productId": "P2022",
+    "productName": "Duck Liver",
+    "productDescription": "Fresh duck liver from Pateros",
+    "productType": 2,
+    "productQuantity": 143,
+    "price": 89
+  },
+  {
+    "productId": "P2023",
+    "productName": "Smoked Duck",
+    "productDescription": "Traditionally smoked duck from Laguna",
+    "productType": 2,
+    "productQuantity": 80,
+    "price": 428
+  },
+  {
+    "productId": "P2024",
+    "productName": "Itik (Native Duck)",
+    "productDescription": "Free-range native duck from Mindanao",
+    "productType": 2,
+    "productQuantity": 76,
+    "price": 355
+  }
+]
