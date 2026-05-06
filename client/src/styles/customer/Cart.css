@@ -27,7 +27,7 @@
 }
 
 .cart-nav-logo-img {
-  height: 36px;
+  height: 60px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -215,30 +215,6 @@
   flex-direction: column;
   position: sticky;
   top: 72px;
-}
-
-/* promo code */
-.cart-promo-row {
-  padding: 12px 14px;
-  border-bottom: 1px solid #ccc;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.cart-promo-input {
-  width: 100%;
-  padding: 7px 10px;
-  border: 1px solid #ccc;
-  font-size: 0.8rem;
-  font-family: inherit;
-  outline: none;
-  box-sizing: border-box;
-}
-
-.cart-promo-note {
-  font-size: 0.7rem;
-  color: #888;
 }
 
 /* summary lines */

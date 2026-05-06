@@ -2,31 +2,30 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/logo.png'
 import '../../styles/customer/Cart.css'
-
+ 
 function Cart() {
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
-  const [promo, setPromo] = useState('')
   const navigate = useNavigate()
   const email = localStorage.getItem('email')
-
+ 
   const fetchCart = () => {
     fetch(`/api/cart?email=${email}`)
       .then(r => r.json())
       .then(data => { setItems(data); setLoading(false) })
       .catch(() => setLoading(false))
   }
-
+ 
   useEffect(() => {
     if (!email) { navigate('/login'); return }
     fetchCart()
   }, [email, navigate])
-
+ 
   const handleRemove = async (itemId) => {
     await fetch(`/api/cart/${itemId}`, { method: 'DELETE' })
     fetchCart()
   }
-
+ 
   const handleCheckout = async () => {
     await Promise.all(
       items.map(item =>
@@ -44,12 +43,12 @@ function Cart() {
     await Promise.all(items.map(item => fetch(`/api/cart/${item._id}`, { method: 'DELETE' })))
     navigate('/order-confirmation')
   }
-
+ 
   const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0)
-
+ 
   return (
     <div className="cart-wrapper">
-
+ 
       {/* NAVIGATION BAR */}
       <nav className="cart-nav">
         <Link to="/" className="cart-nav-logo">
@@ -63,10 +62,10 @@ function Cart() {
           </button>
         </div>
       </nav>
-
+ 
       {/* MAIN CONTENT */}
       <main className="cart-main">
-
+ 
         {loading ? (
           <div className="cart-empty">Loading...</div>
         ) : items.length === 0 ? (
@@ -76,9 +75,9 @@ function Cart() {
         ) : (
           <>
             <h1 className="cart-title">My Cart <span className="cart-count">({items.length} items)</span></h1>
-
+ 
             <div className="cart-layout">
-
+ 
               {/* ITEMS */}
               <div className="cart-items-section">
                 <div className="cart-items-header">
@@ -87,7 +86,7 @@ function Cart() {
                   <span>Total Price</span>
                   <span></span>
                 </div>
-
+ 
                 {items.map(item => (
                   <div className="cart-row" key={item._id}>
                     <div className="cart-row-info">
@@ -110,27 +109,13 @@ function Cart() {
                   </div>
                 ))}
               </div>
-
+ 
               {/* ORDER SUMMARY */}
               <div className="cart-summary">
-                <div className="cart-promo-row">
-                  <input
-                    className="cart-promo-input"
-                    placeholder="Promo Code"
-                    value={promo}
-                    onChange={e => setPromo(e.target.value)}
-                  />
-                  <span className="cart-promo-note">Coupon? Save your 5% discount.</span>
-                </div>
-
                 <div className="cart-summary-body">
                   <div className="cart-summary-line">
                     <span>Subtotal</span>
                     <span>₱{subtotal.toFixed(2)}</span>
-                  </div>
-                  <div className="cart-summary-line">
-                    <span>Discount</span>
-                    <span>₱0.00</span>
                   </div>
                   <div className="cart-summary-line">
                     <span>Cash on Delivery</span>
@@ -141,18 +126,18 @@ function Cart() {
                     <span>₱{subtotal.toFixed(2)}</span>
                   </div>
                 </div>
-
+ 
                 <div className="cart-summary-footer">
                   <button className="cart-cancel-btn" onClick={() => navigate('/shop')}>Cancel</button>
                   <button className="cart-checkout-btn" onClick={handleCheckout}>Place Order</button>
                 </div>
               </div>
-
+ 
             </div>
           </>
         )}
       </main>
-
+ 
       {/* FOOTER */}
       <footer className="cart-footer">
         <span className="cart-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
@@ -161,9 +146,9 @@ function Cart() {
           <Link to="/terms">Terms</Link>
         </div>
       </footer>
-
+ 
     </div>
   )
 }
-
+ 
 export default Cart
