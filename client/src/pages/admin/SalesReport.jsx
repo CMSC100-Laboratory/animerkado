@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { Bar, Line } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
@@ -11,6 +12,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js'
+import logo from '../../assets/logo.png'
 import { authHeaders } from '../../utils/auth.js'
 import '../../styles/admin/SalesReport.css'
 
@@ -26,58 +28,38 @@ ChartJS.register(
 )
 
 function SalesReport() {
-  const [filter, setFilter] = useState('weekly')
-  const [report, setReport] = useState([])
-  const [totalSales, setTotalSales] = useState(0)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [weekly, setWeekly] = useState({ report: [], totalSales: 0, loading: false, error: '' })
+  const [monthly, setMonthly] = useState({ report: [], totalSales: 0, loading: false, error: '' })
+  const [annual, setAnnual] = useState({ report: [], totalSales: 0, loading: false, error: '' })
+  const navigate = useNavigate()
 
-  const fetchSales = async (selectedFilter) => {
-    setLoading(true)
-    setError('')
+  useEffect(() => {
+    fetchSales('weekly', setWeekly)
+    fetchSales('monthly', setMonthly)
+    fetchSales('annual', setAnnual)
+  }, [])
+
+  const fetchSales = async (filter, setter) => {
+    setter(prev => ({ ...prev, loading: true, error: '' }))
     try {
-      const res = await fetch(`/api/orders/sales?filter=${selectedFilter}`, {
+      const res = await fetch(`/api/orders/sales?filter=${filter}`, {
         headers: authHeaders()
       })
       const data = await res.json()
-      setReport(data.report || [])
-      setTotalSales(data.totalSales || 0)
+      setter({
+        report: data.report || [],
+        totalSales: data.totalSales || 0,
+        loading: false,
+        error: ''
+      })
     } catch (err) {
-      setError('Failed to fetch sales data.')
-    } finally {
-      setLoading(false)
+      setter(prev => ({ ...prev, loading: false, error: 'Failed to fetch sales data.' }))
     }
   }
 
-  useEffect(() => {
-    fetchSales(filter)
-  }, [filter])
-
-  const barData = {
-    labels: report.map(item => item._id),
-    datasets: [
-      {
-        label: 'Revenue (₱)',
-        data: report.map(item => item.totalRevenue),
-        backgroundColor: 'rgba(34, 139, 34, 0.6)',
-        borderColor: 'rgba(34, 139, 34, 1)',
-        borderWidth: 1
-      }
-    ]
-  }
-
-  const lineData = {
-    labels: report.map(item => item._id),
-    datasets: [
-      {
-        label: 'Quantity Sold',
-        data: report.map(item => item.totalQuantity),
-        fill: false,
-        borderColor: 'rgba(255, 165, 0, 1)',
-        backgroundColor: 'rgba(255, 165, 0, 0.4)',
-        tension: 0.3
-      }
-    ]
+  const handleLogout = () => {
+    localStorage.clear()
+    navigate('/login')
   }
 
   const chartOptions = {
@@ -88,67 +70,127 @@ function SalesReport() {
     }
   }
 
-  return (
-    <div className="sales-wrapper">
-      <h2 className="sales-title">Sales Report</h2>
+  const buildBarData = (report) => ({
+    labels: report.map(item => item._id),
+    datasets: [
+      {
+        label: 'Revenue (₱)',
+        data: report.map(item => item.totalRevenue),
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        borderColor: '#000',
+        borderWidth: 1
+      }
+    ]
+  })
 
-      {/* filter toggle */}
-      <div className="sales-filters">
-        {['weekly', 'monthly', 'annual'].map(f => (
-          <button
-            key={f}
-            onClick={() => setFilter(f)}
-            className={`sales-filter-btn ${filter === f ? 'active' : ''}`}
-          >
-            {f}
-          </button>
-        ))}
+  const buildLineData = (report) => ({
+    labels: report.map(item => item._id),
+    datasets: [
+      {
+        label: 'Quantity Sold',
+        data: report.map(item => item.totalQuantity),
+        fill: false,
+        borderColor: '#000',
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        tension: 0.3
+      }
+    ]
+  })
+
+  const SalesPanel = ({ title, state }) => (
+    <div className="sales-panel">
+
+      {/* PANEL HEADER */}
+      <div className="sales-panel-header">
+        <span className="sales-panel-title">{title}</span>
+        <span className="sales-panel-total">
+          TOTAL: ₱{state.totalSales.toLocaleString()}
+        </span>
       </div>
 
-      {/* total sales */}
-      <div className="sales-total">
-        Total Sales: ₱{totalSales.toLocaleString()}
-      </div>
-
-      {loading && <p className="sales-status">Loading...</p>}
-      {error && <p className="sales-status sales-error">{error}</p>}
-      {!loading && report.length === 0 && (
+      {/* STATUS */}
+      {state.loading && <p className="sales-status">Loading...</p>}
+      {state.error && <p className="sales-status sales-error">{state.error}</p>}
+      {!state.loading && !state.error && state.report.length === 0 && (
         <p className="sales-status">No sales data for this period.</p>
       )}
 
-      {!loading && report.length > 0 && (
+      {/* CHARTS AND TABLE */}
+      {!state.loading && state.report.length > 0 && (
         <>
-          <div className="sales-chart">
-            <h3>Revenue per Product</h3>
-            <Bar data={barData} options={chartOptions} />
+          <div className="sales-charts-row">
+            <div className="sales-chart">
+              <h3 className="sales-chart-title">Revenue per Product</h3>
+              <Bar data={buildBarData(state.report)} options={chartOptions} />
+            </div>
+            <div className="sales-chart">
+              <h3 className="sales-chart-title">Quantity Sold per Product</h3>
+              <Line data={buildLineData(state.report)} options={chartOptions} />
+            </div>
           </div>
 
-          <div className="sales-chart">
-            <h3>Quantity Sold per Product</h3>
-            <Line data={lineData} options={chartOptions} />
-          </div>
-
-          <h3 className="sales-table-title">Summary</h3>
           <table className="sales-table">
             <thead>
-              <tr>
-                <th>Product Name</th>
-                <th>Quantity Sold</th>
-                <th>Revenue</th>
+              <tr className="sales-table-head-row">
+                <th className="sales-table-head">Product Name</th>
+                <th className="sales-table-head">Quantity Sold</th>
+                <th className="sales-table-head">Revenue</th>
               </tr>
             </thead>
             <tbody>
-              {report.map((item, index) => (
-                <tr key={index}>
-                  <td>{item._id}</td>
-                  <td>{item.totalQuantity}</td>
-                  <td>₱{item.totalRevenue.toLocaleString()}</td>
+              {state.report.map((item, index) => (
+                <tr key={index} className="sales-table-row">
+                  <td className="sales-table-cell">{item._id}</td>
+                  <td className="sales-table-cell">{item.totalQuantity}</td>
+                  <td className="sales-table-cell">₱{item.totalRevenue.toLocaleString()}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </>
       )}
+
+    </div>
+  )
+
+  return (
+    <div className="sales-wrapper">
+
+      {/* NAVIGATION BAR */}
+      <nav className="sales-nav">
+        <Link to="/admin/dashboard" className="sales-nav-logo">
+          <img src={logo} alt="Logo" className="sales-nav-logo-img" />
+        </Link>
+        <button className="sales-logout-btn" onClick={handleLogout}>
+          Log Out
+        </button>
+      </nav>
+
+      {/* MAIN CONTENT */}
+      <main className="sales-main">
+        <h1 className="sales-heading">SALES REPORT</h1>
+
+        {/* WEEKLY AND MONTHLY ROW */}
+        <div className="sales-top-row">
+          <SalesPanel title="WEEKLY SALES" state={weekly} />
+          <SalesPanel title="MONTHLY SALES" state={monthly} />
+        </div>
+
+        {/* ANNUAL FULL WIDTH */}
+        <SalesPanel title="ANNUAL SALES" state={annual} />
+
+      </main>
+
+      {/* FOOTER */}
+      <footer className="sales-footer">
+        <span className="sales-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
+        <div className="sales-footer-links">
+          <Link to="/privacy" className="sales-footer-link">Privacy</Link>
+          <Link to="/terms" className="sales-footer-link">Terms</Link>
+          <Link to="/contact" className="sales-footer-link">Contact</Link>
+        </div>
+      </footer>
+
     </div>
   )
 }
