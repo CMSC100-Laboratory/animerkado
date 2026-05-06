@@ -6,10 +6,10 @@ import '../../styles/customer/Cart.css'
 function Cart() {
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
-  const [promo, setPromo] = useState('')
   const navigate = useNavigate()
   const email = localStorage.getItem('email')
 
+  // get /api/cart, fetch cart items for current user
   const fetchCart = () => {
     fetch(`/api/cart?email=${email}`)
       .then(r => r.json())
@@ -17,16 +17,20 @@ function Cart() {
       .catch(() => setLoading(false))
   }
 
+  // check login & fetch cart
   useEffect(() => {
     if (!email) { navigate('/login'); return }
     fetchCart()
   }, [email, navigate])
 
+  // delete /api/cart/:id (remove item from cart)
   const handleRemove = async (itemId) => {
     await fetch(`/api/cart/${itemId}`, { method: 'DELETE' })
     fetchCart()
   }
 
+  // post /api/orders (place orders for all cart items)
+  // delete /api/cart/:id (clear cart after checkout)
   const handleCheckout = async () => {
     await Promise.all(
       items.map(item =>
@@ -45,12 +49,13 @@ function Cart() {
     navigate('/order-confirmation')
   }
 
+  // calculate subtotal
   const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0)
 
   return (
     <div className="cart-wrapper">
 
-      {/* NAVIGATION BAR */}
+      {/* navigation bar */}
       <nav className="cart-nav">
         <Link to="/" className="cart-nav-logo">
           <img src={logo} alt="Logo" className="cart-nav-logo-img" />
@@ -64,7 +69,7 @@ function Cart() {
         </div>
       </nav>
 
-      {/* MAIN CONTENT */}
+      {/* main content */}
       <main className="cart-main">
 
         {loading ? (
@@ -79,7 +84,7 @@ function Cart() {
 
             <div className="cart-layout">
 
-              {/* ITEMS */}
+              {/* items */}
               <div className="cart-items-section">
                 <div className="cart-items-header">
                   <span>Item and Price</span>
@@ -104,33 +109,18 @@ function Cart() {
                       ₱{(item.price * item.quantity).toFixed(2)}
                     </div>
                     <div className="cart-row-actions">
-                      <button className="cart-row-fav">♡</button>
                       <button className="cart-row-remove" onClick={() => handleRemove(item._id)}>✕</button>
                     </div>
                   </div>
                 ))}
               </div>
 
-              {/* ORDER SUMMARY */}
+              {/* order summary */}
               <div className="cart-summary">
-                <div className="cart-promo-row">
-                  <input
-                    className="cart-promo-input"
-                    placeholder="Promo Code"
-                    value={promo}
-                    onChange={e => setPromo(e.target.value)}
-                  />
-                  <span className="cart-promo-note">Coupon? Save your 5% discount.</span>
-                </div>
-
                 <div className="cart-summary-body">
                   <div className="cart-summary-line">
                     <span>Subtotal</span>
                     <span>₱{subtotal.toFixed(2)}</span>
-                  </div>
-                  <div className="cart-summary-line">
-                    <span>Discount</span>
-                    <span>₱0.00</span>
                   </div>
                   <div className="cart-summary-line">
                     <span>Cash on Delivery</span>
@@ -153,7 +143,7 @@ function Cart() {
         )}
       </main>
 
-      {/* FOOTER */}
+      {/* footer */}
       <footer className="cart-footer">
         <span className="cart-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
         <div className="cart-footer-links">

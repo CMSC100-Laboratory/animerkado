@@ -27,7 +27,7 @@
 }
 
 .cart-nav-logo-img {
-  height: 36px;
+  height: 60px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -125,6 +125,16 @@
   letter-spacing: 0.05em;
   color: #555;
   background: #f9f9f9;
+  text-align: right;
+}
+
+.cart-items-header span:first-child {
+  text-align: left;
+}
+
+.cart-items-header span:nth-child(2),
+.cart-items-header span:nth-child(3) {
+  text-align: center;
 }
 
 .cart-row {
@@ -178,7 +188,7 @@
 .cart-row-total {
   font-size: 0.85rem;
   font-weight: 700;
-  text-align: right;
+  text-align: center;
 }
 
 .cart-row-actions {
@@ -215,30 +225,6 @@
   flex-direction: column;
   position: sticky;
   top: 72px;
-}
-
-/* promo code */
-.cart-promo-row {
-  padding: 12px 14px;
-  border-bottom: 1px solid #ccc;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.cart-promo-input {
-  width: 100%;
-  padding: 7px 10px;
-  border: 1px solid #ccc;
-  font-size: 0.8rem;
-  font-family: inherit;
-  outline: none;
-  box-sizing: border-box;
-}
-
-.cart-promo-note {
-  font-size: 0.7rem;
-  color: #888;
 }
 
 /* summary lines */
