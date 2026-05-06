@@ -1,7 +1,3 @@
-// NOTE: OrderConfirmation has NO backend logic — it is a pure success screen.
-// It is shown after Cart.jsx successfully POSTs orders and clears the cart.
-// No fetch calls needed here.
-
 import { Link } from 'react-router-dom'
 import logo from '../../assets/logo.png'
 import '../../styles/customer/OrderConfirmation.css'
