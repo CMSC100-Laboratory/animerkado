@@ -1,4 +1,3 @@
-// src/pages/admin/ProductForm.jsx
 import { useState, useEffect } from "react";
 
 const initialForm = {
