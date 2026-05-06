@@ -1,0 +1,318 @@
+[
+  {
+    "firstName": "Elena",
+    "lastName": "Ocampo",
+    "userType": "customer",
+    "email": "elena.ocampo_0@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW"
+  },
+  {
+    "firstName": "Teresa",
+    "lastName": "Perez",
+    "userType": "customer",
+    "email": "teresa.perez_1@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "R."
+  },
+  {
+    "firstName": "Alfredo",
+    "lastName": "Ocampo",
+    "userType": "customer",
+    "email": "alfredo.ocampo_2@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "M."
+  },
+  {
+    "firstName": "Ariel",
+    "lastName": "Castillo",
+    "userType": "customer",
+    "email": "ariel.castillo_3@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "L."
+  },
+  {
+    "firstName": "Danilo",
+    "lastName": "Castillo",
+    "userType": "customer",
+    "email": "danilo.castillo_4@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "M."
+  },
+  {
+    "firstName": "Juan",
+    "lastName": "Go",
+    "userType": "customer",
+    "email": "juan.go_5@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "B."
+  },
+  {
+    "firstName": "Precious",
+    "lastName": "Rivera",
+    "userType": "customer",
+    "email": "precious.rivera_6@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "T."
+  },
+  {
+    "firstName": "Lourdes",
+    "lastName": "Ramos",
+    "userType": "customer",
+    "email": "lourdes.ramos_7@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "S."
+  },
+  {
+    "firstName": "Precious",
+    "lastName": "Navarro",
+    "userType": "customer",
+    "email": "precious.navarro_8@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "R."
+  },
+  {
+    "firstName": "Juan",
+    "lastName": "Santos",
+    "userType": "customer",
+    "email": "juan.santos_9@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "P."
+  },
+  {
+    "firstName": "Rodel",
+    "lastName": "Bautista",
+    "userType": "customer",
+    "email": "rodel.bautista_10@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "E."
+  },
+  {
+    "firstName": "Ramon",
+    "lastName": "Cruz",
+    "userType": "customer",
+    "email": "ramon.cruz_11@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "D."
+  },
+  {
+    "firstName": "Jose",
+    "lastName": "Hernandez",
+    "userType": "customer",
+    "email": "jose.hernandez_12@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "D."
+  },
+  {
+    "firstName": "Alfredo",
+    "lastName": "Robles",
+    "userType": "customer",
+    "email": "alfredo.robles_13@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW"
+  },
+  {
+    "firstName": "Remedios",
+    "lastName": "Tan",
+    "userType": "customer",
+    "email": "remedios.tan_14@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "F."
+  },
+  {
+    "firstName": "Antonio",
+    "lastName": "Dela Cruz",
+    "userType": "customer",
+    "email": "antonio.delacruz_15@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "M."
+  },
+  {
+    "firstName": "Antonio",
+    "lastName": "Ocampo",
+    "userType": "customer",
+    "email": "antonio.ocampo_16@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "P."
+  },
+  {
+    "firstName": "Sunshine",
+    "lastName": "Castillo",
+    "userType": "customer",
+    "email": "sunshine.castillo_17@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "M."
+  },
+  {
+    "firstName": "Luz",
+    "lastName": "Rivera",
+    "userType": "customer",
+    "email": "luz.rivera_18@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "E."
+  },
+  {
+    "firstName": "Teresa",
+    "lastName": "Concepcion",
+    "userType": "customer",
+    "email": "teresa.concepcion_19@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "C."
+  },
+  {
+    "firstName": "Carmen",
+    "lastName": "Hernandez",
+    "userType": "customer",
+    "email": "carmen.hernandez_20@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "L."
+  },
+  {
+    "firstName": "Juan",
+    "lastName": "Reyes",
+    "userType": "customer",
+    "email": "juan.reyes_21@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "F."
+  },
+  {
+    "firstName": "Sunshine",
+    "lastName": "Rivera",
+    "userType": "customer",
+    "email": "sunshine.rivera_22@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "M."
+  },
+  {
+    "firstName": "Felicia",
+    "lastName": "Tan",
+    "userType": "customer",
+    "email": "felicia.tan_23@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "S."
+  },
+  {
+    "firstName": "Sheila",
+    "lastName": "Soriano",
+    "userType": "customer",
+    "email": "sheila.soriano_24@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "E."
+  },
+  {
+    "firstName": "Ramon",
+    "lastName": "Mendoza",
+    "userType": "customer",
+    "email": "ramon.mendoza_25@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "P."
+  },
+  {
+    "firstName": "Ariel",
+    "lastName": "Pascual",
+    "userType": "customer",
+    "email": "ariel.pascual_26@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "L."
+  },
+  {
+    "firstName": "Luz",
+    "lastName": "Pascual",
+    "userType": "customer",
+    "email": "luz.pascual_27@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "D."
+  },
+  {
+    "firstName": "Maria",
+    "lastName": "Ocampo",
+    "userType": "customer",
+    "email": "maria.ocampo_28@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "H."
+  },
+  {
+    "firstName": "Maria",
+    "lastName": "Hernandez",
+    "userType": "customer",
+    "email": "maria.hernandez_29@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW"
+  },
+  {
+    "firstName": "Andres",
+    "lastName": "Garcia",
+    "userType": "customer",
+    "email": "andres.garcia_30@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "C."
+  },
+  {
+    "firstName": "Elena",
+    "lastName": "Dela Cruz",
+    "userType": "customer",
+    "email": "elena.delacruz_31@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "D."
+  },
+  {
+    "firstName": "Eduardo",
+    "lastName": "Gonzales",
+    "userType": "customer",
+    "email": "eduardo.gonzales_32@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "M."
+  },
+  {
+    "firstName": "Carmen",
+    "lastName": "Flores",
+    "userType": "customer",
+    "email": "carmen.flores_33@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "B."
+  },
+  {
+    "firstName": "Kristine",
+    "lastName": "Mendoza",
+    "userType": "customer",
+    "email": "kristine.mendoza_34@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "H."
+  },
+  {
+    "firstName": "Roberto",
+    "lastName": "Castillo",
+    "userType": "customer",
+    "email": "roberto.castillo_35@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "T."
+  },
+  {
+    "firstName": "Danilo",
+    "lastName": "Gonzales",
+    "userType": "customer",
+    "email": "danilo.gonzales_36@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW"
+  },
+  {
+    "firstName": "Jasmine",
+    "lastName": "Reyes",
+    "userType": "customer",
+    "email": "jasmine.reyes_37@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "G."
+  },
+  {
+    "firstName": "Roberto",
+    "lastName": "Magno",
+    "userType": "customer",
+    "email": "roberto.magno_38@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "D."
+  },
+  {
+    "firstName": "Fernando",
+    "lastName": "Dela Cruz",
+    "userType": "customer",
+    "email": "fernando.delacruz_39@gmail.com",
+    "password": "$2b$12$NMg2SdwdbHKYBU01HbsJD.UQS5OK7pc8n6CIChCvYNez7uEQYmYWW",
+    "middleName": "F."
+  }
+]

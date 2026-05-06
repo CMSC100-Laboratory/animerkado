@@ -1,0 +1,169 @@
+/* PAGE */
+.register-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* NAVIGATION BAR */
+.register-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.register-nav-logo {
+    display: flex;
+    align-items: center;
+}
+
+.register-nav-logo-img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    max-width: 100%;
+}
+
+.register-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.register-nav-text {
+    font-size: 0.875rem;
+    color: #000;
+}
+
+.register-nav-btn {
+    padding: 6px 18px;
+    font-family: 'Inter', sans-serif;
+    text-decoration: none;
+    border: 1px solid #000;
+    background-color: #000;
+    color: #fff;
+}
+
+/* MAIN CONTENT */
+.register-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+/* CARD */
+.register-card {
+    width: 100%;
+    max-width: 520px;
+    border: 1px solid #000;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.register-card-title {
+    font-size: 32px;
+}
+
+.register-card-subtitle {
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+/* FORM */
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.register-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.register-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.register-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.register-optional {
+    font-weight: 400;
+    color: #888;
+    font-size: 0.75rem;
+}
+
+.register-input {
+    width: stretch;
+    padding: 10px 14px;
+    font-family: 'Inter', sans-serif;
+    border: 1px solid #000;
+    outline: none;
+}
+
+.register-input::placeholder {
+    color: #aaa;
+}
+
+.register-submit-btn {
+    margin-top: 12px;
+    padding: 10px;
+    font-family: 'Inter', sans-serif;
+    border: 1px solid #000;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+}
+
+.register-terms {
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.register-terms-link {
+    color: #000;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+/* FOOTER */
+.register-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 40px;
+}
+
+.register-footer-copy {
+    font-size: 0.8rem;
+}
+
+.register-footer-links {
+    display: flex;
+    gap: 24px;
+}
+
+.register-footer-link {
+    font-size: 0.8rem;
+    color: #000;
+    text-decoration: none;
+}

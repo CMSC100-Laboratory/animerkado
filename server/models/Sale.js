@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 const saleSchema = new mongoose.Schema({
   orderId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "OrderTransaction"
   },
   productId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "Product"
   },
   productName: String,

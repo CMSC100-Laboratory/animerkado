@@ -13,20 +13,45 @@ A MERN stack e-commerce web application developed for the Department of Agricult
 ## 📁 Project Structure
 ```
 final-project/
-├── client/                   # React + Vite frontend
+├── client/                          # React + Vite frontend
 │   └── src/
-│       ├── pages/            # Customer-facing pages
-│       │   ├── LoginPage.jsx
-│       │   ├── RegisterPage.jsx
-│       │   ├── ShopPage.jsx
-│       │   └── CartPage.jsx
-│       └── pages/admin/      # Admin-facing pages
-│           ├── Dashboard.jsx
-│           ├── Users.jsx
-│           ├── Products.jsx
-│           ├── Orders.jsx
-│           └── Sales.jsx
-└── server/                   # Node.js + Express backend
+│       ├── assets/
+│       ├── pages/
+│       │   ├── admin/
+│       │   │   ├── Dashboard.jsx
+│       │   │   ├── UserManagement.jsx
+│       │   │   ├── ProductListings.jsx
+│       │   │   ├── OrderFulfillment.jsx
+│       │   │   └── SalesReport.jsx
+│       │   ├── customer/
+│       │   │   ├── Cart.jsx
+│       │   │   ├── RegisterPage.jsx
+│       │   │   ├── Shop.jsx
+│       │   │   ├── ProductDetail.jsx
+│       │   │   ├── OrderConfirmation.jsx
+│       │   │   └── OrderHistory.jsx
+│       │   └── default/
+│       │       ├── LoginPage.jsx
+│       │       └── LandingPage.jsx
+│       └── styles/
+│           ├── admin/
+│           │   ├── Dashboard.css
+│           │   ├── UserManagement.css
+│           │   ├── ProductListings.css
+│           │   ├── OrderFulfillment.css
+│           │   └── SalesReport.css
+│           ├── customer/
+│           │   ├── Cart.css
+│           │   ├── RegisterPage.css
+│           │   ├── Shop.css
+│           │   ├── ProductDetail.css
+│           │   ├── OrderConfirmation.css
+│           │   └── OrderHistory.css
+│           └── default/
+│               ├── LoginPage.css
+│               └── LandingPage.css
+│
+└── server/                          # Node.js + Express backend
     ├── index.js
     ├── router.js
     ├── seed.js

@@ -1,0 +1,155 @@
+/* PAGE */
+.login-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* NAVIGATION BAR */
+.login-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.login-nav-logo {
+    display: flex;
+    align-items: center;
+}
+
+.login-nav-logo-img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    max-width: 100%;
+}
+
+.login-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.login-nav-text {
+    font-size: 0.875rem;
+    color: #000;
+}
+
+.login-nav-btn {
+    padding: 6px 18px;
+    font-family: 'Inter', sans-serif;
+    text-decoration: none;
+    border: 1px solid #000;
+    background-color: #000;
+    color: #fff;
+}
+
+/* MAIN CONTENT */
+.login-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+/* CARD */
+.login-card {
+    width: 100%;
+    max-width: 480px;
+    border: 1px solid #000;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.login-card-title {
+    font-size: 32px;
+}
+
+.login-card-subtitle {
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+/* FORM */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.login-input {
+    width: stretch;
+    padding: 10px 14px;
+    font-family: 'Inter', sans-serif;
+    border: 1px solid #000;
+    outline: none;
+}
+
+.login-input::placeholder {
+    color: #aaa;
+}
+
+.login-submit-btn {
+    margin-top: 12px;
+    padding: 10px;
+    font-family: 'Inter', sans-serif;
+    border: 1px solid #000;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+}
+
+.login-register-link {
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.login-register-anchor {
+    color: #000;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+/* FOOTER */
+.login-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 40px;
+}
+
+.login-footer-copy {
+    font-size: 0.8rem;
+}
+
+.login-footer-links {
+    display: flex;
+    gap: 24px;
+}
+
+.login-footer-link {
+    font-size: 0.8rem;
+    color: #000;
+    text-decoration: none;
+}
+
+.login-footer-link:hover {
+    text-decoration: underline;
+}
