@@ -1,0 +1,259 @@
+/* page */
+.shop-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* navbar */
+.shop-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.shop-nav-logo {
+    display: flex;
+    align-items: center;
+}
+
+.shop-nav-logo-img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    max-width: 100%;
+}
+
+/* nav + logout */
+.shop-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.shop-nav-right a {
+    font-size: 0.875rem;
+    color: #000;
+    text-decoration: none;
+}
+
+.shop-nav-right a:hover {
+    text-decoration: underline;
+}
+
+.shop-nav-logout {
+    border: 1px solid #000;
+    background-color: #fff;
+    color: #000;
+    padding: 4px 14px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+}
+
+/* main */
+.shop-main {
+    flex: 1;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* heading */
+.shop-heading {
+    font-size: 32px;
+    text-transform: uppercase;
+    line-height: 0.2;
+}
+
+/* search & filter */
+.shop-controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.shop-search {
+    flex: 1;
+    min-width: 180px;
+    padding: 10px 16px;
+    font-family: 'Inter', sans-serif;
+    border: 1px solid #000;
+    outline: none;
+}
+
+.shop-search::placeholder {
+    color: #aaa;
+}
+
+/* filter */
+.shop-filter-btns {
+    display: flex;
+    gap: 8px;
+}
+
+.shop-filter-btn {
+    padding: 4px 16px;
+    font-size: 0.8rem;
+    font-family: 'Inter', sans-serif;
+    border: 1px solid #000;
+    background-color: #fff;
+    cursor: pointer;
+    text-transform: capitalize;
+}
+
+.shop-filter-btn.active {
+    background-color: #000;
+    color: #fff;
+}
+
+/* status */
+.shop-loading,
+.shop-empty {
+    padding: 60px 0;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #555;
+}
+
+/* product grid */
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+/* product card */
+.shop-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #000;
+}
+
+.shop-card-badge {
+    padding: 6px 14px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-bottom: 1px solid #000;
+    background-color: #000;
+    color: #fff;
+}
+
+.shop-card-body {
+    flex: 1;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-bottom: 1px solid #ccc;
+}
+
+.shop-card-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.shop-card-desc {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    margin: 0;
+    flex: 1;
+    color: #555;
+}
+
+.shop-card-stock {
+    font-size: 0.75rem;
+    color: #333;
+}
+
+.shop-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+}
+
+.shop-card-price {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.shop-card-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.shop-btn-view {
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    border: 1px solid #000;
+    background-color: #fff;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.shop-btn-view:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.shop-btn-cart {
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    border: 1px solid #000;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+}
+
+.shop-btn-cart:hover:not(:disabled) {
+    background-color: #fff;
+    color: #000;
+}
+
+.shop-btn-cart:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+/* footer */
+.shop-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 40px;
+}
+
+.shop-footer-copy {
+    font-size: 0.8rem;
+}
+
+.shop-footer-links {
+    display: flex;
+    gap: 24px;
+}
+
+.shop-footer-links a {
+    font-size: 0.8rem;
+    color: #000;
+    text-decoration: none;
+}
