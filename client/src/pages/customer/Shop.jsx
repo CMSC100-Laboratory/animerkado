@@ -6,7 +6,7 @@ import '../../styles/customer/Shop.css'
 function Shop() {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
-  const [filter, setFilter] = useState('all') // 'all' | '1' (Crop) | '2' (Poultry)
+  const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
   const email = localStorage.getItem('email')

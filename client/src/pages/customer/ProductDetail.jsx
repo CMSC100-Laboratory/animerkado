@@ -3,9 +3,6 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/logo.png'
 import '../../styles/customer/ProductDetail.css'
 
-// NOTE: App.jsx route must be: <Route path="/product/:productId" ... />
-// Currently it says /product/:id — change it to /product/:productId
-
 function ProductDetail() {
   const { productId } = useParams()
   const [product, setProduct] = useState(null)

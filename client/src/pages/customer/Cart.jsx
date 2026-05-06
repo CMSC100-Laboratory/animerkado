@@ -41,7 +41,7 @@ function Cart() {
         })
       )
     )
-    // Clear cart after ordering
+    // clear cart after ordering
     await Promise.all(items.map(item => fetch(`/api/cart/${item._id}`, { method: 'DELETE' })))
     navigate('/order-confirmation')
   }
