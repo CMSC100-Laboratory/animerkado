@@ -17,7 +17,7 @@ function RegisterPage() {
   const handleRegister = async () => {
     setError('')
 
-    // frontend validation
+    // Frontend Validation
     if (!firstName || !lastName || !email || !password) {
       setError('Please fill in all required fields.')
       return
@@ -130,7 +130,7 @@ function RegisterPage() {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
 
-            {/* error message */}
+            {/* Error message */}
             {error && <p style={{ color: 'red', fontSize: '0.85rem' }}>{error}</p>}
 
             <button className="register-submit-btn" onClick={handleRegister}>

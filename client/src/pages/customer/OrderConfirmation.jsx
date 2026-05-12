@@ -5,7 +5,7 @@ import '../../styles/customer/OrderConfirmation.css'
 function OrderConfirmation() {
   const navigate = useNavigate()
 
-  // Simple ref number — replace with real order ID passed via router state if available
+  // Reference Number — replace with real order ID passed via router state
   const ref = `ORD-${Date.now().toString(36).toUpperCase()}`
 
   return (
