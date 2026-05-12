@@ -9,7 +9,8 @@ function ProductListings() {
 
   const [search, setSearch] = useState('')
   const [typeFilter, setTypeFilter] = useState('all')
-  const [sort, setSort] = useState('name-az')
+  const [sortField, setSortField] = useState('productName')
+  const [sortOrder, setSortOrder] = useState('asc')
 
   const [form, setForm] = useState({
     productId: '',
@@ -47,9 +48,18 @@ function ProductListings() {
 
   useEffect(() => {
     applyFilters()
-  }, [products, search, typeFilter, sort])
+  }, [products, search, typeFilter, sortField, sortOrder])
 
   // ================= FILTERS =================
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortField(field)
+      setSortOrder('asc')
+    }
+  }
+
   const applyFilters = () => {
     let result = [...products]
 
@@ -62,16 +72,14 @@ function ProductListings() {
       )
     }
 
-    if (sort === 'name-az')
-      result.sort((a, b) => a.productName?.localeCompare(b.productName))
-    if (sort === 'name-za')
-      result.sort((a, b) => b.productName?.localeCompare(a.productName))
-    if (sort === 'price-asc')
-      result.sort((a, b) => a.price - b.price)
-    if (sort === 'price-desc')
-      result.sort((a, b) => b.price - a.price)
-    if (sort === 'quantity')
-      result.sort((a, b) => b.productQuantity - a.productQuantity)
+    result.sort((a, b) => {
+      let valA = a[sortField]
+      let valB = b[sortField]
+      if (typeof valA === 'string') {
+        return sortOrder === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA)
+      }
+      return sortOrder === 'asc' ? valA - valB : valB - valA
+    })
 
     setFiltered(result)
   }
@@ -112,7 +120,7 @@ function ProductListings() {
         formData.append('price', form.price)
         formData.append('productQuantity', form.productQuantity)
         formData.append('productDescription', form.productDescription)
-        formData.append('image', imageFile)
+        formData.append('productImage', imageFile)
 
         options.body = formData
       } else {
@@ -205,13 +213,6 @@ function ProductListings() {
           />
 
           <input
-            name="productType"
-            value={form.productType}
-            onChange={handleChange}
-            placeholder="Type"
-          />
-
-          <input
             name="price"
             value={form.price}
             onChange={handleChange}
@@ -268,6 +269,36 @@ function ProductListings() {
             {form.productId ? 'Update' : 'Add'}
           </button>
         </form>
+
+        {/* SORT PILLS */}
+        <div className="products-sort-row">
+          <span className="products-sort-label">Sort by:</span>
+          {[
+            { label: 'Name',     field: 'productName' },
+            { label: 'Price',    field: 'price' },
+            { label: 'Quantity', field: 'productQuantity' },
+          ].map(({ label, field }) => (
+            <button
+              key={field}
+              className={`products-sort-pill ${sortField === field ? 'products-sort-pill--active' : ''}`}
+              onClick={() => handleSort(field)}
+            >
+              {label} {sortField === field ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+            </button>
+          ))}
+        </div>
+
+        <div className="products-sort-row">
+          {[['all', 'All'], ['crops', 'Crops'], ['poultry', 'Poultry']].map(([val, label]) => (
+            <button
+              key={val}
+              className={`products-sort-pill ${typeFilter === val ? 'products-sort-pill--active' : ''}`}
+              onClick={() => setTypeFilter(val)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
 
         {/* TABLE */}
         <table border="1" cellPadding="10">
