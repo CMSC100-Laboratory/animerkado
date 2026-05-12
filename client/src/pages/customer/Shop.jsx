@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/logo.png'
+import background from '../../assets/background.png'
 import '../../styles/customer/Shop.css'
 
 function Shop() {
@@ -13,7 +14,6 @@ function Shop() {
   const navigate = useNavigate()
   const email = localStorage.getItem('email')
 
-  // get /api/products, fetch all products
   useEffect(() => {
     fetch('/api/products')
       .then(r => r.json())
@@ -48,7 +48,6 @@ function Shop() {
     navigate('/cart')
   }
 
-  // filter + sort products
   const filtered = products
     .filter(p => {
       const matchType = filter === 'all' || String(p.productType) === filter
@@ -66,7 +65,16 @@ function Shop() {
     })
 
   return (
-    <div className="shop-wrapper">
+    <div
+      className="shop-wrapper"
+      style={{
+        backgroundImage: `url(${background})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed',
+      }}
+    >
 
       <nav className="shop-nav">
         <Link to="/" className="shop-nav-logo">
@@ -75,8 +83,11 @@ function Shop() {
         <div className="shop-nav-right">
           <Link to="/shop" className="shop-nav-link active">Shop</Link>
           <Link to="/cart" className="shop-nav-link">Cart</Link>
-          <button className="shop-nav-logout" onClick={() => { localStorage.clear(); navigate('/login') }}>
-            Logout ✕
+          <button
+            className="shop-nav-logout"
+            onClick={() => { localStorage.clear(); navigate('/login') }}
+          >
+            Logout
           </button>
         </div>
       </nav>
@@ -93,7 +104,7 @@ function Shop() {
           />
 
           <div className="shop-sort-row">
-            <span className="shop-sort-label">Sort by:</span>
+            <span className="shop-sort-label">Sort:</span>
             {[
               { label: 'Name',     field: 'productName' },
               { label: 'Price',    field: 'price' },
@@ -110,7 +121,7 @@ function Shop() {
           </div>
 
           <div className="shop-filter-row">
-            {[['all', 'All'], ['1', 'Crop'], ['2', 'Poultry']].map(([val, label]) => (
+            {[['all', 'All'], ['1', 'Crops'], ['2', 'Poultry']].map(([val, label]) => (
               <button
                 key={val}
                 className={`shop-filter-btn${filter === val ? ' active' : ''}`}
@@ -137,6 +148,9 @@ function Shop() {
                 </div>
                 <div className="shop-card-body">
                   <p className="shop-card-name">{product.productName}</p>
+                  {product.productDescription && (
+                    <p className="shop-card-desc">{product.productDescription}</p>
+                  )}
                   <p className="shop-card-price">₱{product.price.toFixed(2)}</p>
                 </div>
                 <div className="shop-card-actions">
