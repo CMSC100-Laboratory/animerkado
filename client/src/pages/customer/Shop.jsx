@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/logo.png'
+import background from '../../assets/background.png'
 import '../../styles/customer/Shop.css'
 
 function Shop() {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('all')
-  const [sort, setSort] = useState('')
+  const [sort, setSort] = useState('name')
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
   const email = localStorage.getItem('email')
 
-  // get /api/products, fetch all products
   useEffect(() => {
     fetch('/api/products')
       .then(r => r.json())
@@ -20,7 +20,6 @@ function Shop() {
       .catch(() => setLoading(false))
   }, [])
 
-  // post /api/cart (add product to cart)
   const handleAddToCart = async (product) => {
     if (!email) { navigate('/login'); return }
     await fetch('/api/cart', {
@@ -38,7 +37,6 @@ function Shop() {
     navigate('/cart')
   }
 
-  // filter + sort products
   const filtered = products
     .filter(p => {
       const matchType = filter === 'all' || String(p.productType) === filter
@@ -49,14 +47,23 @@ function Shop() {
       if (sort === 'price-asc') return a.price - b.price
       if (sort === 'price-desc') return b.price - a.price
       if (sort === 'qty') return b.productQuantity - a.productQuantity
-      if (sort === 'name') return a.productName.localeCompare(b.productName)
-      return 0
+      if (sort === 'name-desc') return b.productName.localeCompare(a.productName)
+      return a.productName.localeCompare(b.productName)
     })
 
   return (
-    <div className="shop-wrapper">
+    <div
+      className="shop-wrapper"
+      style={{
+        backgroundImage: `url(${background})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed',
+      }}
+    >
 
-      {/* navigation bar */}
+      {/* Navbar */}
       <nav className="shop-nav">
         <Link to="/" className="shop-nav-logo">
           <img src={logo} alt="Logo" className="shop-nav-logo-img" />
@@ -64,29 +71,45 @@ function Shop() {
         <div className="shop-nav-right">
           <Link to="/shop" className="shop-nav-link active">Shop</Link>
           <Link to="/cart" className="shop-nav-link">Cart</Link>
-          <button className="shop-nav-logout" onClick={() => { localStorage.clear(); navigate('/login') }}>
-            Logout ✕
+          <button
+            className="shop-nav-logout"
+            onClick={() => { localStorage.clear(); navigate('/login') }}
+          >
+            Logout
           </button>
         </div>
       </nav>
 
-      {/* main content */}
+      {/* Main */}
       <main className="shop-main">
 
-        {/* search + sort + filter */}
         <div className="shop-controls">
-          <input
-            className="shop-search"
-            type="text"
-            placeholder="Search products..."
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-          />
+          {/* Search + type dropdown */}
+          <div className="shop-search-row">
+            <input
+              className="shop-search"
+              type="text"
+              placeholder="Search products..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+            <select
+              className="shop-type-select"
+              value={filter}
+              onChange={e => setFilter(e.target.value)}
+            >
+              <option value="all">All types</option>
+              <option value="1">Crops</option>
+              <option value="2">Poultry</option>
+            </select>
+          </div>
+
+          {/* Sort */}
           <div className="shop-sort-row">
-            <span className="shop-sort-label">Sort by:</span>
+            <span className="shop-sort-label">Sort:</span>
             {[
-              ['', 'Default'],
-              ['name', 'Name'],
+              ['name', 'Name A–Z'],
+              ['name-desc', 'Name Z–A'],
               ['price-asc', 'Price ↑'],
               ['price-desc', 'Price ↓'],
               ['qty', 'Quantity'],
@@ -98,8 +121,10 @@ function Shop() {
               >{label}</button>
             ))}
           </div>
+
+          {/* Filter pills */}
           <div className="shop-filter-row">
-            {[['all', 'All'], ['1', 'Crop'], ['2', 'Poultry']].map(([val, label]) => (
+            {[['all', 'All'], ['1', 'Crops'], ['2', 'Poultry']].map(([val, label]) => (
               <button
                 key={val}
                 className={`shop-filter-btn${filter === val ? ' active' : ''}`}
@@ -109,7 +134,7 @@ function Shop() {
           </div>
         </div>
 
-        {/* product grid */}
+        {/* Grid */}
         {loading ? (
           <div className="shop-empty">Loading products...</div>
         ) : filtered.length === 0 ? (
@@ -127,6 +152,9 @@ function Shop() {
                 </div>
                 <div className="shop-card-body">
                   <p className="shop-card-name">{product.productName}</p>
+                  {product.productDescription && (
+                    <p className="shop-card-desc">{product.productDescription}</p>
+                  )}
                   <p className="shop-card-price">₱{product.price.toFixed(2)}</p>
                 </div>
                 <div className="shop-card-actions">
@@ -143,7 +171,7 @@ function Shop() {
         )}
       </main>
 
-      {/* footer */}
+      {/* Footer */}
       <footer className="shop-footer">
         <span className="shop-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
         <div className="shop-footer-links">
