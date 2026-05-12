@@ -25,8 +25,19 @@ function RegisterPage() {
 
     // email format validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(email.trim())) {
       setError('Please enter a valid email address.')
+      return
+    }
+
+    // password strength validation
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
+
+    if (!passwordRegex.test(password)) {
+      setError(
+        'Password must be at least 8 characters and include uppercase, lowercase, and a number.'
+      )
       return
     }
 
@@ -114,6 +125,7 @@ function RegisterPage() {
               type="email"
               className="register-input"
               placeholder="juandelacruz@gmail.com"
+              autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -124,6 +136,7 @@ function RegisterPage() {
               type="password"
               className="register-input"
               placeholder="••••••••••"
+              autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -134,6 +147,7 @@ function RegisterPage() {
               type="password"
               className="register-input"
               placeholder="••••••••••"
+              autoComplete="new-password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
