@@ -21,16 +21,26 @@ const getOrders = async (req, res) => {
 
 // POST /api/orders
 const saveOrder = async (req, res) => {
-  const newOrder = new OrderTransaction({
-    transactionId: `T${Date.now()}`, // auto-generated
-    productId:     req.body.productId,
-    orderQuantity: req.body.orderQuantity,
-    orderStatus:   0, // always starts as Pending
-    email:         req.body.email,
-    dateOrdered:   new Date(),
-    time:          new Date().toLocaleTimeString(),
-  });
   try {
+    // checker if order stocks can accomodate order quantity
+    const product = await Product.findOne({ productId: req.body.productId });
+    if (!product) {
+      return res.send({ inserted: false, error: 'Product not found' });
+    }
+    if (req.body.orderQuantity > product.productQuantity) {
+      return res.send({ inserted: false, error: 'Insufficient stock' });
+    }
+
+    const newOrder = new OrderTransaction({
+      transactionId: `T${Date.now()}`,
+      productId:     req.body.productId,
+      orderQuantity: req.body.orderQuantity,
+      orderStatus:   0,
+      email:         req.body.email,
+      dateOrdered:   new Date(),
+      time:          new Date().toLocaleTimeString(),
+    });
+
     await newOrder.save();
     return res.send({ inserted: true });
   } catch (error) {

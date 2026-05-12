@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 // Public pages
@@ -52,7 +53,7 @@ function App() {
         <Route path="/admin/products" element={<ProtectedRoute element={<ProductListings />} adminOnly />} />
         <Route path="/admin/orders" element={<ProtectedRoute element={<OrderFulfillment />} adminOnly />} />
         <Route path="/admin/sales" element={<ProtectedRoute element={<SalesReport />} adminOnly />} />
-
+       
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
