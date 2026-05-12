@@ -19,7 +19,6 @@ function OrderFulfillment() {
       const token = localStorage.getItem('token')
       const res = await fetch('/api/orders', { headers: { Authorization: `Bearer ${token}` } })
       const data = await res.json()
-      //default sort is newest first
       const sorted = [...data].sort((a, b) => new Date(b.dateOrdered) - new Date(a.dateOrdered))
       setOrders(sorted)
     } catch (err) { console.error('Failed to fetch orders:', err) }
@@ -54,10 +53,11 @@ function OrderFulfillment() {
     return sortDir === 'asc' ? ' ↑' : ' ↓'
   }
 
-  const handleConfirm = async (transactionId) => {
+  const handleConfirm = async (order) => {
     try {
       const token = localStorage.getItem('token')
-      await fetch(`/api/orders/${transactionId}`, {
+      const id = order.transactionId || order._id
+      await fetch(`/api/orders/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ orderStatus: 1 })
@@ -66,10 +66,11 @@ function OrderFulfillment() {
     } catch (err) { console.error('Failed to confirm order:', err) }
   }
 
-  const handleCancel = async (transactionId) => {
+  const handleCancel = async (order) => {
     try {
       const token = localStorage.getItem('token')
-      await fetch(`/api/orders/${transactionId}`, {
+      const id = order.transactionId || order._id
+      await fetch(`/api/orders/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       })
@@ -155,7 +156,7 @@ function OrderFulfillment() {
           <table className="orders-table">
             <thead>
               <tr className="orders-table-head-row">
-                <th className="orders-table-head">Product</th>
+                <th className="orders-table-head">Product ID</th>
                 <th className="orders-table-head">Customer</th>
                 <th className="orders-table-head" onClick={() => handleSort('quantity')} style={{ cursor: 'pointer' }}>
                   Quantity{sortIndicator('quantity')}
@@ -172,7 +173,7 @@ function OrderFulfillment() {
             </thead>
             <tbody>
               {filtered.map((order) => (
-                <tr key={order.transactionId} className="orders-table-row">
+                <tr key={order._id} className="orders-table-row">
                   <td className="orders-table-cell" style={{ fontWeight: 600 }}>{order.productId}</td>
                   <td className="orders-table-cell" style={{ color: '#4a7a3a' }}>{order.email}</td>
                   <td className="orders-table-cell">{order.orderQuantity}</td>
@@ -186,10 +187,10 @@ function OrderFulfillment() {
                   <td className="orders-table-cell">
                     {order.orderStatus === 0 && (
                       <div className="orders-action-btns">
-                        <button className="orders-confirm-btn" onClick={() => handleConfirm(order.transactionId)}>
+                        <button className="orders-confirm-btn" onClick={() => handleConfirm(order)}>
                           Confirm
                         </button>
-                        <button className="orders-cancel-btn" onClick={() => handleCancel(order.transactionId)}>
+                        <button className="orders-cancel-btn" onClick={() => handleCancel(order)}>
                           Cancel
                         </button>
                       </div>
@@ -211,7 +212,7 @@ function OrderFulfillment() {
 
       {/* ── FOOTER ── */}
       <footer className="orders-footer">
-        <span className="orders-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
+        <span className="orders-footer-copy">© 2026 AniMerkado – Department of Agriculture</span>
         <div className="orders-footer-links">
           <Link to="/privacy" className="orders-footer-link">Privacy</Link>
           <Link to="/terms" className="orders-footer-link">Terms</Link>

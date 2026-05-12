@@ -209,19 +209,6 @@ function ProductListings() {
           ))}
         </div>
 
-        {/* TYPE FILTER TABS */}
-        <div className="products-filter-tabs">
-          {['all', 'crops', 'poultry'].map(t => (
-            <button
-              key={t}
-              className={`products-filter-tab${typeFilter === t ? ' products-filter-tab--active' : ''}`}
-              onClick={() => setTypeFilter(t)}
-            >
-              {t === 'all' ? 'All' : t.charAt(0).toUpperCase() + t.slice(1)}
-            </button>
-          ))}
-        </div>
-
         {/* PANEL + TABLE */}
         <div className="products-panel">
           <div className="products-panel-header">
