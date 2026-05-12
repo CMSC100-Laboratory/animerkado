@@ -5,6 +5,7 @@ const addToCart = async (req, res) => {
         email: req.body.email,
         productId: req.body.productId,
         productName: req.body.productName,
+        productImage: req.body.productImage,
         quantity: req.body.quantity,
         price: req.body.price
     });

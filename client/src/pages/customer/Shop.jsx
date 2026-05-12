@@ -30,6 +30,7 @@ function Shop() {
         email,
         productId: product.productId,
         productName: product.productName,
+        productImage: product.productImage,
         quantity: 1,
         price: product.price,
       })
@@ -118,7 +119,11 @@ function Shop() {
             {filtered.map(product => (
               <div className="shop-card" key={product.productId}>
                 <div className="shop-card-img">
-                  <span className="shop-card-img-icon">[]</span>
+                  <img
+                    src={`http://localhost:5000${product.productImage}`}
+                    alt={product.productName}
+                    className="pd-image"
+                  />
                 </div>
                 <div className="shop-card-body">
                   <p className="shop-card-name">{product.productName}</p>

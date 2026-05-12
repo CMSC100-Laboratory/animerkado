@@ -96,7 +96,13 @@ function Cart() {
                 {items.map(item => (
                   <div className="cart-row" key={item._id}>
                     <div className="cart-row-info">
-                      <div className="cart-row-img">[]</div>
+                      <div className="cart-row-img">
+                        <img
+                          src={`http://localhost:5000${item.productImage}`}
+                          alt={item.productName}
+                          className="cart-product-image"
+                        />
+                      </div>
                       <div>
                         <p className="cart-row-name">{item.productName}</p>
                         <p className="cart-row-price">₱{item.price.toFixed(2)}</p>
