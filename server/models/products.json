@@ -2,7 +2,7 @@
   {
     "productId": "P1000",
     "productName": "Sinandomeng Rice",
-    "productImage": "/uploads/products/sinandomengRice.jpg",
+    "productImage": "/uploads/products/sinandomengRice.png",
     "productDescription": "Premium white rice from Nueva Ecija",
     "productType": 1,
     "productQuantity": 194,
@@ -11,7 +11,7 @@
   {
     "productId": "P1002",
     "productName": "Red Onion",
-    "productImage": "/uploads/products/redOnion.jpg",
+    "productImage": "/uploads/products/redOnion.png",
     "productDescription": "Freshly harvested red onions from Baguio",
     "productType": 1,
     "productQuantity": 172,
@@ -20,7 +20,7 @@
   {
     "productId": "P1004",
     "productName": "Garlic",
-    "productImage": "/uploads/products/garlic.webp",
+    "productImage": "/uploads/products/garlic.png",
     "productDescription": "Locally grown garlic from Ilocos Norte",
     "productType": 1,
     "productQuantity": 129,
@@ -38,7 +38,7 @@
   {
     "productId": "P1017",
     "productName": "Broccoli",
-    "productImage": "/uploads/products/broccoli.webp",
+    "productImage": "/uploads/products/broccoli.png",
     "productDescription": "Organic broccoli from Mountain Province",
     "productType": 1,
     "productQuantity": 118,
@@ -47,7 +47,7 @@
   {
     "productId": "P1020",
     "productName": "Ginger",
-    "productImage": "/uploads/products/ginger.jpg",
+    "productImage": "/uploads/products/ginger.png",
     "productDescription": "Freshly harvested luya from Quezon",
     "productType": 1,
     "productQuantity": 143,
@@ -56,7 +56,7 @@
   {
     "productId": "P1024",
     "productName": "Malunggay",
-    "productImage": "/uploads/products/malunggay.jpg",
+    "productImage": "/uploads/products/malunggay.png",
     "productDescription": "Moringa leaves from Ilocos farms",
     "productType": 1,
     "productQuantity": 353,
@@ -65,7 +65,7 @@
   {
     "productId": "P1028",
     "productName": "Mango (Carabao)",
-    "productImage": "/uploads/products/mangoCarabao.jpg",
+    "productImage": "/uploads/products/mangoCarabao.png",
     "productDescription": "Ripe carabao mangoes from Guimaras",
     "productType": 1,
     "productQuantity": 174,
@@ -74,7 +74,7 @@
   {
     "productId": "P1030",
     "productName": "Calamansi",
-    "productImage": "/uploads/products/calamansi.jpg",
+    "productImage": "/uploads/products/calamansi.png",
     "productDescription": "Fresh calamansi from Batangas",
     "productType": 1,
     "productQuantity": 309,
@@ -83,7 +83,7 @@
   {
     "productId": "P1032",
     "productName": "Corn",
-    "productImage": "/uploads/products/corn.webp",
+    "productImage": "/uploads/products/corn.png",
     "productDescription": "Sweet corn from Isabella",
     "productType": 1,
     "productQuantity": 430,
@@ -92,7 +92,7 @@
   {
     "productId": "P1038",
     "productName": "Chili (Siling Labuyo)",
-    "productImage": "/uploads/products/chili.jpg",
+    "productImage": "/uploads/products/chili.png",
     "productDescription": "Fresh hot chili from Bicol",
     "productType": 1,
     "productQuantity": 190,
@@ -101,7 +101,7 @@
   {
     "productId": "P1045",
     "productName": "Cucumber",
-    "productImage": "/uploads/products/cucumber.jpg",
+    "productImage": "/uploads/products/cucumber.png",
     "productDescription": "Fresh pipino from Nueva Ecija",
     "productType": 1,
     "productQuantity": 257,
@@ -110,7 +110,7 @@
   {
     "productId": "P2000",
     "productName": "Native Chicken (Whole)",
-    "productImage": "/uploads/products/wholeChicken.jpg",
+    "productImage": "/uploads/products/wholeChicken.png",
     "productDescription": "Free-range native chicken from Batangas",
     "productType": 2,
     "productQuantity": 128,
@@ -119,7 +119,7 @@
   {
     "productId": "P2002",
     "productName": "Chicken Breast",
-    "productImage": "/uploads/products/chickenBreast.webp",
+    "productImage": "/uploads/products/chickenBreast.png",
     "productDescription": "Boneless chicken breast from local farms",
     "productType": 2,
     "productQuantity": 207,
@@ -128,7 +128,7 @@
   {
     "productId": "P2005",
     "productName": "Chicken Liver",
-    "productImage": "/uploads/products/chickenLiver.jpg",
+    "productImage": "/uploads/products/chickenLiver.png",
     "productDescription": "Fresh chicken liver from Bulacan farms",
     "productType": 2,
     "productQuantity": 221,
@@ -137,7 +137,7 @@
   {
     "productId": "P2008",
     "productName": "Chicken Eggs (Tray)",
-    "productImage": "/uploads/products/eggs.jpg",
+    "productImage": "/uploads/products/eggs.png",
     "productDescription": "Farm fresh eggs, tray of 30",
     "productType": 2,
     "productQuantity": 167,
@@ -146,7 +146,7 @@
   {
     "productId": "P2010",
     "productName": "Duck (Whole)",
-    "productImage": "/uploads/products/duck.jpg",
+    "productImage": "/uploads/products/duck.png",
     "productDescription": "Fresh Muscovy duck from Pateros",
     "productType": 2,
     "productQuantity": 96,
@@ -155,7 +155,7 @@
   {
     "productId": "P2012",
     "productName": "Balut",
-    "productImage": "/uploads/products/balut.jpg",
+    "productImage": "/uploads/products/balut.png",
     "productDescription": "18-day old balut from Pateros",
     "productType": 2,
     "productQuantity": 316,
@@ -164,7 +164,7 @@
   {
     "productId": "P2015",
     "productName": "Quail Eggs (Piece)",
-    "productImage": "/uploads/products/quailEggs.jpg",
+    "productImage": "/uploads/products/quailEggs.png",
     "productDescription": "Fresh pugo eggs from local farms",
     "productType": 2,
     "productQuantity": 618,
@@ -173,7 +173,7 @@
   {
     "productId": "P2017",
     "productName": "Turkey (Whole)",
-    "productImage": "/uploads/products/turkey.jpg",
+    "productImage": "/uploads/products/turkey.png",
     "productDescription": "Fresh dressed turkey from Laguna",
     "productType": 2,
     "productQuantity": 73,
