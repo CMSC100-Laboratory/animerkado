@@ -47,7 +47,7 @@ function UserManagement() {
           <Link to="/admin/products" className="users-nav-link">Products</Link>
           <Link to="/admin/orders" className="users-nav-link">Orders</Link>
           <Link to="/admin/sales" className="users-nav-link">Sales</Link>
-          <button className="users-logout-btn" onClick={handleLogout}>Log Out ✕</button>
+          <button className="users-logout-btn" onClick={handleLogout}>Log Out</button>
         </div>
       </nav>
 

@@ -110,7 +110,7 @@ function OrderFulfillment() {
           <Link to="/admin/products" className="orders-nav-link">Products</Link>
           <Link to="/admin/sales" className="orders-nav-link">Sales</Link>
           <Link to="/admin/users" className="orders-nav-link">Users</Link>
-          <button className="orders-logout-btn" onClick={handleLogout}>Log Out ✕</button>
+          <button className="orders-logout-btn" onClick={handleLogout}>Log Out</button>
         </div>
       </nav>
 

@@ -117,7 +117,7 @@ function Dashboard() {
           <Link to="/admin/orders" className="dashboard-nav-link">Orders</Link>
           <Link to="/admin/sales" className="dashboard-nav-link">Sales</Link>
           <Link to="/admin/users" className="dashboard-nav-link">Users</Link>
-          <button className="dashboard-logout-btn" onClick={handleLogout}>Log Out ✕</button>
+          <button className="dashboard-logout-btn" onClick={handleLogout}>Log Out</button>
         </div>
       </nav>
 
