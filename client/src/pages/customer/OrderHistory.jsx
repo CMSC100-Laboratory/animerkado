@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/logo.png'
+import background from '../../assets/background.png'
 import '../../styles/customer/OrderHistory.css'
 
 function OrderHistory() {
@@ -9,7 +10,6 @@ function OrderHistory() {
   const navigate = useNavigate()
   const email = localStorage.getItem('email')
 
-  // get /api/orders, fetch orders for current user
   const fetchOrders = () => {
     fetch(`/api/orders?email=${email}`)
       .then(r => r.json())
@@ -17,26 +17,32 @@ function OrderHistory() {
       .catch(() => setLoading(false))
   }
 
-  // check login & fetch orders
   useEffect(() => {
     if (!email) { navigate('/login'); return }
     fetchOrders()
   }, [email, navigate])
 
-  // delete /api/orders/:id (cancel order)
   const handleCancel = async (transactionId) => {
     await fetch(`/api/orders/${transactionId}`, { method: 'DELETE' })
     fetchOrders()
   }
 
-  // order status label
   const statusLabel = s => s === 0 ? 'Pending' : s === 1 ? 'Confirmed' : 'Cancelled'
   const statusClass = s => s === 0 ? 'oh-badge-pending' : s === 1 ? 'oh-badge-confirmed' : 'oh-badge-cancelled'
 
   return (
-    <div className="oh-wrapper">
+    <div
+      className="oh-wrapper"
+      style={{
+        backgroundImage: `url(${background})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed',
+      }}
+    >
 
-      {/* navigation bar */}
+      {/* Navbar */}
       <nav className="oh-nav">
         <Link to="/" className="oh-nav-logo">
           <img src={logo} alt="Logo" className="oh-nav-logo-img" />
@@ -44,21 +50,27 @@ function OrderHistory() {
         <div className="oh-nav-right">
           <Link to="/shop" className="oh-nav-link">Shop</Link>
           <Link to="/cart" className="oh-nav-link">Cart</Link>
+          <Link to="/orders" className="oh-nav-link active">History</Link>
           <button className="oh-nav-logout" onClick={() => { localStorage.clear(); navigate('/login') }}>
-            Logout ✕
+            Logout
           </button>
         </div>
       </nav>
 
-      {/* main content */}
+      {/* Main */}
       <main className="oh-main">
-        <h1 className="oh-title">MY ORDERS</h1>
+        <div className="oh-header">
+          <h1 className="oh-title">My Orders</h1>
+          <p className="oh-subtitle">Track and manage your purchase history</p>
+        </div>
 
         {loading ? (
-          <div className="oh-empty">Loading...</div>
+          <div className="oh-empty">Loading orders...</div>
         ) : orders.length === 0 ? (
           <div className="oh-empty">
-            No orders yet. <Link to="/shop">Browse products</Link>
+            <span className="oh-empty-icon">🛒</span>
+            <p>No orders yet.</p>
+            <Link to="/shop" className="oh-browse-btn">Browse Products</Link>
           </div>
         ) : (
           <div className="oh-table-wrap">
@@ -76,10 +88,10 @@ function OrderHistory() {
               <tbody>
                 {orders.map(order => (
                   <tr key={order.transactionId}>
-                    <td>{order.transactionId}</td>
+                    <td className="oh-td-id">#{order.transactionId}</td>
                     <td>{order.productId}</td>
                     <td>{order.orderQuantity}</td>
-                    <td>{new Date(order.dateOrdered).toLocaleDateString()}</td>
+                    <td>{new Date(order.dateOrdered).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' })}</td>
                     <td>
                       <span className={`oh-status ${statusClass(order.orderStatus)}`}>
                         {statusLabel(order.orderStatus)}
@@ -101,12 +113,13 @@ function OrderHistory() {
         )}
       </main>
 
-      {/* footer */}
+      {/* Footer */}
       <footer className="oh-footer">
         <span className="oh-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
         <div className="oh-footer-links">
           <Link to="/privacy">Privacy</Link>
           <Link to="/terms">Terms</Link>
+          <Link to="/contact">Contact</Link>
         </div>
       </footer>
 
