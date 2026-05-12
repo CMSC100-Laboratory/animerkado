@@ -9,7 +9,6 @@ function Cart() {
   const navigate = useNavigate()
   const email = localStorage.getItem('email')
 
-  // get /api/cart, fetch cart items for current user
   const fetchCart = () => {
     fetch(`/api/cart?email=${email}`)
       .then(r => r.json())
@@ -17,20 +16,31 @@ function Cart() {
       .catch(() => setLoading(false))
   }
 
-  // check login & fetch cart
   useEffect(() => {
     if (!email) { navigate('/login'); return }
     fetchCart()
   }, [email, navigate])
 
-  // delete /api/cart/:id (remove item from cart)
   const handleRemove = async (itemId) => {
     await fetch(`/api/cart/${itemId}`, { method: 'DELETE' })
     fetchCart()
   }
 
-  // post /api/orders (place orders for all cart items)
-  // delete /api/cart/:id (clear cart after checkout)
+  // Update quantity via PATCH; remove item if qty reaches 0
+  const handleQtyChange = async (item, delta) => {
+    const newQty = item.quantity + delta
+    if (newQty <= 0) {
+      await handleRemove(item._id)
+      return
+    }
+    await fetch(`/api/cart/${item._id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ quantity: newQty }),
+    })
+    fetchCart()
+  }
+
   const handleCheckout = async () => {
     await Promise.all(
       items.map(item =>
@@ -49,45 +59,50 @@ function Cart() {
     navigate('/order-confirmation')
   }
 
-  // calculate subtotal
   const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0)
 
   return (
     <div className="cart-wrapper">
 
-      {/* navigation bar */}
+      {/* Navbar */}
       <nav className="cart-nav">
         <Link to="/" className="cart-nav-logo">
-          <img src={logo} alt="Logo" className="cart-nav-logo-img" />
+          <img src={logo} alt="AniMerkado Logo" className="cart-nav-logo-img" />
         </Link>
         <div className="cart-nav-right">
           <Link to="/shop" className="cart-nav-link">Shop</Link>
           <Link to="/cart" className="cart-nav-link active">Cart</Link>
-          <button className="cart-nav-logout" onClick={() => { localStorage.clear(); navigate('/login') }}>
-            Logout ✕
+          <Link to="/orders" className="cart-nav-link">History</Link>
+          <button
+            className="cart-nav-logout"
+            onClick={() => { localStorage.clear(); navigate('/login') }}
+          >
+            Logout
           </button>
         </div>
       </nav>
 
-      {/* main content */}
+      {/* Main */}
       <main className="cart-main">
 
         {loading ? (
-          <div className="cart-empty">Loading...</div>
+          <div className="cart-empty">Loading your cart...</div>
         ) : items.length === 0 ? (
           <div className="cart-empty">
             Your cart is empty. <Link to="/shop">Browse products</Link>
           </div>
         ) : (
           <>
-            <h1 className="cart-title">My Cart <span className="cart-count">({items.length} items)</span></h1>
+            <h1 className="cart-title">
+              My Cart <span className="cart-count">({items.length} {items.length === 1 ? 'item' : 'items'})</span>
+            </h1>
 
             <div className="cart-layout">
 
-              {/* items */}
+              {/* Items list */}
               <div className="cart-items-section">
                 <div className="cart-items-header">
-                  <span>Item and Price</span>
+                  <span>Item &amp; Price</span>
                   <span>Quantity</span>
                   <span>Total Price</span>
                   <span></span>
@@ -95,6 +110,8 @@ function Cart() {
 
                 {items.map(item => (
                   <div className="cart-row" key={item._id}>
+
+                    {/* Product info */}
                     <div className="cart-row-info">
                       <div className="cart-row-img">
                         <img
@@ -108,21 +125,44 @@ function Cart() {
                         <p className="cart-row-price">₱{item.price.toFixed(2)}</p>
                       </div>
                     </div>
+
+                    {/* Qty stepper */}
                     <div className="cart-row-qty">
-                      <span>{item.quantity}</span>
+                      <button
+                        className="cart-qty-btn"
+                        onClick={() => handleQtyChange(item, -1)}
+                        aria-label="Decrease quantity"
+                      >−</button>
+                      <span className="cart-qty-value">{item.quantity}</span>
+                      <button
+                        className="cart-qty-btn"
+                        onClick={() => handleQtyChange(item, +1)}
+                        aria-label="Increase quantity"
+                      >+</button>
                     </div>
+
+                    {/* Row total */}
                     <div className="cart-row-total">
                       ₱{(item.price * item.quantity).toFixed(2)}
                     </div>
+
+                    {/* Remove */}
                     <div className="cart-row-actions">
-                      <button className="cart-row-remove" onClick={() => handleRemove(item._id)}>✕</button>
+                      <button
+                        className="cart-row-remove"
+                        onClick={() => handleRemove(item._id)}
+                        aria-label="Remove item"
+                      >✕</button>
                     </div>
+
                   </div>
                 ))}
               </div>
 
-              {/* order summary */}
+              {/* Order Summary */}
               <div className="cart-summary">
+                <p className="cart-summary-heading">Order Summary</p>
+
                 <div className="cart-summary-body">
                   <div className="cart-summary-line">
                     <span>Subtotal</span>
@@ -134,13 +174,18 @@ function Cart() {
                   </div>
                   <div className="cart-summary-divider" />
                   <div className="cart-summary-total">
+                    <span className="cart-summary-total-label">Total</span>
                     <span>₱{subtotal.toFixed(2)}</span>
                   </div>
                 </div>
 
                 <div className="cart-summary-footer">
-                  <button className="cart-cancel-btn" onClick={() => navigate('/shop')}>Cancel</button>
-                  <button className="cart-checkout-btn" onClick={handleCheckout}>Place Order</button>
+                  <button className="cart-cancel-btn" onClick={() => navigate('/shop')}>
+                    Cancel
+                  </button>
+                  <button className="cart-checkout-btn" onClick={handleCheckout}>
+                    Place Order
+                  </button>
                 </div>
               </div>
 
@@ -149,12 +194,15 @@ function Cart() {
         )}
       </main>
 
-      {/* footer */}
+      {/* Footer */}
       <footer className="cart-footer">
-        <span className="cart-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
+        <span className="cart-footer-copy">
+          © 2026 AniMerkado – Department of Agriculture
+        </span>
         <div className="cart-footer-links">
           <Link to="/privacy">Privacy</Link>
           <Link to="/terms">Terms</Link>
+          <Link to="/contact">Contact</Link>
         </div>
       </footer>
 
