@@ -7,7 +7,8 @@ function Shop() {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('all')
-  const [sort, setSort] = useState('')
+  const [sortField, setSortField] = useState('')
+  const [sortOrder, setSortOrder] = useState('asc')
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
   const email = localStorage.getItem('email')
@@ -19,6 +20,15 @@ function Shop() {
       .then(data => { setProducts(data); setLoading(false) })
       .catch(() => setLoading(false))
   }, [])
+
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortField(field)
+      setSortOrder('asc')
+    }
+  }
 
   // post /api/cart (add product to cart)
   const handleAddToCart = async (product) => {
@@ -45,17 +55,18 @@ function Shop() {
       return matchType && matchSearch
     })
     .sort((a, b) => {
-      if (sort === 'price-asc') return a.price - b.price
-      if (sort === 'price-desc') return b.price - a.price
-      if (sort === 'qty') return b.productQuantity - a.productQuantity
-      if (sort === 'name') return a.productName.localeCompare(b.productName)
-      return 0
+      if (!sortField) return 0
+      let valA = a[sortField]
+      let valB = b[sortField]
+      if (typeof valA === 'string') {
+        return sortOrder === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA)
+      }
+      return sortOrder === 'asc' ? valA - valB : valB - valA
     })
 
   return (
     <div className="shop-wrapper">
 
-      {/* navigation bar */}
       <nav className="shop-nav">
         <Link to="/" className="shop-nav-logo">
           <img src={logo} alt="Logo" className="shop-nav-logo-img" />
@@ -69,10 +80,8 @@ function Shop() {
         </div>
       </nav>
 
-      {/* main content */}
       <main className="shop-main">
 
-        {/* search + sort + filter */}
         <div className="shop-controls">
           <input
             className="shop-search"
@@ -81,22 +90,24 @@ function Shop() {
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
+
           <div className="shop-sort-row">
             <span className="shop-sort-label">Sort by:</span>
             {[
-              ['', 'Default'],
-              ['name', 'Name'],
-              ['price-asc', 'Price ↑'],
-              ['price-desc', 'Price ↓'],
-              ['qty', 'Quantity'],
-            ].map(([val, label]) => (
+              { label: 'Name',     field: 'productName' },
+              { label: 'Price',    field: 'price' },
+              { label: 'Quantity', field: 'productQuantity' },
+            ].map(({ label, field }) => (
               <button
-                key={val}
-                className={`shop-sort-btn${sort === val ? ' active' : ''}`}
-                onClick={() => setSort(val)}
-              >{label}</button>
+                key={field}
+                className={`shop-sort-btn${sortField === field ? ' active' : ''}`}
+                onClick={() => handleSort(field)}
+              >
+                {label} {sortField === field ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+              </button>
             ))}
           </div>
+
           <div className="shop-filter-row">
             {[['all', 'All'], ['1', 'Crop'], ['2', 'Poultry']].map(([val, label]) => (
               <button
@@ -108,7 +119,6 @@ function Shop() {
           </div>
         </div>
 
-        {/* product grid */}
         {loading ? (
           <div className="shop-empty">Loading products...</div>
         ) : filtered.length === 0 ? (
@@ -138,7 +148,6 @@ function Shop() {
         )}
       </main>
 
-      {/* footer */}
       <footer className="shop-footer">
         <span className="shop-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
         <div className="shop-footer-links">
