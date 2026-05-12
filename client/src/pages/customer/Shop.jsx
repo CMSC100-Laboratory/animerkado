@@ -10,6 +10,7 @@ function Shop() {
   const [filter, setFilter] = useState('all')
   const [sort, setSort] = useState('name')
   const [search, setSearch] = useState('')
+  const [addedId, setAddedId] = useState(null)
   const navigate = useNavigate()
   const email = localStorage.getItem('email')
 
@@ -34,7 +35,9 @@ function Shop() {
         price: product.price,
       })
     })
-    navigate('/cart')
+    // Show brief "Added" feedback on the button, stay on the page
+    setAddedId(product.productId)
+    setTimeout(() => setAddedId(null), 1500)
   }
 
   const filtered = products
@@ -63,7 +66,7 @@ function Shop() {
       }}
     >
 
-      {/* ===== NAVBAR — landing-page style ===== */}
+      {/* ===== NAVBAR ===== */}
       <nav className="shop-nav">
         <Link to="/" className="shop-nav-logo">
           <img src={logo} alt="AniMerkado Logo" className="shop-nav-logo-img" />
@@ -151,7 +154,9 @@ function Shop() {
                     className="shop-btn-cart"
                     disabled={product.productQuantity === 0}
                     onClick={() => handleAddToCart(product)}
-                  >Add to Cart</button>
+                  >
+                    {addedId === product.productId ? '✓ Added' : 'Add to Cart'}
+                  </button>
                 </div>
               </div>
             ))}
@@ -159,7 +164,7 @@ function Shop() {
         )}
       </main>
 
-      {/* ===== FOOTER — landing-page style ===== */}
+      {/* ===== FOOTER ===== */}
       <footer className="shop-footer">
         <span className="shop-footer-copy">
           © 2026 AniMerkado – Department of Agriculture
