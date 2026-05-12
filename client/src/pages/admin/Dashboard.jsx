@@ -30,75 +30,49 @@ function Dashboard() {
     fetchSales()
   }, [])
 
-  // GET /api/users
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch('/api/users', {
-        headers: { Authorization: `Bearer ${token}` }
-      })
+      const res = await fetch('/api/users', { headers: { Authorization: `Bearer ${token}` } })
       const data = await res.json()
       setUserCount(data.total || 0)
-    } catch (err) {
-      console.error('Failed to fetch users:', err)
-    }
+    } catch (err) { console.error('Failed to fetch users:', err) }
   }
 
-  // GET /api/products
   const fetchProducts = async () => {
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch('/api/products', {
-        headers: { Authorization: `Bearer ${token}` }
-      })
+      const res = await fetch('/api/products', { headers: { Authorization: `Bearer ${token}` } })
       const data = await res.json()
       const crops = data.filter(p => p.productType === 1).length
       const poultry = data.filter(p => p.productType === 2).length
       setProductCounts({ total: data.length, crops, poultry })
-    } catch (err) {
-      console.error('Failed to fetch products:', err)
-    }
+    } catch (err) { console.error('Failed to fetch products:', err) }
   }
 
-  // GET /api/orders
   const fetchOrders = async () => {
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch('/api/orders', {
-        headers: { Authorization: `Bearer ${token}` }
-      })
+      const res = await fetch('/api/orders', { headers: { Authorization: `Bearer ${token}` } })
       const data = await res.json()
       const pending = data.filter(o => o.orderStatus === 0).length
       setOrderCounts({ total: data.length, pending })
-      const sorted = [...data].sort(
-        (a, b) => new Date(b.dateOrdered) - new Date(a.dateOrdered)
-      )
+      const sorted = [...data].sort((a, b) => new Date(b.dateOrdered) - new Date(a.dateOrdered))
       setRecentOrders(sorted.slice(0, 5))
-    } catch (err) {
-      console.error('Failed to fetch orders:', err)
-    }
+    } catch (err) { console.error('Failed to fetch orders:', err) }
   }
 
-  // GET /api/orders/sales?filter=weekly
   const fetchSales = async () => {
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch('/api/orders/sales?filter=weekly', {
-        headers: { Authorization: `Bearer ${token}` }
-      })
+      const res = await fetch('/api/orders/sales?filter=weekly', { headers: { Authorization: `Bearer ${token}` } })
       const data = await res.json()
       setSalesRows(data.report || [])
-    } catch (err) {
-      console.error('Failed to fetch sales:', err)
-    }
+    } catch (err) { console.error('Failed to fetch sales:', err) }
   }
 
-  const handleLogout = () => {
-    localStorage.clear()
-    navigate('/login')
-  }
+  const handleLogout = () => { localStorage.clear(); navigate('/login') }
 
-  // order status label
   const statusLabel = (status) => {
     if (status === 0) return 'PENDING'
     if (status === 1) return 'CONFIRMED'
@@ -106,18 +80,16 @@ function Dashboard() {
     return 'UNKNOWN'
   }
 
-  // weekly sales chart data
   const chartData = {
     labels: salesRows.map(r => r._id),
-    datasets: [
-      {
-        label: 'Revenue (₱)',
-        data: salesRows.map(r => r.totalRevenue),
-        backgroundColor: 'rgba(0,0,0,0.75)',
-        borderColor: '#000',
-        borderWidth: 1
-      }
-    ]
+    datasets: [{
+      label: 'Revenue (₱)',
+      data: salesRows.map(r => r.totalRevenue),
+      backgroundColor: 'rgba(7, 102, 83, 0.55)',
+      borderColor: '#076653',
+      borderWidth: 1,
+      borderRadius: 6,
+    }]
   }
 
   const chartOptions = {
@@ -127,26 +99,31 @@ function Dashboard() {
       title: { display: false }
     },
     scales: {
-      y: { beginAtZero: true }
+      y: { beginAtZero: true, grid: { color: 'rgba(106,158,73,0.1)' } },
+      x: { grid: { display: false } }
     }
   }
 
   return (
     <div className="dashboard-wrapper">
 
-      {/* NAVIGATION BAR */}
+      {/* ── NAVIGATION BAR ── */}
       <nav className="dashboard-nav">
         <Link to="/admin/dashboard" className="dashboard-nav-logo">
           <img src={logo} alt="Logo" className="dashboard-nav-logo-img" />
         </Link>
-        <button className="dashboard-logout-btn" onClick={handleLogout}>
-          Log Out
-        </button>
+        <div className="dashboard-nav-right">
+          <Link to="/admin/products" className="dashboard-nav-link">Products</Link>
+          <Link to="/admin/orders" className="dashboard-nav-link">Orders</Link>
+          <Link to="/admin/sales" className="dashboard-nav-link">Sales</Link>
+          <Link to="/admin/users" className="dashboard-nav-link">Users</Link>
+          <button className="dashboard-logout-btn" onClick={handleLogout}>Log Out ✕</button>
+        </div>
       </nav>
 
-      {/* MAIN CONTENT */}
+      {/* ── MAIN CONTENT ── */}
       <main className="dashboard-main">
-        <h1 className="dashboard-heading">ADMIN DASHBOARD</h1>
+        <h1 className="dashboard-heading">Admin Dashboard</h1>
         <p className="dashboard-subheading">
           This dashboard provides an overview of the Farm to Table e-commerce platform,
           including product listings, customer orders, sales reports, and registered user accounts.
@@ -155,31 +132,28 @@ function Dashboard() {
         {/* SUMMARY CARDS */}
         <div className="dashboard-summary-row">
 
-          {/* Registered Users */}
           <div className="dashboard-card">
             <div className="dashboard-card-header">
-              <span className="dashboard-card-label">REGISTERED USERS</span>
+              <span className="dashboard-card-label">Registered Users</span>
               <Link to="/admin/users" className="dashboard-card-link">View List →</Link>
             </div>
             <div className="dashboard-card-count">{userCount}</div>
           </div>
 
-          {/* Listed Products */}
           <div className="dashboard-card">
             <div className="dashboard-card-header">
-              <span className="dashboard-card-label">LISTED PRODUCTS</span>
+              <span className="dashboard-card-label">Listed Products</span>
               <Link to="/admin/products" className="dashboard-card-link">View List →</Link>
             </div>
             <div className="dashboard-card-count">{productCounts.total}</div>
             <div className="dashboard-card-sub">
-              {productCounts.crops} Crops &nbsp; {productCounts.poultry} Poultry
+              {productCounts.crops} Crops &nbsp;·&nbsp; {productCounts.poultry} Poultry
             </div>
           </div>
 
-          {/* Orders */}
           <div className="dashboard-card">
             <div className="dashboard-card-header">
-              <span className="dashboard-card-label">ORDERS</span>
+              <span className="dashboard-card-label">Orders</span>
               <Link to="/admin/orders" className="dashboard-card-link">View List →</Link>
             </div>
             <div className="dashboard-card-count">{orderCounts.total}</div>
@@ -188,13 +162,12 @@ function Dashboard() {
 
         </div>
 
-        {/* RECENT ORDERS AND WEEKLY SALES */}
+        {/* RECENT ORDERS + WEEKLY SALES */}
         <div className="dashboard-mid-row">
 
-          {/* Recent Orders */}
           <div className="dashboard-panel">
             <div className="dashboard-panel-header">
-              <span className="dashboard-panel-title">RECENT ORDERS</span>
+              <span className="dashboard-panel-title">Recent Orders</span>
               <Link to="/admin/orders" className="dashboard-card-link">View List →</Link>
             </div>
             <table className="dashboard-table">
@@ -208,19 +181,19 @@ function Dashboard() {
                         {statusLabel(order.orderStatus)}
                       </span>
                     </td>
-                    <td className="dashboard-table-cell dashboard-order-amount">
-                      x{order.orderQuantity}
-                    </td>
+                    <td className="dashboard-table-cell dashboard-order-amount">×{order.orderQuantity}</td>
                   </tr>
                 ))}
+                {recentOrders.length === 0 && (
+                  <tr><td colSpan="4" className="dashboard-table-cell" style={{ color: '#4a7a3a', textAlign: 'center', padding: '24px' }}>No recent orders</td></tr>
+                )}
               </tbody>
             </table>
           </div>
 
-          {/* Weekly Sales Chart */}
           <div className="dashboard-panel">
             <div className="dashboard-panel-header">
-              <span className="dashboard-panel-title">WEEKLY SALES</span>
+              <span className="dashboard-panel-title">Weekly Sales</span>
               <Link to="/admin/sales" className="dashboard-card-link">View Report →</Link>
             </div>
             {salesRows.length === 0 ? (
@@ -237,7 +210,7 @@ function Dashboard() {
         {/* SALES REPORT TABLE */}
         <div className="dashboard-panel">
           <div className="dashboard-panel-header">
-            <span className="dashboard-panel-title">SALES REPORT (WEEKLY)</span>
+            <span className="dashboard-panel-title">Sales Report (Weekly)</span>
             <Link to="/admin/sales" className="dashboard-card-link">View Full Report →</Link>
           </div>
           <table className="dashboard-table dashboard-full-table">
@@ -256,13 +229,16 @@ function Dashboard() {
                   <td className="dashboard-table-cell">₱{row.totalRevenue?.toFixed(2)}</td>
                 </tr>
               ))}
+              {salesRows.length === 0 && (
+                <tr><td colSpan="3" className="dashboard-table-cell" style={{ textAlign: 'center', padding: '24px', color: '#4a7a3a' }}>No data</td></tr>
+              )}
             </tbody>
           </table>
         </div>
 
       </main>
 
-      {/* FOOTER */}
+      {/* ── FOOTER ── */}
       <footer className="dashboard-footer">
         <span className="dashboard-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
         <div className="dashboard-footer-links">
