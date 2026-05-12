@@ -35,7 +35,6 @@ function Shop() {
         price: product.price,
       })
     })
-    // Show brief "Added" feedback on the button, stay on the page
     setAddedId(product.productId)
     setTimeout(() => setAddedId(null), 1500)
   }
@@ -66,7 +65,7 @@ function Shop() {
       }}
     >
 
-      {/* ===== NAVBAR ===== */}
+      {/* Navigation Bar */}
       <nav className="shop-nav">
         <Link to="/" className="shop-nav-logo">
           <img src={logo} alt="AniMerkado Logo" className="shop-nav-logo-img" />
@@ -164,7 +163,7 @@ function Shop() {
         )}
       </main>
 
-      {/* ===== FOOTER ===== */}
+      {/* =Footer */}
       <footer className="shop-footer">
         <span className="shop-footer-copy">
           © 2026 AniMerkado – Department of Agriculture

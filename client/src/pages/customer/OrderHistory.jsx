@@ -42,7 +42,7 @@ function OrderHistory() {
       }}
     >
 
-      {/* ===== NAVBAR — landing-page style ===== */}
+      {/* Navigation Bar */}
       <nav className="oh-nav">
         <Link to="/" className="oh-nav-logo">
           <img src={logo} alt="AniMerkado Logo" className="oh-nav-logo-img" />
@@ -113,7 +113,7 @@ function OrderHistory() {
         )}
       </main>
 
-      {/* ===== FOOTER — landing-page style ===== */}
+      {/* Footer */}
       <footer className="oh-footer">
         <span className="oh-footer-copy">
           © 2026 AniMerkado – Department of Agriculture

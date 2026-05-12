@@ -76,7 +76,7 @@ function ProductDetail() {
       }}
     >
 
-      {/* ===== NAVBAR — landing-page style ===== */}
+      {/* Navigation Bar */}
       <nav className="pd-nav">
         <Link to="/" className="pd-nav-logo">
           <img src={logo} alt="AniMerkado Logo" className="pd-nav-logo-img" />
@@ -179,7 +179,7 @@ function ProductDetail() {
         )}
       </main>
 
-      {/* ===== FOOTER — landing-page style ===== */}
+      {/*Footer */}
       <footer className="pd-footer">
         <span className="pd-footer-copy">
           © 2026 AniMerkado – Department of Agriculture
