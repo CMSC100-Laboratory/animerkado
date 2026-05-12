@@ -27,13 +27,30 @@ function OrderFulfillment() {
   const handleConfirm = async (transactionId) => {
     try {
       const token = localStorage.getItem('token')
-      await fetch(`/api/orders/${transactionId}/confirm`, {
-        method: 'PATCH',
-        headers: { Authorization: `Bearer ${token}` }
+      await fetch(`/api/orders/${transactionId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ orderStatus: 1 })
       })
       fetchOrders()
     } catch (err) {
       console.error('Failed to confirm order:', err)
+    }
+  }
+
+  const handleCancel = async (transactionId) => {
+    try {
+      const token = localStorage.getItem('token')
+      await fetch(`/api/orders/${transactionId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      fetchOrders()
+    } catch (err) {
+      console.error('Failed to cancel order:', err)
     }
   }
 
@@ -78,8 +95,6 @@ function OrderFulfillment() {
                 <th className="orders-table-head">Product</th>
                 <th className="orders-table-head">Customer</th>
                 <th className="orders-table-head">Quantity</th>
-                <th className="orders-table-head">Price</th>
-                <th className="orders-table-head">Total</th>
                 <th className="orders-table-head">Date</th>
                 <th className="orders-table-head">Status</th>
                 <th className="orders-table-head">Action</th>
@@ -91,8 +106,6 @@ function OrderFulfillment() {
                   <td className="orders-table-cell">{order.productId}</td>
                   <td className="orders-table-cell">{order.email}</td>
                   <td className="orders-table-cell">{order.orderQuantity}</td>
-                  <td className="orders-table-cell">₱{order.price?.toFixed(2)}</td>
-                  <td className="orders-table-cell">₱{order.totalAmount?.toFixed(2)}</td>
                   <td className="orders-table-cell">{new Date(order.dateOrdered).toLocaleDateString()}</td>
                   <td className="orders-table-cell">
                     <span className={`orders-status orders-status-${order.orderStatus}`}>
@@ -101,12 +114,16 @@ function OrderFulfillment() {
                   </td>
                   <td className="orders-table-cell">
                     {order.orderStatus === 0 && (
-                      <button
-                        className="orders-confirm-btn"
-                        onClick={() => handleConfirm(order.transactionId)}
-                      >
-                        Confirm
-                      </button>
+                      <div className="orders-action-btns">
+                        <button
+                          className="orders-confirm-btn"
+                          onClick={() => handleConfirm(order.transactionId)}
+                        >Confirm</button>
+                        <button
+                          className="orders-cancel-btn"
+                          onClick={() => handleCancel(order.transactionId)}
+                        >Cancel</button>
+                      </div>
                     )}
                   </td>
                 </tr>

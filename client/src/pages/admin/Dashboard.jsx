@@ -1,7 +1,19 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { Bar } from 'react-chartjs-2'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js'
 import logo from '../../assets/logo.png'
 import '../../styles/admin/Dashboard.css'
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 function Dashboard() {
   const [userCount, setUserCount] = useState(0)
@@ -18,7 +30,7 @@ function Dashboard() {
     fetchSales()
   }, [])
 
-  // get /api/users (total registered users)
+  // GET /api/users
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('token')
@@ -32,7 +44,7 @@ function Dashboard() {
     }
   }
 
-  // get /api/products (total, crops, poultry)
+  // GET /api/products
   const fetchProducts = async () => {
     try {
       const token = localStorage.getItem('token')
@@ -48,7 +60,7 @@ function Dashboard() {
     }
   }
 
-  // get /api/orders (total and pending)
+  // GET /api/orders
   const fetchOrders = async () => {
     try {
       const token = localStorage.getItem('token')
@@ -67,11 +79,11 @@ function Dashboard() {
     }
   }
 
-  // GET /api/sales (dashboardsales)
+  // GET /api/orders/sales?filter=weekly
   const fetchSales = async () => {
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch('/api/sales?filter=weekly', {
+      const res = await fetch('/api/orders/sales?filter=weekly', {
         headers: { Authorization: `Bearer ${token}` }
       })
       const data = await res.json()
@@ -80,7 +92,7 @@ function Dashboard() {
       console.error('Failed to fetch sales:', err)
     }
   }
-  
+
   const handleLogout = () => {
     localStorage.clear()
     navigate('/login')
@@ -94,8 +106,30 @@ function Dashboard() {
     return 'UNKNOWN'
   }
 
-  // weeks label
-  const days = ['MON', 'TUE', 'WED', 'THURS', 'FRI', 'SAT', 'SUN']
+  // weekly sales chart data
+  const chartData = {
+    labels: salesRows.map(r => r._id),
+    datasets: [
+      {
+        label: 'Revenue (₱)',
+        data: salesRows.map(r => r.totalRevenue),
+        backgroundColor: 'rgba(0,0,0,0.75)',
+        borderColor: '#000',
+        borderWidth: 1
+      }
+    ]
+  }
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      title: { display: false }
+    },
+    scales: {
+      y: { beginAtZero: true }
+    }
+  }
 
   return (
     <div className="dashboard-wrapper">
@@ -136,7 +170,7 @@ function Dashboard() {
               <span className="dashboard-card-label">LISTED PRODUCTS</span>
               <Link to="/admin/products" className="dashboard-card-link">View List →</Link>
             </div>
-            <div className="dashboard-card-count">{productCounts.total.toLocaleString()}</div>
+            <div className="dashboard-card-count">{productCounts.total}</div>
             <div className="dashboard-card-sub">
               {productCounts.crops} Crops &nbsp; {productCounts.poultry} Poultry
             </div>
@@ -146,6 +180,7 @@ function Dashboard() {
           <div className="dashboard-card">
             <div className="dashboard-card-header">
               <span className="dashboard-card-label">ORDERS</span>
+              <Link to="/admin/orders" className="dashboard-card-link">View List →</Link>
             </div>
             <div className="dashboard-card-count">{orderCounts.total}</div>
             <div className="dashboard-card-sub">{orderCounts.pending} pending confirmation</div>
@@ -174,7 +209,7 @@ function Dashboard() {
                       </span>
                     </td>
                     <td className="dashboard-table-cell dashboard-order-amount">
-                      ₱{order.orderQuantity}
+                      x{order.orderQuantity}
                     </td>
                   </tr>
                 ))}
@@ -182,18 +217,19 @@ function Dashboard() {
             </table>
           </div>
 
-          {/* Weekly Sales */}
+          {/* Weekly Sales Chart */}
           <div className="dashboard-panel">
             <div className="dashboard-panel-header">
               <span className="dashboard-panel-title">WEEKLY SALES</span>
+              <Link to="/admin/sales" className="dashboard-card-link">View Report →</Link>
             </div>
-            {/* Placeholder chart area */}
-            <div className="dashboard-chart-area"></div>
-            <div className="dashboard-chart-labels">
-              {days.map(day => (
-                <span key={day} className="dashboard-chart-label">{day}</span>
-              ))}
-            </div>
+            {salesRows.length === 0 ? (
+              <p className="dashboard-chart-empty">No sales data this week.</p>
+            ) : (
+              <div className="dashboard-chart-area">
+                <Bar data={chartData} options={chartOptions} />
+              </div>
+            )}
           </div>
 
         </div>
@@ -201,26 +237,22 @@ function Dashboard() {
         {/* SALES REPORT TABLE */}
         <div className="dashboard-panel">
           <div className="dashboard-panel-header">
-            <span className="dashboard-panel-title">SALES REPORT</span>
-            <Link to="/admin/sales" className="dashboard-card-link">View List →</Link>
+            <span className="dashboard-panel-title">SALES REPORT (WEEKLY)</span>
+            <Link to="/admin/sales" className="dashboard-card-link">View Full Report →</Link>
           </div>
           <table className="dashboard-table dashboard-full-table">
             <thead>
               <tr className="dashboard-table-head-row">
                 <th className="dashboard-table-head">Product</th>
-                <th className="dashboard-table-head">Type</th>
-                <th className="dashboard-table-head">Quantity</th>
-                <th className="dashboard-table-head">Price</th>
-                <th className="dashboard-table-head">Total Income</th>
+                <th className="dashboard-table-head">Quantity Sold</th>
+                <th className="dashboard-table-head">Total Revenue</th>
               </tr>
             </thead>
             <tbody>
               {salesRows.map((row, idx) => (
                 <tr key={idx} className="dashboard-table-row">
                   <td className="dashboard-table-cell">{row._id}</td>
-                  <td className="dashboard-table-cell">—</td>
                   <td className="dashboard-table-cell">{row.totalQuantity}</td>
-                  <td className="dashboard-table-cell">—</td>
                   <td className="dashboard-table-cell">₱{row.totalRevenue?.toFixed(2)}</td>
                 </tr>
               ))}

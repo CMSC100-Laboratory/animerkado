@@ -15,10 +15,11 @@ function UserManagement() {
 
   useEffect(() => {
     if (search) {
-      setFiltered(users.filter(u =>
-        u.name?.toLowerCase().includes(search.toLowerCase()) ||
-        u.email?.toLowerCase().includes(search.toLowerCase())
-      ))
+      setFiltered(users.filter(u => {
+        const fullName = `${u.firstName} ${u.lastName}`.toLowerCase()
+        return fullName.includes(search.toLowerCase()) ||
+          u.email?.toLowerCase().includes(search.toLowerCase())
+      }))
     } else {
       setFiltered(users)
     }
@@ -79,15 +80,17 @@ function UserManagement() {
               <tr className="users-table-head-row">
                 <th className="users-table-head">Name</th>
                 <th className="users-table-head">Email</th>
-                <th className="users-table-head">Orders</th>
+                <th className="users-table-head">Role</th>
               </tr>
             </thead>
             <tbody>
               {filtered.map((user) => (
                 <tr key={user._id} className="users-table-row">
-                  <td className="users-table-cell">{user.name}</td>
+                  <td className="users-table-cell">
+                    {user.firstName} {user.middleName} {user.lastName}
+                  </td>
                   <td className="users-table-cell">{user.email}</td>
-                  <td className="users-table-cell">{user.orderCount ?? 0}</td>
+                  <td className="users-table-cell">{user.userType}</td>
                 </tr>
               ))}
             </tbody>

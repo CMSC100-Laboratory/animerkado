@@ -187,3 +187,38 @@
     color: #000;
     text-decoration: none;
 }
+
+/* ACTION BUTTONS */
+.orders-action-btns {
+  display: flex;
+  gap: 8px;
+}
+ 
+.orders-cancel-btn {
+  padding: 4px 14px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  border: 1px solid #000;
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+}
+ 
+.orders-cancel-btn:hover {
+  background-color: #000;
+  color: #fff;
+}
+ 
+/* empty chart state */
+.dashboard-chart-empty {
+  padding: 16px 20px;
+  font-size: 0.875rem;
+  color: #555;
+}
+ 
+/* chart container */
+.dashboard-chart-area {
+  padding: 16px 20px;
+}
+ 
