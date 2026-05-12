@@ -162,7 +162,7 @@ function ProductListings() {
           <Link to="/admin/orders" className="products-nav-link">Orders</Link>
           <Link to="/admin/sales" className="products-nav-link">Sales</Link>
           <Link to="/admin/users" className="products-nav-link">Users</Link>
-          <button className="products-logout-btn" onClick={handleLogout}>Log Out ✕</button>
+          <button className="products-logout-btn" onClick={handleLogout}>Log Out</button>
         </div>
       </nav>
 

@@ -138,7 +138,7 @@ function SalesReport() {
           <Link to="/admin/products" className="sales-nav-link">Products</Link>
           <Link to="/admin/orders" className="sales-nav-link">Orders</Link>
           <Link to="/admin/users" className="sales-nav-link">Users</Link>
-          <button className="sales-logout-btn" onClick={handleLogout}>Log Out ✕</button>
+          <button className="sales-logout-btn" onClick={handleLogout}>Log Out</button>
         </div>
       </nav>
 
