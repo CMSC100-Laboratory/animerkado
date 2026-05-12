@@ -301,17 +301,6 @@ function ProductListings() {
             </div>
 
             <div className="products-modal-field">
-              <label className="products-modal-label">Current Image</label>
-              <img
-                src={editProduct?.productImage ? `http://localhost:5000${editProduct.productImage}` : `https://placehold.co/80x80/d4edbc/076653?text=?`}
-                alt={editProduct?.productName}
-                onError={e => { e.target.src = `https://placehold.co/80x80/d4edbc/076653?text=${encodeURIComponent((editProduct?.productName || '?')[0])}` }}
-                style={{
-                  width: 80, height: 80, objectFit: 'cover',
-                  borderRadius: 10, border: '1.5px solid rgba(106,158,73,0.35)',
-                  marginBottom: 8, display: 'block'
-                }}
-              />
               <label className="products-modal-label">Replace Image (optional)</label>
               <input type="file" accept="image/*" onChange={e => setImageFile(e.target.files[0])} style={{ fontSize: '0.82rem' }} />
             </div>
