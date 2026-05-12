@@ -96,7 +96,11 @@ function ProductDetail() {
 
           {/* left: image */}
           <div className="pd-panel-left">
-            <div className="pd-image-placeholder">[]</div>
+            <img
+              src={`http://localhost:5000${product.productImage}`}
+              alt={product.productName}
+              className="pd-image"
+            />
           </div>
 
           {/* right: info */}
@@ -147,10 +151,24 @@ function ProductDetail() {
             <p className="pd-related-title">You might also like</p>
             <div className="pd-related-grid">
               {related.map(p => (
-                <Link to={`/product/${p.productId}`} className="pd-related-card" key={p.productId}>
-                  <div className="pd-related-img">[]</div>
-                  <p className="pd-related-name">{p.productName}</p>
-                  <p className="pd-related-price">₱{p.price.toFixed(2)}</p>
+                <Link
+                  to={`/product/${p.productId}`}
+                  className="pd-related-card"
+                  key={p.productId}
+                >
+                  <img
+                    src={`http://localhost:5000${p.productImage}`}
+                    alt={p.productName}
+                    className="pd-related-img"
+                  />
+
+                  <p className="pd-related-name">
+                    {p.productName}
+                  </p>
+
+                  <p className="pd-related-price">
+                    ₱{p.price.toFixed(2)}
+                  </p>
                 </Link>
               ))}
             </div>
