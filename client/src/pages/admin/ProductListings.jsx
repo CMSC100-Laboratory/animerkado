@@ -42,13 +42,8 @@ function ProductListings() {
     }
   }
 
-  useEffect(() => {
-    fetchProducts()
-  }, [])
-
-  useEffect(() => {
-    applyFilters()
-  }, [products, search, typeFilter, sortField, sortOrder])
+  useEffect(() => { fetchProducts() }, [])
+  useEffect(() => { applyFilters() }, [products, search, typeFilter, sortField, sortOrder])
 
   // ================= FILTERS =================
   const handleSort = (field) => {
@@ -100,41 +95,31 @@ function ProductListings() {
     try {
       const isEdit = !!form.productId
 
-      let url = isEdit
+      const url = isEdit
         ? `http://localhost:5000/api/products/${form.productId}`
         : 'http://localhost:5000/api/products'
 
       let options = {
         method: isEdit ? 'PUT' : 'POST',
-        headers: {
-          Authorization: `Bearer ${getToken()}`
-        }
+        headers: { Authorization: `Bearer ${getToken()}` }
       }
 
       // ================= IMAGE HANDLING =================
       if (imageMode === 'upload' && imageFile) {
         const formData = new FormData()
-
         formData.append('productName', form.productName)
         formData.append('productType', form.productType)
         formData.append('price', form.price)
         formData.append('productQuantity', form.productQuantity)
         formData.append('productDescription', form.productDescription)
         formData.append('productImage', imageFile)
-
         options.body = formData
       } else {
         options.headers['Content-Type'] = 'application/json'
-        options.body = JSON.stringify({
-          ...form,
-          imageUrl: form.imageUrl
-        })
+        options.body = JSON.stringify({ ...form, imageUrl: form.imageUrl })
       }
 
-      const res = await fetch(url, options)
-      const data = await res.json()
-
-      console.log(data)
+      await fetch(url, options)
 
       setForm({
         productId: '',
@@ -145,7 +130,6 @@ function ProductListings() {
         productDescription: '',
         imageUrl: ''
       })
-
       setImageFile(null)
       fetchProducts()
     } catch (err) {
@@ -172,7 +156,6 @@ function ProductListings() {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${getToken()}` }
     })
-
     fetchProducts()
   }
 
@@ -190,6 +173,7 @@ function ProductListings() {
   return (
     <div className="products-wrapper">
 
+      {/*  NAVIGATION BAR  */}
       <nav className="products-nav">
         <Link to="/admin/dashboard" className="products-nav-logo">
           <img src={logo} alt="Logo" className="products-nav-logo-img" />
@@ -202,9 +186,8 @@ function ProductListings() {
       <main className="products-main">
         <h1 className="products-heading">LISTED PRODUCTS</h1>
 
-        {/* FORM */}
+        {/*  FORM  */}
         <form onSubmit={handleSubmit}>
-
           <input
             name="productName"
             value={form.productName}
@@ -233,7 +216,17 @@ function ProductListings() {
             placeholder="Description"
           />
 
-          {/* IMAGE MODE */}
+          <select
+            name="productType"
+            value={form.productType}
+            onChange={handleChange}
+          >
+            <option value="">-- Select Type --</option>
+            <option value="1">Crops</option>
+            <option value="2">Poultry</option>
+          </select>
+
+          {/*  IMAGE MODE  */}
           <div>
             <label>
               <input
@@ -243,7 +236,6 @@ function ProductListings() {
               />
               Image URL
             </label>
-
             <label>
               <input
                 type="radio"
@@ -270,7 +262,7 @@ function ProductListings() {
           </button>
         </form>
 
-        {/* SORT PILLS */}
+        {/*  SORT PILLS  */}
         <div className="products-sort-row">
           <span className="products-sort-label">Sort by:</span>
           {[
@@ -288,6 +280,7 @@ function ProductListings() {
           ))}
         </div>
 
+        {/*  CATEGORY FILTER  */}
         <div className="products-sort-row">
           {[['all', 'All'], ['crops', 'Crops'], ['poultry', 'Poultry']].map(([val, label]) => (
             <button
@@ -300,43 +293,38 @@ function ProductListings() {
           ))}
         </div>
 
-        {/* TABLE */}
-        <table border="1" cellPadding="10">
+        {/*  TABLE  */}
+        <table className="products-table">
           <thead>
-            <tr>
-              <th>Image</th>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Qty</th>
-              <th>Price</th>
-              <th>Actions</th>
+            <tr className="products-table-head-row">
+              <th className="products-table-head">Image</th>
+              <th className="products-table-head">Name</th>
+              <th className="products-table-head">Type</th>
+              <th className="products-table-head">Qty</th>
+              <th className="products-table-head">Price</th>
+              <th className="products-table-head">Actions</th>
             </tr>
           </thead>
-
           <tbody>
             {filtered.map((p) => (
-              <tr key={p.productId || p._id}>
-                <td>
-                  <img
-                    src={p.imageUrl || 'https://placeholder.co/50'}
-                    width="50"
-                  />
+              <tr key={p.productId || p._id} className="products-table-row">
+                <td className="products-table-cell">
+                  <img src={p.imageUrl || 'https://placeholder.co/50'} width="50" alt={p.productName} />
                 </td>
-                <td>{p.productName}</td>
-                <td>{typeLabel(p.productType)}</td>
-                <td>{p.productQuantity}</td>
-                <td>{p.price}</td>
-                <td>
+                <td className="products-table-cell">{p.productName}</td>
+                <td className="products-table-cell">{typeLabel(p.productType)}</td>
+                <td className="products-table-cell">{p.productQuantity}</td>
+                <td className="products-table-cell">{p.price}</td>
+                <td className="products-table-cell">
                   <button onClick={() => handleEdit(p)}>Edit</button>
-                  <button onClick={() => handleDelete(p.productId || p._id)}>
-                    Delete
-                  </button>
+                  <button onClick={() => handleDelete(p.productId || p._id)}>Delete</button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </main>
+
     </div>
   )
 }
