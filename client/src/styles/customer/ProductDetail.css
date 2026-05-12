@@ -2,7 +2,7 @@
 :root {
   --gradient-navbar: linear-gradient(270deg, #075344 0%, #022820 69.71%);
   --gradient-footer: linear-gradient(270deg, #075344 0%, #022820 100%);
-  --gradient-btn-shop: linear-gradient(0deg, #B9C500 0%, #D3DC42 10.58%, #FAFFA4 68.75%);
+  --gradient-btn-login: linear-gradient(0deg, #C2C682 8.17%, #FAFFA4 49.52%), linear-gradient(0deg, #9FA26C 0%, #FAFFA4 49.52%), #F8FF87;
   --gradient-featured-card: linear-gradient(180deg, #F3FEDD 66.83%, #E8F8CA 100%), #F3FEDD;
   --color-primary-stroke: #6A9E49;
   --color-featured-title: #076653;
@@ -32,73 +32,81 @@
   min-height: 100vh;
 }
 
-/* ── Navbar ────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════
+   NAVBAR  — matches LandingPage style
+══════════════════════════════════════════════════════════════ */
 .pd-nav {
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 32px;
-  height: 64px;
+  height: 60px;
   position: sticky;
   top: 0;
   z-index: 100;
   background: var(--gradient-navbar);
   box-shadow: var(--shadow-navbar);
-  margin: 0;
-  border: none;
 }
 
 .pd-nav-logo {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  gap: 8px;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .pd-nav-logo-img {
-  height: 52px;
+  height: 60px;
   width: auto;
   object-fit: contain;
   display: block;
+  max-width: 100%;
 }
 
 .pd-nav-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 
+/* Plain nav links */
 .pd-nav-link {
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--color-nav-text);
   text-decoration: none;
-  padding: 6px 22px;
-  border: 2px solid rgba(255, 255, 255, 0.55);
-  border-radius: 999px;
-  background: transparent;
-  transition: background 0.15s;
+  transition: opacity 0.3s ease;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 .pd-nav-link:hover {
-  background: rgba(255, 255, 255, 0.12);
+  opacity: 0.8;
 }
 
+/* Logout button */
 .pd-nav-logout {
-  font-size: 0.85rem;
-  font-weight: 700;
-  padding: 6px 22px;
-  border-radius: 999px;
-  border: 2px solid transparent;
+  padding: 6px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
   background: #c0392b;
   color: #fff;
-  cursor: pointer;
-  font-family: inherit;
-  transition: background 0.15s;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.15s;
 }
 
 .pd-nav-logout:hover {
   background: #a93226;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* ── Main ──────────────────────────────────────────────────── */
@@ -424,37 +432,122 @@
   margin: 0 10px 10px;
 }
 
-/* ── Footer ────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════
+   FOOTER  — matches LandingPage style
+══════════════════════════════════════════════════════════════ */
 .pd-footer {
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 48px;
+  padding: 32px 40px;
   background: var(--gradient-footer);
   margin: 0;
   border: none;
-  font-size: 0.78rem;
-  color: var(--color-nav-text);
 }
 
 .pd-footer-copy {
+  font-size: 14px;
   color: var(--color-nav-text);
-  opacity: 0.85;
 }
 
 .pd-footer-links {
   display: flex;
-  gap: 24px;
+  gap: 32px;
 }
 
 .pd-footer-links a {
+  font-size: 14px;
   color: var(--color-nav-text);
   text-decoration: none;
-  opacity: 0.85;
-  transition: opacity 0.15s;
+  transition: opacity 0.3s ease;
 }
 
 .pd-footer-links a:hover {
-  opacity: 1;
+  opacity: 0.7;
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .pd-nav {
+    height: auto;
+    padding: 8px 16px;
+    gap: 12px;
+  }
+
+  .pd-nav-logo-img {
+    height: 40px;
+    width: 35px;
+  }
+
+  .pd-nav-right {
+    gap: 10px;
+  }
+
+  .pd-nav-link {
+    font-size: 12px;
+  }
+
+  .pd-nav-logout {
+    padding: 5px 12px;
+    font-size: 11px;
+  }
+
+  .pd-main {
+    padding: 20px;
+  }
+
+  .pd-panel {
+    flex-direction: column;
+  }
+
+  .pd-panel-left {
+    flex: none;
+    border-right: none;
+    border-bottom: 1.5px solid var(--color-primary-stroke);
+  }
+
+  .pd-footer {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .pd-footer-copy {
+    font-size: 12px;
+  }
+
+  .pd-footer-links {
+    gap: 20px;
+  }
+
+  .pd-footer-links a {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pd-nav {
+    padding: 8px 12px;
+  }
+
+  .pd-nav-logo-img {
+    height: 35px;
+    width: 30px;
+  }
+
+  .pd-nav-right {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .pd-nav-link {
+    font-size: 11px;
+  }
+
+  .pd-nav-logout {
+    padding: 4px 10px;
+    font-size: 10px;
+  }
 }
