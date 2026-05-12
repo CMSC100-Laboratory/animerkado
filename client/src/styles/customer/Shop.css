@@ -2,6 +2,7 @@
 :root {
   --gradient-navbar: linear-gradient(270deg, #075344 0%, #022820 69.71%);
   --gradient-footer: linear-gradient(270deg, #075344 0%, #022820 100%);
+  --gradient-btn-login: linear-gradient(0deg, #C2C682 8.17%, #FAFFA4 49.52%), linear-gradient(0deg, #9FA26C 0%, #FAFFA4 49.52%), #F8FF87;
   --gradient-btn-shop: linear-gradient(0deg, #B9C500 0%, #D3DC42 10.58%, #FAFFA4 68.75%);
   --gradient-featured-card: linear-gradient(180deg, #F3FEDD 66.83%, #E8F8CA 100%), #F3FEDD;
   --color-primary-stroke: #6A9E49;
@@ -11,12 +12,13 @@
   --shadow-navbar: 0 2px 109.4px 2px rgba(0, 0, 0, 0.25);
 }
 
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
 }
 
-/* ── Page wrapper ── background set via inline style in JSX ── */
+/* ── Page wrapper ──────────────────────────────────────────── */
 .shop-wrapper {
   display: flex;
   flex-direction: column;
@@ -26,79 +28,97 @@ body, html {
   padding: 0;
 }
 
-/* ── Navbar ────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════
+   NAVBAR  — matches LandingPage style
+══════════════════════════════════════════════════════════════ */
 .shop-nav {
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 32px;
-  height: 64px;
+  height: 60px;
   position: sticky;
   top: 0;
   z-index: 100;
   background: var(--gradient-navbar);
   box-shadow: var(--shadow-navbar);
-  margin: 0;
-  border: none;
 }
 
 .shop-nav-logo {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  gap: 8px;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .shop-nav-logo-img {
-  height: 52px;
+  height: 60px;
   width: auto;
   object-fit: contain;
   display: block;
+  max-width: 100%;
 }
 
 .shop-nav-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 
+/* Plain nav links (About / Shop / Cart / History) */
 .shop-nav-link {
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--color-nav-text);
   text-decoration: none;
-  padding: 6px 22px;
-  border: 2px solid rgba(255, 255, 255, 0.55);
-  border-radius: 999px;
-  background: transparent;
-  transition: background 0.15s;
-}
-
-.shop-nav-link.active {
-  background: var(--gradient-btn-shop);
-  color: #1a3a00;
-  border-color: transparent;
-}
-
-.shop-nav-link:not(.active):hover {
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.shop-nav-logout {
-  font-size: 0.85rem;
-  font-weight: 700;
-  padding: 6px 22px;
-  border-radius: 999px;
-  border: 2px solid transparent;
-  background: #c0392b;
-  color: #fff;
+  transition: opacity 0.3s ease;
+  background: none;
+  border: none;
+  padding: 0;
   cursor: pointer;
   font-family: inherit;
-  transition: background 0.15s;
+}
+
+.shop-nav-link:hover {
+  opacity: 0.8;
+}
+
+/* Active link gets the "Shop Now" pill treatment */
+.shop-nav-link.active {
+  padding: 6px 16px;
+  border-radius: 100px;
+  background: var(--gradient-btn-login);
+  color: #000;
+  font-size: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.shop-nav-link.active:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  opacity: 1;
+}
+
+/* Logout button — styled like a nav-btn pill */
+.shop-nav-logout {
+  padding: 6px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  background: #c0392b;
+  color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.15s;
 }
 
 .shop-nav-logout:hover {
   background: #a93226;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* ── Main ──────────────────────────────────────────────────── */
@@ -360,37 +380,122 @@ body, html {
   cursor: not-allowed;
 }
 
-/* ── Footer ────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════
+   FOOTER  — matches LandingPage style
+══════════════════════════════════════════════════════════════ */
 .shop-footer {
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 48px;
+  padding: 32px 40px;
   background: var(--gradient-footer);
   margin: 0;
   border: none;
-  font-size: 0.78rem;
-  color: var(--color-nav-text);
 }
 
 .shop-footer-copy {
+  font-size: 14px;
   color: var(--color-nav-text);
-  opacity: 0.85;
 }
 
 .shop-footer-links {
   display: flex;
-  gap: 24px;
+  gap: 32px;
 }
 
 .shop-footer-links a {
+  font-size: 14px;
   color: var(--color-nav-text);
   text-decoration: none;
-  opacity: 0.85;
-  transition: opacity 0.15s;
+  transition: opacity 0.3s ease;
 }
 
 .shop-footer-links a:hover {
-  opacity: 1;
+  opacity: 0.7;
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .shop-nav {
+    height: auto;
+    padding: 8px 16px;
+    gap: 12px;
+  }
+
+  .shop-nav-logo-img {
+    height: 40px;
+    width: 35px;
+  }
+
+  .shop-nav-right {
+    gap: 10px;
+  }
+
+  .shop-nav-link {
+    font-size: 12px;
+  }
+
+  .shop-nav-link.active {
+    padding: 5px 12px;
+    font-size: 11px;
+  }
+
+  .shop-nav-logout {
+    padding: 5px 12px;
+    font-size: 11px;
+  }
+
+  .shop-main {
+    padding: 20px 20px;
+  }
+
+  .shop-footer {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .shop-footer-copy {
+    font-size: 12px;
+  }
+
+  .shop-footer-links {
+    gap: 20px;
+  }
+
+  .shop-footer-links a {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .shop-nav {
+    padding: 8px 12px;
+  }
+
+  .shop-nav-logo-img {
+    height: 35px;
+    width: 30px;
+  }
+
+  .shop-nav-right {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .shop-nav-link {
+    font-size: 11px;
+  }
+
+  .shop-nav-link.active {
+    padding: 4px 10px;
+    font-size: 10px;
+  }
+
+  .shop-nav-logout {
+    padding: 4px 10px;
+    font-size: 10px;
+  }
 }

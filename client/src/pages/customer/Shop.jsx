@@ -63,11 +63,12 @@ function Shop() {
       }}
     >
 
-      {/* Navbar */}
+      {/* ===== NAVBAR — landing-page style ===== */}
       <nav className="shop-nav">
         <Link to="/" className="shop-nav-logo">
-          <img src={logo} alt="Logo" className="shop-nav-logo-img" />
+          <img src={logo} alt="AniMerkado Logo" className="shop-nav-logo-img" />
         </Link>
+
         <div className="shop-nav-right">
           <Link to="/shop" className="shop-nav-link active">Shop</Link>
           <Link to="/cart" className="shop-nav-link">Cart</Link>
@@ -120,16 +121,6 @@ function Shop() {
               >{label}</button>
             ))}
           </div>
-
-          <div className="shop-filter-row">
-            {[['all', 'All'], ['1', 'Crops'], ['2', 'Poultry']].map(([val, label]) => (
-              <button
-                key={val}
-                className={`shop-filter-btn${filter === val ? ' active' : ''}`}
-                onClick={() => setFilter(val)}
-              >{label}</button>
-            ))}
-          </div>
         </div>
 
         {loading ? (
@@ -168,9 +159,11 @@ function Shop() {
         )}
       </main>
 
-      {/* Footer */}
+      {/* ===== FOOTER — landing-page style ===== */}
       <footer className="shop-footer">
-        <span className="shop-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
+        <span className="shop-footer-copy">
+          © 2026 AniMerkado – Department of Agriculture
+        </span>
         <div className="shop-footer-links">
           <Link to="/privacy">Privacy</Link>
           <Link to="/terms">Terms</Link>
