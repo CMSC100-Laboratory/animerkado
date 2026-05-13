@@ -50,7 +50,6 @@ const clearCart = async (req, res) => {
   }
 }
 
-export {addToCart, getCartItems, removeFromCart, clearCart };
 const updateCartQuantity = async (req, res) => {
     try {
         const { quantity } = req.body;
@@ -73,4 +72,4 @@ const updateCartQuantity = async (req, res) => {
     }
 };
 
-export { addToCart, getCartItems, removeFromCart, updateCartQuantity };
+export { addToCart, getCartItems, removeFromCart, updateCartQuantity, clearCart };
