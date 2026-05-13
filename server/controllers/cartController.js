@@ -43,4 +43,14 @@ const removeFromCart = async (req, res) => {
     }
 }
 
-export {addToCart, getCartItems, removeFromCart};
+const clearCart = async (req, res) => {
+  try {
+        const { email } = req.query
+        await Cart.deleteMany({ email })
+        return res.send({ cleared: true })
+  } catch (error) {
+        return res.status(500).send({ cleared: false, error: error.message })
+  }
+}
+
+export {addToCart, getCartItems, removeFromCart, clearCart };

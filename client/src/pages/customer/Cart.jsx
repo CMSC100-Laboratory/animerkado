@@ -45,7 +45,7 @@ function Cart() {
         })
       )
     )
-    await Promise.all(items.map(item => fetch(`/api/cart/${item._id}`, { method: 'DELETE' })))
+    await fetch(`/api/cart?email=${email}`, { method: 'DELETE' })
     navigate('/order-confirmation')
   }
 
