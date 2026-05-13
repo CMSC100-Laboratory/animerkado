@@ -12,6 +12,17 @@ function ProductListings() {
   const [sortField, setSortField] = useState('name')
   const [sortDir, setSortDir] = useState('asc')
 
+  // Create modal state
+  const [createProduct, setCreateProduct] = useState(null)
+  const [createForm, setCreateForm] = useState({
+    productName: '',
+    productType: '',
+    price: '',
+    productQuantity: '',
+    productDescription: '',
+  })
+  const [createImageFile, setCreateImageFile] = useState(null)
+
   // Edit modal state
   const [editProduct, setEditProduct] = useState(null)
   const [editForm, setEditForm] = useState({})
@@ -20,10 +31,13 @@ function ProductListings() {
   const navigate = useNavigate()
   const getToken = () => localStorage.getItem('token')
 
-  // ── FETCH ───────────────────────────────────────────────────
   const fetchProducts = async () => {
     try {
-      const res = await fetch('/api/products', {
+      let url = '/api/products'
+      if (sortField) {
+        url += `?sort=${sortField}&order=${sortDir}`
+      }
+      const res = await fetch(url, {
         headers: { Authorization: `Bearer ${getToken()}` }
       })
       const data = await res.json()
@@ -31,10 +45,9 @@ function ProductListings() {
     } catch (err) { console.error(err) }
   }
 
-  useEffect(() => { fetchProducts() }, [])
-  useEffect(() => { applyFilters() }, [products, search, typeFilter, sortField, sortDir])
+  useEffect(() => { fetchProducts() }, [sortField, sortDir])
+  useEffect(() => { applyFilters() }, [products, search, typeFilter])
 
-  // ── FILTERS ─────────────────────────────────────────────────
   const applyFilters = () => {
     let result = [...products]
 
@@ -46,19 +59,6 @@ function ProductListings() {
         p.productName?.toLowerCase().includes(search.toLowerCase())
       )
     }
-
-    result.sort((a, b) => {
-      let valA, valB
-      if (sortField === 'name') { valA = a.productName || ''; valB = b.productName || '' }
-      else if (sortField === 'type') { valA = a.productType; valB = b.productType }
-      else if (sortField === 'price') { valA = a.price; valB = b.price }
-      else if (sortField === 'quantity') { valA = a.productQuantity; valB = b.productQuantity }
-
-      if (typeof valA === 'string') {
-        return sortDir === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA)
-      }
-      return sortDir === 'asc' ? valA - valB : valB - valA
-    })
 
     setFiltered(result)
   }
@@ -77,7 +77,60 @@ function ProductListings() {
     return sortDir === 'asc' ? ' ↑' : ' ↓'
   }
 
-  // ── EDIT ────────────────────────────────────────────────────
+  const handleCreateOpen = () => {
+    setCreateProduct({})
+    setCreateForm({
+      productName: '',
+      productType: '',
+      price: '',
+      productQuantity: '',
+      productDescription: '',
+    })
+    setCreateImageFile(null)
+  }
+
+  const handleCreateChange = (e) => {
+    setCreateForm({ ...createForm, [e.target.name]: e.target.value })
+  }
+
+  const handleCreateSave = async () => {
+    try {
+      const formData = new FormData()
+      formData.append('productName', createForm.productName)
+      formData.append('productType', createForm.productType)
+      formData.append('productQuantity', createForm.productQuantity)
+      formData.append('price', createForm.price)
+      formData.append('productDescription', createForm.productDescription)
+      
+      if (createImageFile) {
+        formData.append('productImage', createImageFile)
+      }
+
+      const res = await fetch('/api/products', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${getToken()}` },
+        body: formData
+      })
+
+      const data = await res.json()
+      
+      if (data.inserted) {
+        setCreateProduct(null)
+        setCreateForm({
+          productName: '',
+          productType: '',
+          price: '',
+          productQuantity: '',
+          productDescription: '',
+        })
+        setCreateImageFile(null)
+        fetchProducts()
+      } else {
+        alert('Error: ' + (data.error || 'Failed to create'))
+      }
+    } catch (err) { console.error(err) }
+  }
+
   const handleEdit = (p) => {
     setEditProduct(p)
     setEditForm({
@@ -131,7 +184,6 @@ function ProductListings() {
     } catch (err) { console.error(err) }
   }
 
-  // ── DELETE ───────────────────────────────────────────────────
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this product?')) return
     await fetch(`/api/products/${id}`, {
@@ -194,10 +246,10 @@ function ProductListings() {
         <div className="products-sort-row">
           <span className="products-sort-label">Sort:</span>
           {[
-            { key: 'name', label: 'Name' },
-            { key: 'type', label: 'Type' },
+            { key: 'productName', label: 'Name' },
+            { key: 'productType', label: 'Type' },
             { key: 'price', label: 'Price' },
-            { key: 'quantity', label: 'Quantity' },
+            { key: 'productQuantity', label: 'Quantity' },
           ].map(s => (
             <button
               key={s.key}
@@ -213,6 +265,7 @@ function ProductListings() {
         <div className="products-panel">
           <div className="products-panel-header">
             <span className="products-panel-title">All Products ({filtered.length})</span>
+            <button className="products-create-btn" onClick={handleCreateOpen}>+ Add Product</button>
           </div>
 
           {filtered.length === 0 ? (
@@ -221,14 +274,14 @@ function ProductListings() {
             <table className="products-table">
               <thead>
                 <tr className="products-table-head-row">
-                  <th className="products-table-head" onClick={() => handleSort('name')}>
-                    Product Name{sortIndicator('name')}
+                  <th className="products-table-head" onClick={() => handleSort('productName')}>
+                    Product Name{sortIndicator('productName')}
                   </th>
-                  <th className="products-table-head" onClick={() => handleSort('type')}>
-                    Type{sortIndicator('type')}
+                  <th className="products-table-head" onClick={() => handleSort('productType')}>
+                    Type{sortIndicator('productType')}
                   </th>
-                  <th className="products-table-head" onClick={() => handleSort('quantity')}>
-                    Quantity{sortIndicator('quantity')}
+                  <th className="products-table-head" onClick={() => handleSort('productQuantity')}>
+                    Quantity{sortIndicator('productQuantity')}
                   </th>
                   <th className="products-table-head" onClick={() => handleSort('price')}>
                     Price{sortIndicator('price')}
@@ -264,6 +317,54 @@ function ProductListings() {
           )}
         </div>
       </main>
+
+      {/* ── CREATE MODAL ── */}
+      {createProduct !== null && (
+        <div className="products-modal-overlay" onClick={() => setCreateProduct(null)}>
+          <div className="products-modal" onClick={e => e.stopPropagation()}>
+            <h2 className="products-modal-title">Add New Product</h2>
+
+            <div className="products-modal-field">
+              <label className="products-modal-label">Product Name</label>
+              <input className="products-modal-input" name="productName" value={createForm.productName} onChange={handleCreateChange} />
+            </div>
+
+            <div className="products-modal-field">
+              <label className="products-modal-label">Type</label>
+              <select className="products-modal-select" name="productType" value={createForm.productType} onChange={handleCreateChange}>
+                <option value="">Select type</option>
+                <option value="1">Crops</option>
+                <option value="2">Poultry</option>
+              </select>
+            </div>
+
+            <div className="products-modal-field">
+              <label className="products-modal-label">Price (₱)</label>
+              <input className="products-modal-input" name="price" type="number" value={createForm.price} onChange={handleCreateChange} />
+            </div>
+
+            <div className="products-modal-field">
+              <label className="products-modal-label">Quantity</label>
+              <input className="products-modal-input" name="productQuantity" type="number" value={createForm.productQuantity} onChange={handleCreateChange} />
+            </div>
+
+            <div className="products-modal-field">
+              <label className="products-modal-label">Description</label>
+              <textarea className="products-modal-textarea" name="productDescription" value={createForm.productDescription} onChange={handleCreateChange} />
+            </div>
+
+            <div className="products-modal-field">
+              <label className="products-modal-label">Product Image</label>
+              <input type="file" accept="image/*" onChange={e => setCreateImageFile(e.target.files[0])} style={{ fontSize: '0.82rem' }} />
+            </div>
+
+            <div className="products-modal-actions">
+              <button className="products-modal-cancel" onClick={() => setCreateProduct(null)}>Cancel</button>
+              <button className="products-modal-save" onClick={handleCreateSave}>Add Product</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── EDIT MODAL ── */}
       {editProduct && (
