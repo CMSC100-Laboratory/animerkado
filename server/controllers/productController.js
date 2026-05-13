@@ -57,13 +57,24 @@ const saveProduct = async (req, res) => {
 // PUT /api/products/:productId
 const updateProduct = async (req, res) => {
   try {
+    let updateData = { ...req.body }
+    
+    // handle file upload
+    if (req.file) {
+      updateData.productImage = `/uploads/${req.file.filename}`
+    }
+    // remove imageurl if it exists
+    if (updateData.imageUrl === '') {
+      delete updateData.imageUrl
+    }
+
     const updated = await Product.updateOne(
       { productId: req.params.productId },
-      { $set: req.body }
-    );
-    return res.send(updated);
+      { $set: updateData }
+    )
+    return res.send(updated)
   } catch (error) {
-    return res.send({ updated: false, error: error.message });
+    return res.send({ updated: false, error: error.message })
   }
 }
 

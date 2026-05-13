@@ -9,16 +9,15 @@ function UserManagement() {
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
 
-  useEffect(() => {
-    fetchUsers()
-  }, [])
+  useEffect(() => { fetchUsers() }, [])
 
   useEffect(() => {
     if (search) {
-      setFiltered(users.filter(u =>
-        u.name?.toLowerCase().includes(search.toLowerCase()) ||
-        u.email?.toLowerCase().includes(search.toLowerCase())
-      ))
+      setFiltered(users.filter(u => {
+        const fullName = `${u.firstName} ${u.lastName}`.toLowerCase()
+        return fullName.includes(search.toLowerCase()) ||
+          u.email?.toLowerCase().includes(search.toLowerCase())
+      }))
     } else {
       setFiltered(users)
     }
@@ -27,51 +26,46 @@ function UserManagement() {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch('/api/users', {
-        headers: { Authorization: `Bearer ${token}` }
-      })
+      const res = await fetch('/api/users', { headers: { Authorization: `Bearer ${token}` } })
       const data = await res.json()
       setUsers(data.users || data)
-    } catch (err) {
-      console.error('Failed to fetch users:', err)
-    }
+    } catch (err) { console.error('Failed to fetch users:', err) }
   }
 
-  const handleLogout = () => {
-    localStorage.clear()
-    navigate('/login')
-  }
+  const handleLogout = () => { localStorage.clear(); navigate('/login') }
 
   return (
     <div className="users-wrapper">
 
-      {/* NAVIGATION BAR */}
+      {/* ── NAVIGATION BAR ── */}
       <nav className="users-nav">
         <Link to="/admin/dashboard" className="users-nav-logo">
           <img src={logo} alt="Logo" className="users-nav-logo-img" />
         </Link>
-        <button className="users-logout-btn" onClick={handleLogout}>
-          Log Out
-        </button>
+        <div className="users-nav-right">
+          <Link to="/admin/dashboard" className="users-nav-link">Dashboard</Link>
+          <Link to="/admin/products" className="users-nav-link">Products</Link>
+          <Link to="/admin/orders" className="users-nav-link">Orders</Link>
+          <Link to="/admin/sales" className="users-nav-link">Sales</Link>
+          <button className="users-logout-btn" onClick={handleLogout}>Log Out</button>
+        </div>
       </nav>
 
-      {/* MAIN CONTENT */}
+      {/* ── MAIN CONTENT ── */}
       <main className="users-main">
-        <h1 className="users-heading">REGISTERED USERS</h1>
+        <h1 className="users-heading">Registered Users</h1>
 
-        {/* SEARCH */}
         <input
           type="text"
           className="users-search-input"
-          placeholder="Search users..."
+          placeholder="Search users by name or email..."
           value={search}
           onChange={e => setSearch(e.target.value)}
         />
 
-        {/* TABLE PANEL */}
         <div className="users-panel">
           <div className="users-panel-header">
-            <span className="users-panel-title">ALL USERS ({filtered.length})</span>
+            <span className="users-panel-title">All Users ({filtered.length})</span>
           </div>
 
           <table className="users-table">
@@ -85,17 +79,30 @@ function UserManagement() {
             <tbody>
               {filtered.map((user) => (
                 <tr key={user._id} className="users-table-row">
-                  <td className="users-table-cell">{user.name}</td>
-                  <td className="users-table-cell">{user.email}</td>
-                  <td className="users-table-cell">{user.orderCount ?? 0}</td>
+                  <td className="users-table-cell" style={{ fontWeight: 600 }}>
+                    {user.firstName} {user.middleName} {user.lastName}
+                  </td>
+                  <td className="users-table-cell" style={{ color: '#4a7a3a' }}>{user.email}</td>
+                  <td className="users-table-cell">
+                    <span className={`users-role-badge users-role-badge--${user.userType}`}>
+                      {user.userType}
+                    </span>
+                  </td>
                 </tr>
               ))}
+              {filtered.length === 0 && (
+                <tr>
+                  <td colSpan="3" style={{ padding: '32px', textAlign: 'center', color: '#4a7a3a', fontSize: '0.9rem' }}>
+                    No users found.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
       </main>
 
-      {/* FOOTER */}
+      {/* ── FOOTER ── */}
       <footer className="users-footer">
         <span className="users-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
         <div className="users-footer-links">

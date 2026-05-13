@@ -1,131 +1,296 @@
-/* page */
-.oc-wrapper {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+/* ── CSS Variables (mirrors Shop.css) ───────────────────────── */
+:root {
+  --gradient-navbar: linear-gradient(270deg, #075344 0%, #022820 69.71%);
+  --gradient-footer: linear-gradient(270deg, #075344 0%, #022820 100%);
+  --gradient-btn-login: linear-gradient(0deg, #C2C682 8.17%, #FAFFA4 49.52%), linear-gradient(0deg, #9FA26C 0%, #FAFFA4 49.52%), #F8FF87;
+  --gradient-featured-card: linear-gradient(180deg, #F3FEDD 66.83%, #E8F8CA 100%), #F3FEDD;
+  --color-primary-stroke: #6A9E49;
+  --color-featured-title: #076653;
+  --color-nav-text: #FFFDEE;
+  --shadow-default: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  --shadow-navbar: 0 2px 109.4px 2px rgba(0, 0, 0, 0.25);
 }
 
-/* navbar */
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Page wrapper ───────────────────────────────────────────── */
+.oc-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: inherit;
+  background: rgba(220, 242, 195, 0.75);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════════════════════════════ */
 .oc-nav {
-    display: flex;
-    align-items: center;
-    padding: 0 40px;
-    height: 64px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--gradient-navbar);
+  box-shadow: var(--shadow-navbar);
 }
 
 .oc-nav-logo {
-    display: flex;
-    align-items: center;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
 }
 
 .oc-nav-logo-img {
-    height: 60px;
-    width: auto;
-    object-fit: contain;
-    display: block;
-    max-width: 100%;
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  max-width: 100%;
 }
 
-/* main */
+.oc-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.oc-nav-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-nav-text);
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.oc-nav-link:hover { opacity: 0.8; }
+
+.oc-nav-logout {
+  padding: 6px 16px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  background: #c0392b;
+  color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.15s;
+}
+
+.oc-nav-logout:hover {
+  background: #a93226;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   MAIN — centred confirmation card
+══════════════════════════════════════════════════════════════ */
 .oc-main {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
 }
 
-/* panel */
 .oc-card {
-    border: 1px solid #000;
-    padding: 48px 40px;
-    max-width: 440px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 16px;
+  background: var(--gradient-featured-card);
+  border: 1.5px solid var(--color-primary-stroke);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  padding: 48px 40px;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
 }
 
+/* Animated tick circle */
 .oc-icon {
-    font-size: 48px;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-featured-title);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(7, 102, 83, 0.35);
+  animation: oc-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
-.oc-title {
-    font-size: 24px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin: 0;
+@keyframes oc-pop {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
 }
 
-.oc-subtitle {
-    font-size: 0.875rem;
-    line-height: 1.7;
-    margin: 0;
-    color: #555;
+.oc-icon svg {
+  width: 36px;
+  height: 36px;
+  stroke: #fff;
+  stroke-width: 2.5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
+.oc-heading {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1a3a00;
+  margin: 0;
+}
+
+.oc-sub {
+  font-size: 0.88rem;
+  color: #4a6a3a;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.oc-ref {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-featured-title);
+  background: rgba(7, 102, 83, 0.08);
+  border: 1.5px dashed var(--color-primary-stroke);
+  border-radius: 8px;
+  padding: 8px 20px;
+  letter-spacing: 0.06em;
+}
+
+.oc-divider {
+  width: 100%;
+  height: 1.5px;
+  background: rgba(106, 158, 73, 0.35);
+  margin: 4px 0;
+}
+
+/* Action buttons */
 .oc-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-    margin-top: 8px;
+  display: flex;
+  gap: 12px;
+  width: 100%;
 }
 
-/* primary */
-.oc-btn-primary {
-    display: block;
-    padding: 10px 20px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    font-family: 'Inter', sans-serif;
-    text-decoration: none;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border: 1px solid #000;
-    background-color: #000;
-    color: #fff;
+.oc-btn-orders {
+  flex: 1;
+  padding: 11px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-family: inherit;
+  border: 1.5px solid var(--color-primary-stroke);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.75);
+  color: #1a3a00;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s, transform 0.12s;
 }
 
-.oc-btn-primary:hover {
-    background-color: #fff;
-    color: #000;
+.oc-btn-orders:hover {
+  background: #fff;
+  transform: translateY(-1px);
 }
 
-/* secondary */
-.oc-btn-secondary {
-    display: block;
-    padding: 10px 20px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    font-family: 'Inter', sans-serif;
-    text-decoration: none;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border: 1px solid #000;
-    background-color: #fff;
-    color: #000;
+.oc-btn-shop {
+  flex: 1;
+  padding: 11px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-family: inherit;
+  border: 1.5px solid var(--color-featured-title);
+  border-radius: 10px;
+  background: var(--color-featured-title);
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s, transform 0.12s;
 }
 
-.oc-btn-secondary:hover {
-    background-color: #000;
-    color: #fff;
+.oc-btn-shop:hover {
+  background: #054f3e;
+  transform: translateY(-1px);
 }
 
-/* footer */
+/* ══════════════════════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════════════════════ */
 .oc-footer {
-    margin-top: auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 24px 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32px 40px;
+  background: var(--gradient-footer);
 }
 
 .oc-footer-copy {
-    font-size: 0.8rem;
+  font-size: 14px;
+  color: var(--color-nav-text);
+}
+
+.oc-footer-links {
+  display: flex;
+  gap: 32px;
+}
+
+.oc-footer-links a {
+  font-size: 14px;
+  color: var(--color-nav-text);
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.oc-footer-links a:hover { opacity: 0.7; }
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .oc-nav {
+    height: auto;
+    padding: 8px 16px;
+    gap: 12px;
+  }
+
+  .oc-nav-logo-img { height: 40px; }
+  .oc-nav-right { gap: 10px; }
+  .oc-nav-link { font-size: 12px; }
+  .oc-nav-logout { padding: 5px 12px; font-size: 11px; }
+
+  .oc-card {
+    padding: 36px 24px;
+  }
+
+  .oc-footer {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .oc-footer-copy { font-size: 12px; }
+  .oc-footer-links { gap: 20px; }
+  .oc-footer-links a { font-size: 12px; }
 }

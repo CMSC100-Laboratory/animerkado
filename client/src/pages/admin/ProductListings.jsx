@@ -9,47 +9,45 @@ function ProductListings() {
 
   const [search, setSearch] = useState('')
   const [typeFilter, setTypeFilter] = useState('all')
-  const [sort, setSort] = useState('name-az')
+  const [sortField, setSortField] = useState('name')
+  const [sortDir, setSortDir] = useState('asc')
 
-  const [form, setForm] = useState({
-    productId: '',
+  // Create modal state
+  const [createProduct, setCreateProduct] = useState(null)
+  const [createForm, setCreateForm] = useState({
     productName: '',
     productType: '',
     price: '',
     productQuantity: '',
     productDescription: '',
-    imageUrl: ''
   })
+  const [createImageFile, setCreateImageFile] = useState(null)
 
-  const [imageMode, setImageMode] = useState('url') // "url" | "upload"
+  // Edit modal state
+  const [editProduct, setEditProduct] = useState(null)
+  const [editForm, setEditForm] = useState({})
   const [imageFile, setImageFile] = useState(null)
 
   const navigate = useNavigate()
-
   const getToken = () => localStorage.getItem('token')
 
-  // ================= FETCH =================
   const fetchProducts = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/products', {
+      let url = '/api/products'
+      if (sortField) {
+        url += `?sort=${sortField}&order=${sortDir}`
+      }
+      const res = await fetch(url, {
         headers: { Authorization: `Bearer ${getToken()}` }
       })
       const data = await res.json()
       setProducts(data)
-    } catch (err) {
-      console.error(err)
-    }
+    } catch (err) { console.error(err) }
   }
 
-  useEffect(() => {
-    fetchProducts()
-  }, [])
+  useEffect(() => { fetchProducts() }, [sortField, sortDir])
+  useEffect(() => { applyFilters() }, [products, search, typeFilter])
 
-  useEffect(() => {
-    applyFilters()
-  }, [products, search, typeFilter, sort])
-
-  // ================= FILTERS =================
   const applyFilters = () => {
     let result = [...products]
 
@@ -62,116 +60,140 @@ function ProductListings() {
       )
     }
 
-    if (sort === 'name-az')
-      result.sort((a, b) => a.productName?.localeCompare(b.productName))
-    if (sort === 'name-za')
-      result.sort((a, b) => b.productName?.localeCompare(a.productName))
-    if (sort === 'price-asc')
-      result.sort((a, b) => a.price - b.price)
-    if (sort === 'price-desc')
-      result.sort((a, b) => b.price - a.price)
-    if (sort === 'quantity')
-      result.sort((a, b) => b.productQuantity - a.productQuantity)
-
     setFiltered(result)
   }
 
-  // ================= FORM =================
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortDir(prev => prev === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortField(field)
+      setSortDir('asc')
+    }
   }
 
-  const handleFileChange = (e) => {
-    setImageFile(e.target.files[0])
+  const sortIndicator = (field) => {
+    if (sortField !== field) return ' ↕'
+    return sortDir === 'asc' ? ' ↑' : ' ↓'
   }
 
-  // ================= ADD / UPDATE =================
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const handleCreateOpen = () => {
+    setCreateProduct({})
+    setCreateForm({
+      productName: '',
+      productType: '',
+      price: '',
+      productQuantity: '',
+      productDescription: '',
+    })
+    setCreateImageFile(null)
+  }
 
+  const handleCreateChange = (e) => {
+    setCreateForm({ ...createForm, [e.target.name]: e.target.value })
+  }
+
+  const handleCreateSave = async () => {
     try {
-      const isEdit = !!form.productId
-
-      let url = isEdit
-        ? `http://localhost:5000/api/products/${form.productId}`
-        : 'http://localhost:5000/api/products'
-
-      let options = {
-        method: isEdit ? 'PUT' : 'POST',
-        headers: {
-          Authorization: `Bearer ${getToken()}`
-        }
+      const formData = new FormData()
+      formData.append('productName', createForm.productName)
+      formData.append('productType', createForm.productType)
+      formData.append('productQuantity', createForm.productQuantity)
+      formData.append('price', createForm.price)
+      formData.append('productDescription', createForm.productDescription)
+      
+      if (createImageFile) {
+        formData.append('productImage', createImageFile)
       }
 
-      // ================= IMAGE HANDLING =================
-      if (imageMode === 'upload' && imageFile) {
+      const res = await fetch('/api/products', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${getToken()}` },
+        body: formData
+      })
+
+      const data = await res.json()
+      
+      if (data.inserted) {
+        setCreateProduct(null)
+        setCreateForm({
+          productName: '',
+          productType: '',
+          price: '',
+          productQuantity: '',
+          productDescription: '',
+        })
+        setCreateImageFile(null)
+        fetchProducts()
+      } else {
+        alert('Error: ' + (data.error || 'Failed to create'))
+      }
+    } catch (err) { console.error(err) }
+  }
+
+  const handleEdit = (p) => {
+    setEditProduct(p)
+    setEditForm({
+      productName: p.productName || '',
+      productType: p.productType || '',
+      price: p.price || '',
+      productQuantity: p.productQuantity || '',
+      productDescription: p.productDescription || '',
+      imageUrl: p.imageUrl || ''
+    })
+    setImageFile(null)
+  }
+
+  const handleEditChange = (e) => {
+    setEditForm({ ...editForm, [e.target.name]: e.target.value })
+  }
+
+  const handleEditSave = async () => {
+    try {
+      const id = editProduct.productId || editProduct._id
+
+      let options = {
+        method: 'PUT',
+        headers: { Authorization: `Bearer ${getToken()}` }
+      }
+
+      if (imageFile) {
         const formData = new FormData()
-
-        formData.append('productName', form.productName)
-        formData.append('productType', form.productType)
-        formData.append('price', form.price)
-        formData.append('productQuantity', form.productQuantity)
-        formData.append('productDescription', form.productDescription)
-        formData.append('image', imageFile)
-
+        formData.append('productImage', imageFile)
+        formData.append('productName', editForm.productName)
+        formData.append('productType', editForm.productType)
+        formData.append('price', editForm.price)
+        formData.append('productQuantity', editForm.productQuantity)
+        formData.append('productDescription', editForm.productDescription)
         options.body = formData
       } else {
         options.headers['Content-Type'] = 'application/json'
         options.body = JSON.stringify({
-          ...form,
-          imageUrl: form.imageUrl
+          productName: editForm.productName,
+          productType: Number(editForm.productType),
+          price: Number(editForm.price),
+          productQuantity: Number(editForm.productQuantity),
+          productDescription: editForm.productDescription,
+          imageUrl: editForm.imageUrl
         })
       }
 
-      const res = await fetch(url, options)
-      const data = await res.json()
-
-      console.log(data)
-
-      setForm({
-        productId: '',
-        productName: '',
-        productType: '',
-        price: '',
-        productQuantity: '',
-        productDescription: '',
-        imageUrl: ''
-      })
-
-      setImageFile(null)
+      await fetch(`/api/products/${id}`, options)
+      setEditProduct(null)
       fetchProducts()
-    } catch (err) {
-      console.error(err)
-    }
+    } catch (err) { console.error(err) }
   }
 
-  // ================= EDIT =================
-  const handleEdit = (p) => {
-    setForm({
-      productId: p.productId || p._id,
-      productName: p.productName,
-      productType: p.productType,
-      price: p.price,
-      productQuantity: p.productQuantity,
-      productDescription: p.productDescription,
-      imageUrl: p.imageUrl || ''
-    })
-  }
-
-  // ================= DELETE =================
   const handleDelete = async (id) => {
-    await fetch(`http://localhost:5000/api/products/${id}`, {
+    if (!window.confirm('Delete this product?')) return
+    await fetch(`/api/products/${id}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${getToken()}` }
     })
-
     fetchProducts()
   }
 
-  const handleLogout = () => {
-    localStorage.clear()
-    navigate('/login')
-  }
+  const handleLogout = () => { localStorage.clear(); navigate('/login') }
 
   const typeLabel = (type) => {
     if (type === 1) return 'Crops'
@@ -182,130 +204,226 @@ function ProductListings() {
   return (
     <div className="products-wrapper">
 
+      {/* ── NAVIGATION BAR ── */}
       <nav className="products-nav">
         <Link to="/admin/dashboard" className="products-nav-logo">
           <img src={logo} alt="Logo" className="products-nav-logo-img" />
         </Link>
-        <button className="products-logout-btn" onClick={handleLogout}>
-          Log Out
-        </button>
+        <div className="products-nav-right">
+          <Link to="/admin/dashboard" className="products-nav-link">Dashboard</Link>
+          <Link to="/admin/orders" className="products-nav-link">Orders</Link>
+          <Link to="/admin/sales" className="products-nav-link">Sales</Link>
+          <Link to="/admin/users" className="products-nav-link">Users</Link>
+          <button className="products-logout-btn" onClick={handleLogout}>Log Out</button>
+        </div>
       </nav>
 
+      {/* ── MAIN CONTENT ── */}
       <main className="products-main">
-        <h1 className="products-heading">LISTED PRODUCTS</h1>
+        <h1 className="products-heading">Listed Products</h1>
 
-        {/* FORM */}
-        <form onSubmit={handleSubmit}>
-
+        {/* SEARCH + TYPE */}
+        <div className="products-search-row">
           <input
-            name="productName"
-            value={form.productName}
-            onChange={handleChange}
-            placeholder="Name"
+            type="text"
+            className="products-search-input"
+            placeholder="Search products..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
           />
+          <select
+            className="products-type-select"
+            value={typeFilter}
+            onChange={e => setTypeFilter(e.target.value)}
+          >
+            <option value="all">All Types ▾</option>
+            <option value="crops">Crops</option>
+            <option value="poultry">Poultry</option>
+          </select>
+        </div>
 
-          <input
-            name="productType"
-            value={form.productType}
-            onChange={handleChange}
-            placeholder="Type"
-          />
+        {/* SORT PILLS */}
+        <div className="products-sort-row">
+          <span className="products-sort-label">Sort:</span>
+          {[
+            { key: 'productName', label: 'Name' },
+            { key: 'productType', label: 'Type' },
+            { key: 'price', label: 'Price' },
+            { key: 'productQuantity', label: 'Quantity' },
+          ].map(s => (
+            <button
+              key={s.key}
+              className={`products-sort-pill${sortField === s.key ? ' products-sort-pill--active' : ''}`}
+              onClick={() => handleSort(s.key)}
+            >
+              {s.label}{sortIndicator(s.key)}
+            </button>
+          ))}
+        </div>
 
-          <input
-            name="price"
-            value={form.price}
-            onChange={handleChange}
-            placeholder="Price"
-          />
-
-          <input
-            name="productQuantity"
-            value={form.productQuantity}
-            onChange={handleChange}
-            placeholder="Quantity"
-          />
-
-          <input
-            name="productDescription"
-            value={form.productDescription}
-            onChange={handleChange}
-            placeholder="Description"
-          />
-
-          {/* IMAGE MODE */}
-          <div>
-            <label>
-              <input
-                type="radio"
-                checked={imageMode === 'url'}
-                onChange={() => setImageMode('url')}
-              />
-              Image URL
-            </label>
-
-            <label>
-              <input
-                type="radio"
-                checked={imageMode === 'upload'}
-                onChange={() => setImageMode('upload')}
-              />
-              Upload File
-            </label>
+        {/* PANEL + TABLE */}
+        <div className="products-panel">
+          <div className="products-panel-header">
+            <span className="products-panel-title">All Products ({filtered.length})</span>
+            <button className="products-create-btn" onClick={handleCreateOpen}>+ Add Product</button>
           </div>
 
-          {imageMode === 'url' ? (
-            <input
-              name="imageUrl"
-              value={form.imageUrl}
-              onChange={handleChange}
-              placeholder="Image URL"
-            />
+          {filtered.length === 0 ? (
+            <div className="products-empty">No products found.</div>
           ) : (
-            <input type="file" onChange={handleFileChange} />
+            <table className="products-table">
+              <thead>
+                <tr className="products-table-head-row">
+                  <th className="products-table-head" onClick={() => handleSort('productName')}>
+                    Product Name{sortIndicator('productName')}
+                  </th>
+                  <th className="products-table-head" onClick={() => handleSort('productType')}>
+                    Type{sortIndicator('productType')}
+                  </th>
+                  <th className="products-table-head" onClick={() => handleSort('productQuantity')}>
+                    Quantity{sortIndicator('productQuantity')}
+                  </th>
+                  <th className="products-table-head" onClick={() => handleSort('price')}>
+                    Price{sortIndicator('price')}
+                  </th>
+                  <th className="products-table-head">Description</th>
+                  <th className="products-table-head">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((p) => (
+                  <tr key={p.productId || p._id} className="products-table-row">
+                    <td className="products-table-cell" style={{ fontWeight: 600 }}>{p.productName}</td>
+                    <td className="products-table-cell">
+                      <span className={`products-type-badge products-type-badge--${p.productType === 1 ? 'crops' : 'poultry'}`}>
+                        {typeLabel(p.productType)}
+                      </span>
+                    </td>
+                    <td className="products-table-cell">{p.productQuantity}</td>
+                    <td className="products-table-cell">₱{Number(p.price).toFixed(2)}</td>
+                    <td className="products-table-cell" style={{ maxWidth: 200, color: '#4a7a3a', fontSize: '0.78rem' }}>
+                      {p.productDescription || '—'}
+                    </td>
+                    <td className="products-table-cell">
+                      <div className="products-action-btns">
+                        <button className="products-edit-btn" onClick={() => handleEdit(p)}>Edit</button>
+                        <button className="products-delete-btn" onClick={() => handleDelete(p.productId || p._id)}>Delete</button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           )}
-
-          <button type="submit">
-            {form.productId ? 'Update' : 'Add'}
-          </button>
-        </form>
-
-        {/* TABLE */}
-        <table border="1" cellPadding="10">
-          <thead>
-            <tr>
-              <th>Image</th>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Qty</th>
-              <th>Price</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {filtered.map((p) => (
-              <tr key={p.productId || p._id}>
-                <td>
-                  <img
-                    src={p.imageUrl || 'https://placeholder.co/50'}
-                    width="50"
-                  />
-                </td>
-                <td>{p.productName}</td>
-                <td>{typeLabel(p.productType)}</td>
-                <td>{p.productQuantity}</td>
-                <td>{p.price}</td>
-                <td>
-                  <button onClick={() => handleEdit(p)}>Edit</button>
-                  <button onClick={() => handleDelete(p.productId || p._id)}>
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        </div>
       </main>
+
+      {/* ── CREATE MODAL ── */}
+      {createProduct !== null && (
+        <div className="products-modal-overlay" onClick={() => setCreateProduct(null)}>
+          <div className="products-modal" onClick={e => e.stopPropagation()}>
+            <h2 className="products-modal-title">Add New Product</h2>
+
+            <div className="products-modal-field">
+              <label className="products-modal-label">Product Name</label>
+              <input className="products-modal-input" name="productName" value={createForm.productName} onChange={handleCreateChange} />
+            </div>
+
+            <div className="products-modal-field">
+              <label className="products-modal-label">Type</label>
+              <select className="products-modal-select" name="productType" value={createForm.productType} onChange={handleCreateChange}>
+                <option value="">Select type</option>
+                <option value="1">Crops</option>
+                <option value="2">Poultry</option>
+              </select>
+            </div>
+
+            <div className="products-modal-field">
+              <label className="products-modal-label">Price (₱)</label>
+              <input className="products-modal-input" name="price" type="number" value={createForm.price} onChange={handleCreateChange} />
+            </div>
+
+            <div className="products-modal-field">
+              <label className="products-modal-label">Quantity</label>
+              <input className="products-modal-input" name="productQuantity" type="number" value={createForm.productQuantity} onChange={handleCreateChange} />
+            </div>
+
+            <div className="products-modal-field">
+              <label className="products-modal-label">Description</label>
+              <textarea className="products-modal-textarea" name="productDescription" value={createForm.productDescription} onChange={handleCreateChange} />
+            </div>
+
+            <div className="products-modal-field">
+              <label className="products-modal-label">Product Image</label>
+              <input type="file" accept="image/*" onChange={e => setCreateImageFile(e.target.files[0])} style={{ fontSize: '0.82rem' }} />
+            </div>
+
+            <div className="products-modal-actions">
+              <button className="products-modal-cancel" onClick={() => setCreateProduct(null)}>Cancel</button>
+              <button className="products-modal-save" onClick={handleCreateSave}>Add Product</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── EDIT MODAL ── */}
+      {editProduct && (
+        <div className="products-modal-overlay" onClick={() => setEditProduct(null)}>
+          <div className="products-modal" onClick={e => e.stopPropagation()}>
+            <h2 className="products-modal-title">Edit Product</h2>
+
+            <div className="products-modal-field">
+              <label className="products-modal-label">Product Name</label>
+              <input className="products-modal-input" name="productName" value={editForm.productName} onChange={handleEditChange} />
+            </div>
+
+            <div className="products-modal-field">
+              <label className="products-modal-label">Type</label>
+              <select className="products-modal-select" name="productType" value={editForm.productType} onChange={handleEditChange}>
+                <option value="">Select type</option>
+                <option value="1">Crops</option>
+                <option value="2">Poultry</option>
+              </select>
+            </div>
+
+            <div className="products-modal-field">
+              <label className="products-modal-label">Price (₱)</label>
+              <input className="products-modal-input" name="price" type="number" value={editForm.price} onChange={handleEditChange} />
+            </div>
+
+            <div className="products-modal-field">
+              <label className="products-modal-label">Quantity</label>
+              <input className="products-modal-input" name="productQuantity" type="number" value={editForm.productQuantity} onChange={handleEditChange} />
+            </div>
+
+            <div className="products-modal-field">
+              <label className="products-modal-label">Description</label>
+              <textarea className="products-modal-textarea" name="productDescription" value={editForm.productDescription} onChange={handleEditChange} />
+            </div>
+
+            <div className="products-modal-field">
+              <label className="products-modal-label">Replace Image (optional)</label>
+              <input type="file" accept="image/*" onChange={e => setImageFile(e.target.files[0])} style={{ fontSize: '0.82rem' }} />
+            </div>
+
+            <div className="products-modal-actions">
+              <button className="products-modal-cancel" onClick={() => setEditProduct(null)}>Cancel</button>
+              <button className="products-modal-save" onClick={handleEditSave}>Save Changes</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── FOOTER ── */}
+      <footer className="products-footer">
+        <span className="products-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
+        <div className="products-footer-links">
+          <Link to="/privacy" className="products-footer-link">Privacy</Link>
+          <Link to="/terms" className="products-footer-link">Terms</Link>
+          <Link to="/contact" className="products-footer-link">Contact</Link>
+        </div>
+      </footer>
+
     </div>
   )
 }

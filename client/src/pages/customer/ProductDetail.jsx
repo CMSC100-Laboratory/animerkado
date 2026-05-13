@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/logo.png'
+import background from '../../assets/background.png'
 import '../../styles/customer/ProductDetail.css'
 
 function ProductDetail() {
@@ -13,7 +14,6 @@ function ProductDetail() {
   const navigate = useNavigate()
   const email = localStorage.getItem('email')
 
-  // get /api/products, fetch product and related
   useEffect(() => {
     fetch('/api/products')
       .then(r => r.json())
@@ -26,7 +26,6 @@ function ProductDetail() {
       .catch(() => setLoading(false))
   }, [productId])
 
-  // post /api/cart (add to cart)
   const handleAddToCart = async () => {
     if (!email) { navigate('/login'); return }
     const res = await fetch('/api/cart', {
@@ -47,7 +46,6 @@ function ProductDetail() {
     }
   }
 
-  // post /api/orders (buy now)
   const handleBuyNow = async () => {
     if (!email) { navigate('/login'); return }
     const res = await fetch('/api/orders', {
@@ -63,43 +61,56 @@ function ProductDetail() {
     if (data.inserted) navigate('/order-confirmation')
   }
 
-  // loading & not found
   if (loading) return <div className="pd-loading">Loading...</div>
   if (!product) return <div className="pd-loading">Product not found.</div>
 
   return (
-    <div className="pd-wrapper">
+    <div
+      className="pd-wrapper"
+      style={{
+        backgroundImage: `url(${background})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed',
+      }}
+    >
 
-      {/* navigation bar */}
+      {/* Navigation Bar */}
       <nav className="pd-nav">
         <Link to="/" className="pd-nav-logo">
-          <img src={logo} alt="Logo" className="pd-nav-logo-img" />
+          <img src={logo} alt="AniMerkado Logo" className="pd-nav-logo-img" />
         </Link>
         <div className="pd-nav-right">
           <Link to="/shop" className="pd-nav-link">Shop</Link>
           <Link to="/cart" className="pd-nav-link">Cart</Link>
+          <Link to="/orders" className="pd-nav-link">History</Link>
           <button className="pd-nav-logout" onClick={() => { localStorage.clear(); navigate('/login') }}>
-            Logout ✕
+            Logout
           </button>
         </div>
       </nav>
 
-      {/* main content */}
+      {/* Main */}
       <main className="pd-main">
 
         <p className="pd-breadcrumb">
           <Link to="/shop">Shop</Link> / {product.productName}
         </p>
 
-        {/* product panel */}
+        {/* Product panel */}
         <div className="pd-panel">
 
-          {/* left: image */}
+          {/* Left: image */}
           <div className="pd-panel-left">
-            <div className="pd-image-placeholder">[]</div>
+            <img
+              src={`http://localhost:5000${product.productImage}`}
+              alt={product.productName}
+              className="pd-image"
+            />
           </div>
 
-          {/* right: info */}
+          {/* Right: info */}
           <div className="pd-panel-right">
             <p className="pd-type-label">{product.productType === 1 ? 'Crop' : 'Poultry'}</p>
             <h2 className="pd-name">{product.productName}</h2>
@@ -107,12 +118,12 @@ function ProductDetail() {
             <p className="pd-desc">{product.productDescription || 'No description available.'}</p>
 
             <div className="pd-meta-row">
-              <span className="pd-meta-item">
-                Stock: {product.productQuantity > 0 ? `${product.productQuantity} available` : 'Out of stock'}
+              <span className={`pd-stock-badge ${product.productQuantity > 0 ? 'in-stock' : 'out-stock'}`}>
+                {product.productQuantity > 0 ? `${product.productQuantity} in stock` : 'Out of stock'}
               </span>
             </div>
 
-            {/* quantity */}
+            {/* Quantity */}
             <div className="pd-qty-row">
               <span className="pd-qty-label">Qty</span>
               <div className="pd-qty-controls">
@@ -125,7 +136,7 @@ function ProductDetail() {
 
             {message && <span className="pd-success">{message}</span>}
 
-            {/* actions */}
+            {/* Actions */}
             <div className="pd-actions">
               <button
                 className="pd-btn-cart"
@@ -141,14 +152,24 @@ function ProductDetail() {
           </div>
         </div>
 
-        {/* you might also like */}
+        {/* Related products */}
         {related.length > 0 && (
           <div className="pd-related">
             <p className="pd-related-title">You might also like</p>
             <div className="pd-related-grid">
               {related.map(p => (
-                <Link to={`/product/${p.productId}`} className="pd-related-card" key={p.productId}>
-                  <div className="pd-related-img">[]</div>
+                <Link
+                  to={`/product/${p.productId}`}
+                  className="pd-related-card"
+                  key={p.productId}
+                >
+                  <div className="pd-related-img-wrap">
+                    <img
+                      src={`http://localhost:5000${p.productImage}`}
+                      alt={p.productName}
+                      className="pd-related-img"
+                    />
+                  </div>
                   <p className="pd-related-name">{p.productName}</p>
                   <p className="pd-related-price">₱{p.price.toFixed(2)}</p>
                 </Link>
@@ -158,12 +179,15 @@ function ProductDetail() {
         )}
       </main>
 
-      {/* footer */}
+      {/*Footer */}
       <footer className="pd-footer">
-        <span className="pd-footer-copy">© 2026 Logo Name – Department of Agriculture</span>
+        <span className="pd-footer-copy">
+          © 2026 AniMerkado – Department of Agriculture
+        </span>
         <div className="pd-footer-links">
           <Link to="/privacy">Privacy</Link>
           <Link to="/terms">Terms</Link>
+          <Link to="/contact">Contact</Link>
         </div>
       </footer>
 

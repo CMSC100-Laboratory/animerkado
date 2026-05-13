@@ -22,7 +22,6 @@ const getOrders = async (req, res) => {
 // POST /api/orders
 const saveOrder = async (req, res) => {
   try {
-    // checker if order stocks can accomodate order quantity
     const product = await Product.findOne({ productId: req.body.productId });
     if (!product) {
       return res.send({ inserted: false, error: 'Product not found' });
@@ -51,34 +50,35 @@ const saveOrder = async (req, res) => {
 // PUT /api/orders/:transactionId — admin confirms order
 const updateOrder = async (req, res) => {
   try {
-    const order = await OrderTransaction.findOne({ transactionId: req.params.transactionId });
+    let order = await OrderTransaction.findOne({ transactionId: req.params.transactionId });
+    if (!order) {
+      order = await OrderTransaction.findById(req.params.transactionId).catch(() => null);
+    }
     if (!order) return res.send({ updated: false, error: 'Order not found' });
 
-    // Decrease product quantity when order is confirmed
     if (req.body.orderStatus === 1) {
-
-      // fetch product to get name and price
       const product = await Product.findOne({ productId: order.productId });
 
-      await Product.updateOne(
-        { productId: order.productId },
-        { $inc: { productQuantity: -order.orderQuantity } }
-      );
-      // after setting order as confirmed
+      // Decrease stock only if product still exists
+      if (product) {
+        await Product.updateOne(
+          { productId: order.productId },
+          { $inc: { productQuantity: -order.orderQuantity } }
+        );
 
-          await Sale.create({
-            orderId: order.transactionId,
-            productId: order.productId,
-            productName: product.productName,
-            quantity: order.orderQuantity,
-            price: product.price,
-            total: order.orderQuantity * product.price
-          });
-
+        await Sale.create({
+          orderId:     order.transactionId,
+          productId:   order.productId,
+          productName: product.productName,
+          quantity:    order.orderQuantity,
+          price:       product.price,
+          total:       order.orderQuantity * product.price
+        });
+      }
     }
 
     const updated = await OrderTransaction.updateOne(
-      { transactionId: req.params.transactionId },
+      { _id: order._id },
       { $set: { orderStatus: req.body.orderStatus } }
     );
     return res.send(updated);
@@ -87,15 +87,18 @@ const updateOrder = async (req, res) => {
   }
 }
 
-// DELETE /api/orders/:transactionId — customer cancels order
+// DELETE /api/orders/:transactionId — cancel order
 const cancelOrder = async (req, res) => {
   try {
-    const order = await OrderTransaction.findOne({ transactionId: req.params.transactionId });
+    let order = await OrderTransaction.findOne({ transactionId: req.params.transactionId });
+    if (!order) {
+      order = await OrderTransaction.findById(req.params.transactionId).catch(() => null);
+    }
     if (!order) return res.send({ canceled: false, error: 'Order not found' });
     if (order.orderStatus !== 0) return res.send({ canceled: false, error: 'Order already confirmed or canceled' });
 
     const canceled = await OrderTransaction.updateOne(
-      { transactionId: req.params.transactionId },
+      { _id: order._id },
       { $set: { orderStatus: 2 } }
     );
     return res.send(canceled);
