@@ -6,7 +6,7 @@ import { upload } from "../middleware/upload.js";
 const productRoutes = (app) => {
   app.get('/api/products', getProducts);
   app.post('/api/products', upload.single("productImage"), verifyToken, verifyAdmin,  saveProduct);
-  app.put('/api/products/:productId', verifyToken, verifyAdmin,  updateProduct);
+  app.put('/api/products/:productId', upload.single("productImage"), verifyToken, verifyAdmin, updateProduct);
   app.delete('/api/products/:productId', verifyToken, verifyAdmin,  deleteProduct);
  
 }
