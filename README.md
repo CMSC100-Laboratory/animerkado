@@ -44,7 +44,6 @@ A MERN stack e-commerce web application developed for the Department of Agricult
 | Product Detail | ![Product Detail](./screenshots/product_detail.png) |
 | Cart Page | ![Cart](./screenshots/cart.png) |
 | Order History | ![Order History](./screenshots/order_history.png) |
-| Profile Page | ![Profile](./screenshots/profile.png) |
 | Admin Dashboard | ![Dashboard](./screenshots/admin_dashboard.png) |
 | User Management | ![Users](./screenshots/admin_users.png) |
 | Product Management | ![Products](./screenshots/admin_products.png) |
