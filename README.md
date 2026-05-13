@@ -3,12 +3,57 @@ A MERN stack e-commerce web application developed for the Department of Agricult
 
 ---
 
-## Authors
+## 👥 Authors
 - **Mark Justin Feliciano**
 - **Avigail Monsalud**
 - **Natasha Lois Montas**
 - **Rochelle Laqui**
 - **Rafael Sam Olivo**
+
+---
+
+## ✨ Features
+
+### Customer
+- Register and log in securely with bcrypt-hashed passwords and JWT authentication
+- Browse and sort the product catalog by name, type, price, or quantity
+- View product details before adding to cart
+- Manage shopping cart — add, remove, and update items (persisted in MongoDB)
+- Place orders via cash-on-delivery
+- View order history and cancel pending orders
+- Manage personal profile and update account information
+
+### Admin (Department of Agriculture)
+- Dedicated admin dashboard with summary statistics
+- Manage user accounts — view all registered customers and total count
+- Manage product listings — add, edit, and delete products with inventory tracking
+- Fulfill orders — confirm pending orders, which automatically decreases product stock
+- View sales reports with weekly, monthly, and annual breakdowns
+- Visualize sales data with bar and line charts powered by Chart.js
+
+---
+
+## 📸 Screenshots
+
+> Screenshots will be added upon project completion.
+
+| Page | Screenshot |
+|------|------------|
+| Landing Page | ![Landing](./screenshots/landing.png) |
+| Login Page | ![Login](./screenshots/login.png) |
+| Register Page | ![Register](./screenshots/register.png) |
+| Shop Page | ![Shop](./screenshots/shop.png) |
+| Product Detail | ![Product Detail](./screenshots/product_detail.png) |
+| Cart Page | ![Cart](./screenshots/cart.png) |
+| Order History | ![Order History](./screenshots/order_history.png) |
+| Profile Page | ![Profile](./screenshots/profile.png) |
+| Admin Dashboard | ![Dashboard](./screenshots/admin_dashboard.png) |
+| User Management | ![Users](./screenshots/admin_users.png) |
+| Product Management | ![Products](./screenshots/admin_products.png) |
+| Order Fulfillment | ![Orders](./screenshots/admin_orders.png) |
+| Sales Report | ![Sales](./screenshots/admin_sales.png) |
+
+---
 
 ## 📁 Project Structure
 ```
@@ -21,6 +66,7 @@ final-project/
 │       │   │   ├── Dashboard.jsx
 │       │   │   ├── UserManagement.jsx
 │       │   │   ├── ProductListings.jsx
+│       │   │   ├── Products.jsx
 │       │   │   ├── OrderFulfillment.jsx
 │       │   │   └── SalesReport.jsx
 │       │   ├── customer/
@@ -33,6 +79,8 @@ final-project/
 │       │   └── default/
 │       │       ├── LoginPage.jsx
 │       │       └── LandingPage.jsx
+│       ├── utils/
+│       │   └── auth.js              # Shared auth headers and localStorage helpers
 │       └── styles/
 │           ├── admin/
 │           │   ├── Dashboard.css
@@ -80,14 +128,15 @@ final-project/
 
 ## 🛠️ Tech Stack
 
-| Layer      | Technology           |
-|------------|----------------------|
-| Frontend   | React JS + Vite      |
-| Backend    | Node.js + Express JS |
-| Database   | MongoDB (local)      |
-| ODM        | Mongoose             |
-| Auth       | bcrypt + JWT         |
-| API Testing| needle               |
+| Layer       | Technology           |
+|-------------|----------------------|
+| Frontend    | React JS + Vite      |
+| Backend     | Node.js + Express JS |
+| Database    | MongoDB (local)      |
+| ODM         | Mongoose             |
+| Auth        | bcrypt + JWT         |
+| Charts      | Chart.js             |
+| API Testing | needle               |
 
 ---
 
@@ -106,11 +155,12 @@ final-project/
 sudo systemctl start mongod
 ```
 
-### 2. Seed the admin account (run once)
+### 2. Seed the database (run once)
 ```bash
 cd server
 node seed.js
 ```
+This creates the DA admin account with a hashed password.
 
 ### 3. Start the backend server
 ```bash
@@ -130,6 +180,27 @@ Client runs on `http://localhost:5173`
 
 ---
 
+## 📖 Usage Guidelines
+
+### As a Customer
+1. Go to `http://localhost:5173` and click **Register**
+2. Fill in your details and create an account
+3. Log in with your registered email and password
+4. Browse the shop, add items to your cart, and place an order
+5. View your order history and cancel pending orders if needed
+6. Update your profile information from the profile page
+
+### As an Admin (Department of Agriculture)
+1. Log in using the seeded admin credentials
+2. You will be automatically redirected to the admin dashboard
+3. Use the sidebar to navigate between modules:
+   - **User Management** — view all registered customers
+   - **Product Listings** — add, edit, or delete products
+   - **Order Fulfillment** — confirm or monitor customer orders
+   - **Sales Report** — view weekly, monthly, or annual sales with charts
+
+---
+
 ## 🔌 API Endpoints
 
 ### Users
@@ -138,6 +209,7 @@ Client runs on `http://localhost:5173`
 | GET | `/api/users` | Get all users + total count (admin only) |
 | POST | `/api/users/register` | Register a new customer |
 | POST | `/api/users/login` | Login and receive JWT token |
+| PUT | `/api/users/:email` | Update user profile information |
 
 ### Products
 | Method | Endpoint | Description |
@@ -193,7 +265,7 @@ Client runs on `http://localhost:5173`
 
 | Type | Description |
 |------|-------------|
-| `customer` | Registered users — can browse products, manage cart, and place orders |
+| `customer` | Registered users — can browse products, manage cart, place orders, and manage their profile |
 | `admin` | Department of Agriculture — manages products, orders, users, and views sales reports. Account is seeded directly into the database via `seed.js` |
 
 ---
@@ -204,6 +276,8 @@ Client runs on `http://localhost:5173`
 - Login returns a **JWT token** stored in `localStorage` on the frontend
 - Token is sent in the `Authorization` header for protected requests
 - Admin-only routes are protected by middleware that verifies `userType`
+- Unauthenticated users are redirected to `/login`
+- Non-admin users are redirected away from `/admin/` routes
 
 ---
 

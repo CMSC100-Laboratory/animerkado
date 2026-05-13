@@ -15,35 +15,27 @@ function RegisterPage() {
   const [error, setError]           = useState('')
   const navigate = useNavigate()
 
-  // handle register form submission
   const handleRegister = async () => {
     setError('')
 
-    // frontend validation
     if (!firstName || !lastName || !email || !password) {
       setError('Please fill in all required fields.')
       return
     }
 
-    // email format validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email.trim())) {
       setError('Please enter a valid email address.')
       return
     }
 
-    // password strength validation
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
-
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
     if (!passwordRegex.test(password)) {
-      setError(
-        'Password must be at least 8 characters and include uppercase, lowercase, and a number.'
-      )
+      setError('Password must be at least 8 characters and include uppercase, lowercase, and a number.')
       return
     }
 
-    if (password !== confirmPassword) {
+    if (password !== confirm) {
       setError('Passwords do not match.')
       return
     }
@@ -75,7 +67,6 @@ function RegisterPage() {
           <img src={logo} alt="AniMerkado Logo" className="register-nav-logo-img" />
           <span className="register-nav-logo-text">AniMerkado</span>
         </Link>
-
         <div className="register-nav-right">
           <Link to="/about" className="register-nav-link">About</Link>
           <Link to="/shop" className="register-nav-link">Shop</Link>
@@ -87,13 +78,13 @@ function RegisterPage() {
       {/* main */}
       <main className="register-main" style={{ backgroundImage: `url(${signinBg})` }}>
 
-        {/* animerkado text — left half */}
+        {/* left */}
         <div className="register-left">
           <img src={animerkadoText} alt="AniMerkado" className="register-left-text-img" />
-          <p className="register-left-text"> Fresh products straight from local farms </p>
+          <p className="register-left-text">Fresh products straight from local farms</p>
         </div>
 
-        {/* right panel — transparent, register form */}
+        {/* right */}
         <div className="register-right">
           <div className="register-card">
             <h2 className="register-card-title">Create Account</h2>
@@ -104,7 +95,7 @@ function RegisterPage() {
 
             <div className="register-form">
 
-              {/* name row */}
+              {/* first name + last name */}
               <div className="register-row">
                 <div className="register-field">
                   <label className="register-label" htmlFor="register-firstname">FIRST NAME</label>
@@ -145,16 +136,6 @@ function RegisterPage() {
                 />
               </div>
 
-            <label className="register-label" htmlFor="reg-email">Email Address</label>
-            <input
-              id="reg-email"
-              type="email"
-              className="register-input"
-              placeholder="juandelacruz@gmail.com"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
               {/* email */}
               <div className="register-field">
                 <label className="register-label" htmlFor="register-email">EMAIL ADDRESS</label>
@@ -168,28 +149,7 @@ function RegisterPage() {
                 />
               </div>
 
-            <label className="register-label" htmlFor="reg-password">Password</label>
-            <input
-              id="reg-password"
-              type="password"
-              className="register-input"
-              placeholder="••••••••••"
-              autoComplete="new-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <label className="register-label" htmlFor="reg-confirm-password">Confirm Password</label>
-            <input
-              id="reg-confirm-password"
-              type="password"
-              className="register-input"
-              placeholder="••••••••••"
-              autoComplete="new-password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-              {/* password row */}
+              {/* password + confirm */}
               <div className="register-row">
                 <div className="register-field">
                   <label className="register-label" htmlFor="register-password">PASSWORD</label>
@@ -215,7 +175,7 @@ function RegisterPage() {
                 </div>
               </div>
 
-              {/* error message */}
+              {/* error */}
               {error && <p className="register-error">{error}</p>}
 
               <button className="register-submit-btn" onClick={handleRegister}>
@@ -237,10 +197,9 @@ function RegisterPage() {
             </div>
           </div>
         </div>
-
       </main>
 
-      {/* ===== FOOTER ===== */}
+      {/* footer */}
       <footer className="register-footer">
         <span className="register-footer-copy">© 2026 AniMerkado – Department of Agriculture</span>
         <div className="register-footer-links">
