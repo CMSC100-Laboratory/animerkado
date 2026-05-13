@@ -1,4 +1,4 @@
-/* ── CSS Variables (mirrors Shop.css) ───────────────────────── */
+/* theme */
 :root {
   --gradient-navbar: linear-gradient(270deg, #075344 0%, #022820 69.71%);
   --gradient-footer: linear-gradient(270deg, #075344 0%, #022820 100%);
@@ -16,7 +16,7 @@ body, html {
   padding: 0;
 }
 
-/* ── Page wrapper ───────────────────────────────────────────── */
+/* page wrapper */
 .cart-wrapper {
   display: flex;
   flex-direction: column;
@@ -25,9 +25,7 @@ body, html {
   background: #f0f8e8;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   NAVBAR
-══════════════════════════════════════════════════════════════ */
+/* navbar */
 .cart-nav {
   flex-shrink: 0;
   display: flex;
@@ -115,7 +113,7 @@ body, html {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* ── Main ───────────────────────────────────────────────────── */
+/* main */
 .cart-main {
   flex: 1;
   padding: 32px 48px;
@@ -125,7 +123,7 @@ body, html {
   background: rgba(220, 242, 195, 0.75);
 }
 
-/* ── Heading ────────────────────────────────────────────────── */
+/* heading */
 .cart-title {
   font-size: 1.4rem;
   font-weight: 800;
@@ -139,7 +137,7 @@ body, html {
   color: var(--color-featured-title);
 }
 
-/* ── Loading / Empty ────────────────────────────────────────── */
+/* loading */
 .cart-empty {
   padding: 60px 0;
   text-align: center;
@@ -157,7 +155,7 @@ body, html {
   text-decoration: underline;
 }
 
-/* ── 2-column layout ────────────────────────────────────────── */
+/* 2 column layout */
 .cart-layout {
   display: grid;
   grid-template-columns: 1fr 300px;
@@ -165,7 +163,7 @@ body, html {
   align-items: start;
 }
 
-/* ── Item list ──────────────────────────────────────────────── */
+/* item list */
 .cart-items-section {
   background: var(--gradient-featured-card);
   border: 1.5px solid var(--color-primary-stroke);
@@ -246,7 +244,7 @@ body, html {
   font-weight: 600;
 }
 
-/* ── Qty stepper ────────────────────────────────────────────── */
+/* qty stepper */
 .cart-row-qty {
   display: flex;
   align-items: center;
@@ -292,7 +290,7 @@ body, html {
   text-align: center;
 }
 
-/* ── Row total & remove ─────────────────────────────────────── */
+/* row total and remove */
 .cart-row-total {
   font-size: 0.88rem;
   font-weight: 700;
@@ -328,9 +326,7 @@ body, html {
   border-color: #c0392b;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   ORDER SUMMARY
-══════════════════════════════════════════════════════════════ */
+/* order summary */
 .cart-summary {
   background: var(--gradient-featured-card);
   border: 1.5px solid var(--color-primary-stroke);
@@ -431,9 +427,7 @@ body, html {
   background: #054f3e;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   FOOTER
-══════════════════════════════════════════════════════════════ */
+/* footer */
 .cart-footer {
   flex-shrink: 0;
   display: flex;
@@ -464,7 +458,7 @@ body, html {
   opacity: 0.7;
 }
 
-/* ── Responsive ─────────────────────────────────────────────── */
+/* responsive */
 @media (max-width: 900px) {
   .cart-layout {
     grid-template-columns: 1fr;

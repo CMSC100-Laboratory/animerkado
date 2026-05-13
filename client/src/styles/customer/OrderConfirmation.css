@@ -1,4 +1,4 @@
-/* ── CSS Variables (mirrors Shop.css) ───────────────────────── */
+/* theme */
 :root {
   --gradient-navbar: linear-gradient(270deg, #075344 0%, #022820 69.71%);
   --gradient-footer: linear-gradient(270deg, #075344 0%, #022820 100%);
@@ -16,7 +16,7 @@ body, html {
   padding: 0;
 }
 
-/* ── Page wrapper ───────────────────────────────────────────── */
+/* page wrapper */
 .oc-wrapper {
   display: flex;
   flex-direction: column;
@@ -25,9 +25,7 @@ body, html {
   background: rgba(220, 242, 195, 0.75);
 }
 
-/* ══════════════════════════════════════════════════════════════
-   NAVBAR
-══════════════════════════════════════════════════════════════ */
+/* navbar */
 .oc-nav {
   flex-shrink: 0;
   display: flex;
@@ -96,9 +94,7 @@ body, html {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* ══════════════════════════════════════════════════════════════
-   MAIN — centred confirmation card
-══════════════════════════════════════════════════════════════ */
+/* main */
 .oc-main {
   flex: 1;
   display: flex;
@@ -122,7 +118,7 @@ body, html {
   gap: 16px;
 }
 
-/* Animated tick circle */
+/* animated tick circle */
 .oc-icon {
   width: 72px;
   height: 72px;
@@ -182,7 +178,7 @@ body, html {
   margin: 4px 0;
 }
 
-/* Action buttons */
+/* action buttons */
 .oc-actions {
   display: flex;
   gap: 12px;
@@ -235,9 +231,7 @@ body, html {
   transform: translateY(-1px);
 }
 
-/* ══════════════════════════════════════════════════════════════
-   FOOTER
-══════════════════════════════════════════════════════════════ */
+/* footer */
 .oc-footer {
   flex-shrink: 0;
   display: flex;
@@ -266,7 +260,7 @@ body, html {
 
 .oc-footer-links a:hover { opacity: 0.7; }
 
-/* ── Responsive ─────────────────────────────────────────────── */
+/* responsive */
 @media (max-width: 768px) {
   .oc-nav {
     height: auto;
