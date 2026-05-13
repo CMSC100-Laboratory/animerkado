@@ -1,4 +1,4 @@
-/* ── CSS Variables ─────────────────────────────────────────── */
+/* theme */
 :root {
   --gradient-navbar: linear-gradient(270deg, #075344 0%, #022820 69.71%);
   --gradient-footer: linear-gradient(270deg, #075344 0%, #022820 100%);
@@ -18,7 +18,7 @@ html {
   padding: 0;
 }
 
-/* ── Page wrapper ──────────────────────────────────────────── */
+/* page wrapper */
 .shop-wrapper {
   display: flex;
   flex-direction: column;
@@ -28,9 +28,7 @@ html {
   padding: 0;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   NAVBAR  — matches LandingPage style
-══════════════════════════════════════════════════════════════ */
+/* navigation bar */
 .shop-nav {
   flex-shrink: 0;
   display: flex;
@@ -67,7 +65,7 @@ html {
   gap: 16px;
 }
 
-/* Plain nav links (About / Shop / Cart / History) */
+/* plain nav links */
 .shop-nav-link {
   font-size: 13px;
   font-weight: 600;
@@ -85,7 +83,7 @@ html {
   opacity: 0.8;
 }
 
-/* Active link gets the "Shop Now" pill treatment */
+/* active goes yellow */
 .shop-nav-link.active {
   padding: 6px 16px;
   border-radius: 100px;
@@ -101,7 +99,7 @@ html {
   opacity: 1;
 }
 
-/* Logout button — styled like a nav-btn pill */
+/* logout button */
 .shop-nav-logout {
   padding: 6px 16px;
   font-family: 'Inter', sans-serif;
@@ -121,7 +119,7 @@ html {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* ── Main ──────────────────────────────────────────────────── */
+/* main */
 .shop-main {
   flex: 1;
   padding: 32px 48px;
@@ -132,7 +130,7 @@ html {
   background: rgba(220, 242, 195, 0.75);
 }
 
-/* ── Controls ──────────────────────────────────────────────── */
+/* controls */
 .shop-controls {
   display: flex;
   flex-direction: column;
@@ -180,14 +178,9 @@ html {
   outline: none;
   box-shadow: var(--shadow-default);
   min-width: 140px;
-  appearance: none;
-  -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23487F14' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
 }
 
-/* Sort */
+/* sort */
 .shop-sort-row {
   display: flex;
   align-items: center;
@@ -227,7 +220,7 @@ html {
   border-color: var(--color-featured-title);
 }
 
-/* Filter pills */
+/* filter pills */
 .shop-filter-row {
   display: flex;
   gap: 8px;
@@ -256,7 +249,7 @@ html {
   border-color: var(--color-featured-title);
 }
 
-/* ── Empty / Loading ───────────────────────────────────────── */
+/* empty/loading */
 .shop-empty {
   padding: 60px 0;
   text-align: center;
@@ -264,14 +257,14 @@ html {
   color: #1a3a00;
 }
 
-/* ── Product Grid ──────────────────────────────────────────── */
+/* product grid */
 .shop-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 20px;
 }
 
-/* ── Product Card ──────────────────────────────────────────── */
+/* product card */
 .shop-card {
   display: flex;
   flex-direction: column;
@@ -380,9 +373,7 @@ html {
   cursor: not-allowed;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   FOOTER  — matches LandingPage style
-══════════════════════════════════════════════════════════════ */
+/* footer */
 .shop-footer {
   flex-shrink: 0;
   display: flex;
@@ -415,7 +406,7 @@ html {
   opacity: 0.7;
 }
 
-/* ── Responsive ────────────────────────────────────────────── */
+/* responsive */
 @media (max-width: 768px) {
   .shop-nav {
     height: auto;

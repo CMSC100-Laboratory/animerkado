@@ -1,4 +1,4 @@
-/* ── Variables ─────────────────────────────────────────────── */
+/* theme */
 :root {
   --gradient-navbar: linear-gradient(270deg, #075344 0%, #022820 69.71%);
   --gradient-footer: linear-gradient(270deg, #075344 0%, #022820 100%);
@@ -11,7 +11,7 @@
   --shadow-navbar: 0 2px 109.4px 2px rgba(0, 0, 0, 0.25);
 }
 
-/* ── Page wrapper ──────────────────────────────────────────── */
+/* page wrapper */
 .oh-wrapper {
   display: flex;
   flex-direction: column;
@@ -21,9 +21,7 @@
   padding: 0;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   NAVBAR  — matches LandingPage style
-══════════════════════════════════════════════════════════════ */
+/* navbar */
 .oh-nav {
   flex-shrink: 0;
   display: flex;
@@ -60,7 +58,7 @@
   gap: 16px;
 }
 
-/* Plain nav links */
+/* plain nav links */
 .oh-nav-link {
   font-size: 13px;
   font-weight: 600;
@@ -78,7 +76,7 @@
   opacity: 0.8;
 }
 
-/* Active link gets the yellow pill */
+/* active link goes yellow yelloeww */
 .oh-nav-link.active {
   padding: 6px 16px;
   border-radius: 100px;
@@ -94,7 +92,7 @@
   opacity: 1;
 }
 
-/* Logout button */
+/* logout */
 .oh-nav-logout {
   padding: 6px 16px;
   font-family: 'Inter', sans-serif;
@@ -114,7 +112,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* ── Main ──────────────────────────────────────────────────── */
+/* main */
 .oh-main {
   flex: 1;
   padding: 32px 48px;
@@ -125,7 +123,7 @@
   background: rgba(220, 242, 195, 0.75);
 }
 
-/* ── Page header ───────────────────────────────────────────── */
+/* page header */
 .oh-header {
   display: flex;
   flex-direction: column;
@@ -146,7 +144,7 @@
   margin: 0;
 }
 
-/* ── Empty state ───────────────────────────────────────────── */
+/* empty state */
 .oh-empty {
   display: flex;
   flex-direction: column;
@@ -184,7 +182,7 @@
   background: #054f3e;
 }
 
-/* ── Table card ────────────────────────────────────────────── */
+/* table card */
 .oh-table-wrap {
   background: var(--gradient-featured-card);
   border: 1.5px solid var(--color-primary-stroke);
@@ -238,7 +236,7 @@
   color: var(--color-featured-title);
 }
 
-/* ── Status badge ──────────────────────────────────────────── */
+/* status badge */
 .oh-status {
   display: inline-block;
   padding: 3px 12px;
@@ -268,7 +266,7 @@
   border-color: #bbb;
 }
 
-/* ── Cancel button ─────────────────────────────────────────── */
+/* cancel button */
 .oh-cancel-btn {
   padding: 5px 14px;
   font-size: 0.75rem;
@@ -287,9 +285,7 @@
   color: #fff;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   FOOTER  — matches LandingPage style
-══════════════════════════════════════════════════════════════ */
+/* footer */
 .oh-footer {
   flex-shrink: 0;
   display: flex;
@@ -322,7 +318,7 @@
   opacity: 0.7;
 }
 
-/* ── Responsive ────────────────────────────────────────────── */
+/* responsive */
 @media (max-width: 768px) {
   .oh-nav {
     height: auto;
