@@ -35,8 +35,6 @@ A MERN stack e-commerce web application developed for the Department of Agricult
 
 ## 📸 Screenshots
 
-> Screenshots will be added upon project completion.
-
 | Page | Screenshot |
 |------|------------|
 | Landing Page | ![Landing](./screenshots/landing.png) |
