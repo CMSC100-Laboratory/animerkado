@@ -19,7 +19,31 @@ function RegisterPage() {
   const handleRegister = async () => {
     setError('')
 
-    if (password !== confirm) {
+    // frontend validation
+    if (!firstName || !lastName || !email || !password) {
+      setError('Please fill in all required fields.')
+      return
+    }
+
+    // email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email.trim())) {
+      setError('Please enter a valid email address.')
+      return
+    }
+
+    // password strength validation
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
+
+    if (!passwordRegex.test(password)) {
+      setError(
+        'Password must be at least 8 characters and include uppercase, lowercase, and a number.'
+      )
+      return
+    }
+
+    if (password !== confirmPassword) {
       setError('Passwords do not match.')
       return
     }
@@ -121,6 +145,16 @@ function RegisterPage() {
                 />
               </div>
 
+            <label className="register-label" htmlFor="reg-email">Email Address</label>
+            <input
+              id="reg-email"
+              type="email"
+              className="register-input"
+              placeholder="juandelacruz@gmail.com"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
               {/* email */}
               <div className="register-field">
                 <label className="register-label" htmlFor="register-email">EMAIL ADDRESS</label>
@@ -134,6 +168,27 @@ function RegisterPage() {
                 />
               </div>
 
+            <label className="register-label" htmlFor="reg-password">Password</label>
+            <input
+              id="reg-password"
+              type="password"
+              className="register-input"
+              placeholder="••••••••••"
+              autoComplete="new-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <label className="register-label" htmlFor="reg-confirm-password">Confirm Password</label>
+            <input
+              id="reg-confirm-password"
+              type="password"
+              className="register-input"
+              placeholder="••••••••••"
+              autoComplete="new-password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
               {/* password row */}
               <div className="register-row">
                 <div className="register-field">

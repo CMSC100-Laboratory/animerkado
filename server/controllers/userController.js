@@ -14,21 +14,34 @@ const getUsers = async (req, res) => {
 
 // POST /api/users/register
 const saveUser = async (req, res) => {
-  const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-  const newUser = new User({
-    firstName:  req.body.firstName,
-    middleName: req.body.middleName,
-    lastName:   req.body.lastName,
-    userType:   'customer', // automatically assigned as customer
-    email:      req.body.email,
-    password:   hashedPassword,
-  });
   try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const newUser = new User({
+      firstName:  req.body.firstName,
+      middleName: req.body.middleName,
+      lastName:   req.body.lastName,
+      userType:   'customer',
+      email:      req.body.email,
+      password:   hashedPassword,
+    });
+
     await newUser.save();
-    return res.send({ inserted: true });
+    return res.status(201).send({ inserted: true });
+
   } catch (error) {
-    return res.send({ inserted: false, error: error.message });
+    // ✅ Handle duplicate email
+    if (error.code === 11000) {
+      return res.status(409).send({
+        inserted: false,
+        error: 'An account with that email already exists.'
+      });
+    }
+
+    // All other errors
+    return res.status(500).send({
+      inserted: false,
+      error: 'Registration failed. Please try again.'
+    });
   }
 }
 

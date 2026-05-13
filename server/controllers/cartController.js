@@ -40,6 +40,16 @@ const removeFromCart = async (req, res) => {
     }
 };
 
+const clearCart = async (req, res) => {
+  try {
+        const { email } = req.query
+        await Cart.deleteMany({ email })
+        return res.send({ cleared: true })
+  } catch (error) {
+        return res.status(500).send({ cleared: false, error: error.message })
+  }
+}
+
 const updateCartQuantity = async (req, res) => {
     try {
         const { quantity } = req.body;
@@ -62,4 +72,4 @@ const updateCartQuantity = async (req, res) => {
     }
 };
 
-export { addToCart, getCartItems, removeFromCart, updateCartQuantity };
+export { addToCart, getCartItems, removeFromCart, updateCartQuantity, clearCart };
